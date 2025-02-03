@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.vscode/
+.eslintcache
+.stylelintcache
+.parcel-cache
+.npm
+.debug
+.DS_Store
