@@ -1,5 +1,7 @@
+import TypeformEmbed from './TypeformEmbed';
+
 function App() {
-  return <></>;
+  return <TypeformEmbed />;
 }
 
 export default App;
