@@ -8,3 +8,5 @@ coverage/
 .npm
 .debug
 .DS_Store
+src/api/types/api.ts
+tsconfig.json
