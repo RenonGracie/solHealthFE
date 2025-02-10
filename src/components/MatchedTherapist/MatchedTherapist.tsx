@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { Tag, VideoPlayer } from './ui';
-import { MatchResponse } from '../api/services/therapistsService';
+import { Tag, VideoPlayer, ExpandableList } from '../ui';
+import { MatchResponse } from '../../api/services/therapistsService';
+import { TherapyStyleSection, TherapistInfoSection } from './components';
 
 type TProps = MatchResponse;
 
@@ -26,7 +27,7 @@ export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
 
   return (
     <div className="max-w-7xl rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 mx-auto bg-transparent">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pb-4 lg:pb-8">
         <div className="flex flex-col lg:flex-row flex-wrap">
           <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
             <img
@@ -51,34 +52,24 @@ export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
             />
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-5 w-full order-2 lg:order-3">
-            {firstTherapist?.matched?.map((specialty) => (
-              <Tag key={specialty}>{specialty}</Tag>
-            ))}
-          </div>
+          <ExpandableList
+            items={firstTherapist?.matched}
+            renderItem={(item) => <Tag>{item}</Tag>}
+            getItemKey={(item) => item}
+            className="mb-5 w-full order-2 lg:order-3"
+          />
         </div>
 
         <div className="space-y-2">
-          <p className="text-base font-light leading-5">
-            <span className="text-xl font-normal leading-6 font-['Very_Vogue_Text']">
-              Identifies as:{' '}
-            </span>
+          <TherapistInfoSection title="Identifies as">
             {therapistIdentification}
-          </p>
-
-          <p className="text-base font-light leading-5">
-            <span className="text-xl font-normal leading-6 font-['Very_Vogue_Text']">
-              Age:{' '}
-            </span>
+          </TherapistInfoSection>
+          <TherapistInfoSection title="Age:">
             <span className="tracking-[-0.02em]">
               {firstTherapistData?.age}
             </span>
-          </p>
-
-          <p className="text-base font-light leading-5">
-            <span className="text-xl font-normal leading-6 font-['Very_Vogue_Text']">
-              Work in States:{' '}
-            </span>
+          </TherapistInfoSection>
+          <TherapistInfoSection title="Work in States:">
             {firstTherapistData?.states?.map((state, index) => (
               <span key={state} className="tracking-[-0.02em]">
                 {state}
@@ -86,12 +77,39 @@ export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
                   ', '}
               </span>
             ))}
-          </p>
+          </TherapistInfoSection>
         </div>
 
         <p className="text-sm font-light leading-5 tracking-[-0.02em]">
           {firstTherapistData?.biography}
         </p>
+      </div>
+      <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
+        <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
+          Therapy style and experience
+        </h2>
+        <div className="flex flex-col gap-8">
+          <TherapyStyleSection
+            title="Specializes at"
+            items={firstTherapistData?.specialities}
+            matchedItems={firstTherapist?.matched}
+          />
+          <TherapyStyleSection
+            title="Work with diagnoses"
+            items={firstTherapistData?.diagnoses}
+            matchedItems={firstTherapist?.matched}
+          />
+          <TherapyStyleSection
+            title="Therapeutic orientation"
+            items={firstTherapistData?.therapeutic_orientation}
+            matchedItems={firstTherapist?.matched}
+          />
+          <TherapyStyleSection
+            title="Has experience working with religions"
+            items={firstTherapistData?.religion}
+            matchedItems={firstTherapist?.matched}
+          />
+        </div>
       </div>
     </div>
   );

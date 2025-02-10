@@ -3,10 +3,8 @@ export type TVideoPlayerProps = {
   className?: string;
 };
 
-export const TEST_ID = 'video-player';
-
 export const VideoPlayer = ({ videoUrl, className }: TVideoPlayerProps) => (
-  <video className={className} controls data-testid={TEST_ID}>
+  <video className={className} controls data-testid="video-player">
     <source src={videoUrl} type="video/mp4" />
   </video>
 );

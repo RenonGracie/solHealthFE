@@ -18,7 +18,6 @@ describe('Tag', () => {
     expect(tag).toHaveClass('rounded-[20px]');
     expect(tag).toHaveClass('border');
     expect(tag).toHaveClass('border-[#7B4720]');
-    expect(tag).toHaveClass('bg-transparent');
   });
 
   it('applies additional className when provided', () => {

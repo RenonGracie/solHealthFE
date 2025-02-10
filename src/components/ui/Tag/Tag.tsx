@@ -5,18 +5,18 @@ interface IProps {
 
 export const Tag = ({ children, className = '' }: IProps) => {
   return (
-    <span
+    <div
       className={`
         px-[10px] py-[8px]
         rounded-[20px]
         border border-[#7B4720]
-        bg-transparent
-        text-sm font-light leading-[21px] text-center
+        text-sm font-light leading-4 text-center
         tracking-[-0.02em]
+        w-fit
         ${className}
       `}
     >
       {children}
-    </span>
+    </div>
   );
 };

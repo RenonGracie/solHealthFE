@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
-import { VideoPlayer, TEST_ID } from './VideoPlayer';
+import { VideoPlayer } from './VideoPlayer';
 
 describe('VideoPlayer', () => {
   const mockVideoUrl = 'https://example.com/video.mp4';
 
   it('renders video element with correct source', () => {
     render(<VideoPlayer videoUrl={mockVideoUrl} />);
-    const videoElement = screen.getByTestId(TEST_ID);
+    const videoElement = screen.getByTestId('video-player');
     const sourceElement = videoElement.querySelector('source');
 
     expect(videoElement).toBeInTheDocument();
@@ -20,13 +20,13 @@ describe('VideoPlayer', () => {
     const customClass = 'custom-video-class';
     render(<VideoPlayer videoUrl={mockVideoUrl} className={customClass} />);
 
-    const videoElement = screen.getByTestId(TEST_ID);
+    const videoElement = screen.getByTestId('video-player');
     expect(videoElement).toHaveClass(customClass);
   });
 
   it('has controls enabled', () => {
     render(<VideoPlayer videoUrl={mockVideoUrl} />);
-    const videoElement = screen.getByTestId(TEST_ID);
+    const videoElement = screen.getByTestId('video-player');
 
     expect(videoElement).toHaveAttribute('controls');
   });
