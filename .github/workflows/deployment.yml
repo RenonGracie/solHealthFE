@@ -1,0 +1,54 @@
+name: Deployment
+concurrency:
+  group: deployment-${{ inputs.environment }}
+  cancel-in-progress: true
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: environment
+env:
+  AWS_REGION: ${{ vars.AWS_REGION }}
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  deploy:
+    name: Build & Upload Web Application
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.3.0'
+          cache: 'npm'
+          cache-dependency-path: 'yarn.lock'
+      - name: Install Dependencies
+        run: yarn
+      - name: Build Bundle
+        env:
+          VITE_TYPEFORM_ID: ${{ vars.VITE_TYPEFORM_ID }}
+        run: yarn build
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      - name: Deliver Files
+        env:
+          S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+        run: |
+          aws s3 cp --recursive build/ s3://$S3_BUCKET_NAME/
+      - name: Invalidate CloudFront
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
+          --paths "/index.html"
