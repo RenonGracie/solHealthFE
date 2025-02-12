@@ -10,3 +10,9 @@ coverage/
 .DS_Store
 src/api/types/api.ts
 tsconfig.json
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform
+terraform.tfvars
