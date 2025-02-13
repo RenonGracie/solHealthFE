@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.3.0'
+          node-version: '22.13.1'
           cache: 'npm'
           cache-dependency-path: 'yarn.lock'
       - name: Install Dependencies
@@ -44,7 +44,7 @@ jobs:
         env:
           S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
         run: |
-          aws s3 cp --recursive build/ s3://$S3_BUCKET_NAME/
+          aws s3 cp --recursive dist/ s3://$S3_BUCKET_NAME/
       - name: Invalidate CloudFront
         env:
           CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
