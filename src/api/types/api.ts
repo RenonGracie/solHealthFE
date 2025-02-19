@@ -161,6 +161,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/intakeq_hook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Webhook for IntakeQ Appointments */
+        post: operations["intakeq_hook_intakeq_hook_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/therapists": {
         parameters: {
             query?: never;
@@ -628,6 +645,8 @@ export interface components {
             age?: string;
             /** Availability */
             availability?: string[];
+            /** Available Slots */
+            available_slots?: string[];
             /** Biography */
             biography?: string;
             /** Birth Order */
@@ -1112,6 +1131,16 @@ export interface operations {
         requestBody?: never;
         responses: never;
     };
+    intakeq_hook_intakeq_hook_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: never;
+    };
     therapists_get: {
         parameters: {
             query?: never;
@@ -1170,6 +1199,7 @@ export interface operations {
         parameters: {
             query: {
                 limit?: number;
+                last_index?: number;
                 /** @example Client response id */
                 response_id: string;
             };

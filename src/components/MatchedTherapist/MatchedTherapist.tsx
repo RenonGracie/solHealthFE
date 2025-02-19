@@ -26,7 +26,7 @@ export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
   );
 
   return (
-    <div className="max-w-7xl rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 mx-auto bg-transparent">
+    <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent">
       <div className="flex flex-col gap-4 pb-4 lg:pb-8">
         <div className="flex flex-col lg:flex-row flex-wrap">
           <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">

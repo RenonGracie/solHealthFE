@@ -3,3 +3,5 @@ export * from './VideoPlayer';
 export * from './Loader';
 export * from './ExpandableList';
 export * from './Button';
+export * from './Layout';
+export * from './Modal';
