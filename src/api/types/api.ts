@@ -127,6 +127,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clients_signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search clients */
+        get: operations["clients_signup_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/hook": {
         parameters: {
             query?: never;
@@ -515,6 +532,80 @@ export interface components {
             last_name?: string;
             /** Response Id */
             response_id?: string;
+        };
+        /** ClientSignup */
+        ClientSignup: {
+            /** Age */
+            age?: string;
+            /** Alcohol */
+            alcohol?: string;
+            /** Being So Restless */
+            being_so_restless?: string;
+            /** Best Time For First Session */
+            best_time_for_first_session?: string;
+            /** Drugs */
+            drugs?: string;
+            /** Easily Annoyed */
+            easily_annoyed?: string;
+            /** Email */
+            email?: string;
+            /** Feeling Afraid */
+            feeling_afraid?: string;
+            /** Feeling Bad About Yourself */
+            feeling_bad_about_yourself?: string;
+            /** Feeling Down */
+            feeling_down?: string;
+            /** Feeling Nervous */
+            feeling_nervous?: string;
+            /** Feeling Tired */
+            feeling_tired?: string;
+            /** First Name */
+            first_name?: string;
+            /** Gender */
+            gender?: string;
+            /** I Would Like Therapist */
+            i_would_like_therapist?: string[];
+            /**
+             * Id
+             * Format: uuid4
+             */
+            id: string;
+            /** Last Name */
+            last_name?: string;
+            /** Lived Experiences */
+            lived_experiences?: string[];
+            /** Moving Or Speaking So Slowly */
+            moving_or_speaking_so_slowly?: string;
+            /** Not Control Worrying */
+            not_control_worrying?: string;
+            /** Phone */
+            phone?: string;
+            /** Pleasure Doing Things */
+            pleasure_doing_things?: string;
+            /** Poor Appetite */
+            poor_appetite?: string;
+            /** Promo Code */
+            promo_code?: string;
+            /** Referred By */
+            referred_by?: string;
+            /** Response Id */
+            response_id?: string;
+            /** State */
+            state?: string;
+            /** Suicidal Thoughts */
+            suicidal_thoughts?: string;
+            /** Trouble Concentrating */
+            trouble_concentrating?: string;
+            /** Trouble Falling */
+            trouble_falling?: string;
+            /** Trouble Relaxing */
+            trouble_relaxing?: string;
+            /** University */
+            university?: string;
+            /** What Brings You */
+            what_brings_you?: string;
+            /** Worrying Too Much */
+            worrying_too_much?: string;
         };
         /** ClientTag */
         ClientTag: {
@@ -1088,6 +1179,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ClientDiagnoses"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    clients_signup_get: {
+        parameters: {
+            query: {
+                response_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientSignup"];
                 };
             };
             /** @description Unprocessable Entity */

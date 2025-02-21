@@ -1,12 +1,23 @@
 import * as React from 'react';
 
-import { Tag, VideoPlayer, ExpandableList } from '../ui';
+import { Tag, VideoPlayer, ExpandableList, Button } from '../ui';
 import { MatchResponse } from '../../api/services/therapistsService';
-import { TherapyStyleSection, TherapistInfoSection } from './components';
+import {
+  TherapyStyleSection,
+  TherapistInfoSection,
+  BookingSection,
+} from './components';
+import ArrowRightIcon from '../../assets/icons/arrow-right-icon.svg';
 
-type TProps = MatchResponse;
+type TProps = MatchResponse & {
+  onShowBookingSection: () => void;
+};
 
-export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
+export const MatchedTherapist: React.FC<TProps> = ({
+  therapists,
+  onShowBookingSection,
+}) => {
+  const [showBookingSection, setShowBookingSection] = React.useState(false);
   const [firstTherapist] = therapists || [];
   const firstTherapistData = firstTherapist?.therapist;
 
@@ -25,90 +36,123 @@ export const MatchedTherapist: React.FC<TProps> = ({ therapists }) => {
     [firstTherapistData],
   );
 
+  const handleShowBookingSection = () => {
+    onShowBookingSection();
+    setShowBookingSection(true);
+  };
+
+  if (showBookingSection) {
+    return (
+      <BookingSection availableSlots={firstTherapistData?.available_slots} />
+    );
+  }
+
   return (
-    <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent">
-      <div className="flex flex-col gap-4 pb-4 lg:pb-8">
-        <div className="flex flex-col lg:flex-row flex-wrap">
-          <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
-            <img
-              src={firstTherapistData?.image_link}
-              alt={`${firstTherapistData?.intern_name} photo`}
-              className="w-[80px] h-[80px] rounded-full object-cover"
-            />
-            <div>
-              <h2 className="text-[32px] font-normal font-['Very_Vogue_Text']">
-                {firstTherapistData?.intern_name}
-              </h2>
-              <p className="text-base font-light leading-6 tracking-[-0.02em]">
-                Therapist
-              </p>
+    <div>
+      <div className="lg:flex lg:gap-6 max-w-7xl w-full h-full mx-auto pb-[88px] lg:pb-0">
+        <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
+          <div className="flex flex-col gap-4 pb-4 lg:pb-8">
+            <div className="flex flex-col lg:flex-row flex-wrap">
+              <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
+                <img
+                  src={firstTherapistData?.image_link}
+                  alt={`${firstTherapistData?.intern_name} photo`}
+                  className="w-[80px] h-[80px] rounded-full object-cover"
+                />
+                <div>
+                  <h2 className="text-[32px] font-normal font-['Very_Vogue_Text']">
+                    {firstTherapistData?.intern_name}
+                  </h2>
+                  <p className="text-base font-light leading-6 tracking-[-0.02em]">
+                    Therapist
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
+                <VideoPlayer
+                  videoUrl={firstTherapistData?.welcome_video_link}
+                  className="w-full aspect-video rounded-[8px] lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
+                />
+              </div>
+
+              <ExpandableList
+                items={firstTherapist?.matched}
+                renderItem={(item) => <Tag>{item}</Tag>}
+                getItemKey={(item) => item}
+                className="mb-5 w-full order-2 lg:order-3"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <TherapistInfoSection title="Identifies as">
+                {therapistIdentification}
+              </TherapistInfoSection>
+              <TherapistInfoSection title="Age:">
+                <span className="tracking-[-0.02em]">
+                  {firstTherapistData?.age}
+                </span>
+              </TherapistInfoSection>
+              <TherapistInfoSection title="Work in States:">
+                {firstTherapistData?.states?.map((state, index) => (
+                  <span key={state} className="tracking-[-0.02em]">
+                    {state}
+                    {index !== (firstTherapistData?.states?.length || 0) - 1 &&
+                      ', '}
+                  </span>
+                ))}
+              </TherapistInfoSection>
+            </div>
+
+            <p className="text-sm font-light leading-5 tracking-[-0.02em]">
+              {firstTherapistData?.biography}
+            </p>
+          </div>
+          <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
+            <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
+              Therapy style and experience
+            </h2>
+            <div className="flex flex-col gap-8">
+              <TherapyStyleSection
+                title="Specializes at"
+                items={firstTherapistData?.specialities}
+                matchedItems={firstTherapist?.matched}
+              />
+              <TherapyStyleSection
+                title="Work with diagnoses"
+                items={firstTherapistData?.diagnoses}
+                matchedItems={firstTherapist?.matched}
+              />
+              <TherapyStyleSection
+                title="Therapeutic orientation"
+                items={firstTherapistData?.therapeutic_orientation}
+                matchedItems={firstTherapist?.matched}
+              />
+              <TherapyStyleSection
+                title="Has experience working with religions"
+                items={firstTherapistData?.religion}
+                matchedItems={firstTherapist?.matched}
+              />
             </div>
           </div>
-
-          <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
-            <VideoPlayer
-              videoUrl={firstTherapistData?.welcome_video_link}
-              className="w-full aspect-video rounded-[8px] lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
-            />
-          </div>
-
-          <ExpandableList
-            items={firstTherapist?.matched}
-            renderItem={(item) => <Tag>{item}</Tag>}
-            getItemKey={(item) => item}
-            className="mb-5 w-full order-2 lg:order-3"
+        </div>
+        <div className="lg:h-fit hidden lg:block">
+          <BookingSection
+            availableSlots={firstTherapistData?.available_slots}
           />
         </div>
-
-        <div className="space-y-2">
-          <TherapistInfoSection title="Identifies as">
-            {therapistIdentification}
-          </TherapistInfoSection>
-          <TherapistInfoSection title="Age:">
-            <span className="tracking-[-0.02em]">
-              {firstTherapistData?.age}
-            </span>
-          </TherapistInfoSection>
-          <TherapistInfoSection title="Work in States:">
-            {firstTherapistData?.states?.map((state, index) => (
-              <span key={state} className="tracking-[-0.02em]">
-                {state}
-                {index !== (firstTherapistData?.states?.length || 0) - 1 &&
-                  ', '}
-              </span>
-            ))}
-          </TherapistInfoSection>
-        </div>
-
-        <p className="text-sm font-light leading-5 tracking-[-0.02em]">
-          {firstTherapistData?.biography}
-        </p>
       </div>
-      <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
-        <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
-          Therapy style and experience
-        </h2>
-        <div className="flex flex-col gap-8">
-          <TherapyStyleSection
-            title="Specializes at"
-            items={firstTherapistData?.specialities}
-            matchedItems={firstTherapist?.matched}
-          />
-          <TherapyStyleSection
-            title="Work with diagnoses"
-            items={firstTherapistData?.diagnoses}
-            matchedItems={firstTherapist?.matched}
-          />
-          <TherapyStyleSection
-            title="Therapeutic orientation"
-            items={firstTherapistData?.therapeutic_orientation}
-            matchedItems={firstTherapist?.matched}
-          />
-          <TherapyStyleSection
-            title="Has experience working with religions"
-            items={firstTherapistData?.religion}
-            matchedItems={firstTherapist?.matched}
-          />
+
+      <div className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] lg:hidden bg-[#fffbf3]">
+        <div className="p-4 pb-6 relative h-full w-full before:content-[''] before:absolute before:inset-0 before:bg-[url('/images/background.png')] before:bg-cover before:bg-center before:opacity-10 before:block">
+          <div className="relative w-full h-full px-3">
+            <Button
+              onClick={handleShowBookingSection}
+              className="w-full h-12 rounded-4xl"
+            >
+              Select This Therapist <ArrowRightIcon />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

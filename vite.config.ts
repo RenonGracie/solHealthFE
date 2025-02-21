@@ -8,7 +8,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    base: env.VITE_BASE_PATH,
     plugins: [
       react(),
       tailwindcss(),
@@ -18,10 +17,11 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       proxy: {
-        '/dev': {
+        [env.VITE_API_URL]: {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,
           secure: false,
+          rewrite: (path) => path.replace(env.VITE_API_URL, ''),
         },
       },
     },

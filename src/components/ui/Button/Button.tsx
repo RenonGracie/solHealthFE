@@ -25,6 +25,7 @@ export const Button: React.FC<IProps> = ({
         text-sm font-light leading-4 text-center
         hover:cursor-pointer
         hover:opacity-80
+        disabled:opacity-50 disabled:cursor-not-allowed
       `,
       className,
     )}

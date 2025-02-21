@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import * as React from 'react';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import axiosInstance from '../axios';
 
-interface IUseRequestResult<T> {
-  data: T | null;
+type RequestConfig<TParams, TData> = Omit<
+  AxiosRequestConfig,
+  'params' | 'data'
+> & {
+  params?: TParams;
+  data?: TData;
+};
+
+interface RequestStateBase<R> {
+  data: R | null;
   loading: boolean;
-  error: string | null;
-  makeRequest: (config?: AxiosRequestConfig) => Promise<T>;
+  error: string | Error | null;
   reset: () => void;
 }
 
-export const useRequest = <T>(): IUseRequestResult<T> => {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+interface RequestState<TParams, TData, R> extends RequestStateBase<R> {
+  makeRequest: (config: RequestConfig<TParams, TData>) => Promise<R>;
+}
+
+export const useRequest = <TParams, TData, R>(endpoint?: string) => {
+  const [data, setData] = React.useState<R | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | Error | null>(null);
 
   const reset = () => {
     setData(null);
@@ -21,23 +32,34 @@ export const useRequest = <T>(): IUseRequestResult<T> => {
     setError(null);
   };
 
-  const makeRequest = async (config?: AxiosRequestConfig): Promise<T> => {
-    try {
-      setLoading(true);
-      setError(null);
+  const makeRequest = React.useCallback(
+    async (config: RequestConfig<TParams, TData>) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await axiosInstance<R>({
+          url: endpoint,
+          ...config,
+        });
+        setData(response.data);
+        return response.data;
+      } catch (err) {
+        const error = err as AxiosError<{ message: string }>;
+        const errorMessage = error.response?.data?.message || error.message;
+        setError(errorMessage);
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [endpoint],
+  );
 
-      const response = await axiosInstance(config || {});
-      setData(response.data as T);
-      return response.data as T;
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>;
-      const errorMessage = error.response?.data?.message || error.message;
-      setError(errorMessage);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { data, loading, error, makeRequest, reset };
+  return {
+    data,
+    loading,
+    error,
+    makeRequest,
+    reset,
+  } as RequestState<TParams, TData, R>;
 };

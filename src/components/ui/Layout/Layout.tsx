@@ -10,10 +10,16 @@ import { Modal } from '../Modal';
 interface IProps {
   children: React.ReactNode;
   onConfirmGoBack: () => void;
+  hideTitle: boolean;
   unstyled?: boolean;
 }
 
-export const Layout = ({ children, onConfirmGoBack, unstyled }: IProps) => {
+export const Layout = ({
+  children,
+  onConfirmGoBack,
+  hideTitle,
+  unstyled,
+}: IProps) => {
   const [isGoBackModalOpen, setIsGoBackModalOpen] = React.useState(false);
 
   const handleConfirmGoBack = () => {
@@ -54,7 +60,9 @@ export const Layout = ({ children, onConfirmGoBack, unstyled }: IProps) => {
       </header>
       <main className="flex-1 relative before:content-[''] before:absolute before:inset-0 before:bg-[url('/images/background.png')] before:bg-cover before:bg-center before:opacity-10">
         <div className="relative max-w-7xl h-full px-3 mx-auto">
-          <div className="grid grid-cols-[auto_1fr_auto] items-center w-full mb-5 lg:mb-8">
+          <div
+            className={`grid grid-cols-[auto_1fr_auto] items-center w-full lg:mb-8 ${hideTitle ? '' : 'mb-5'}`}
+          >
             <button
               type="button"
               className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center mt-[14px] lg:mt-0 p-0 border-0 bg-transparent"
@@ -64,7 +72,7 @@ export const Layout = ({ children, onConfirmGoBack, unstyled }: IProps) => {
             >
               <ArrowLeftIcon />
             </button>
-            <div className="mr-8">
+            <div className="pr-8">
               <div className="lg:hidden">
                 <div className="flex items-center justify-center gap-2 mb-4">
                   <h2 className="text-[40px] font-normal font-['Very_Vogue_Text']">
@@ -72,11 +80,19 @@ export const Layout = ({ children, onConfirmGoBack, unstyled }: IProps) => {
                   </h2>
                   <LogoIcon />
                 </div>
-                <h2 className="text-center text-[40px] font-normal font-['Very_Vogue_Text'] lg:hidden">
+                <h2
+                  className={`text-center leading-[36px] text-[40px] font-normal font-['Very_Vogue_Text'] lg:hidden ${
+                    hideTitle ? 'hidden' : ''
+                  }`}
+                >
                   We Found the <i>Best Therapist</i> for You
                 </h2>
               </div>
-              <h2 className="text-center text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block">
+              <h2
+                className={`text-center leading-[43px] text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block ${
+                  hideTitle ? 'hidden' : ''
+                }`}
+              >
                 We Found the <i>Best Therapist</i> for You
               </h2>
             </div>

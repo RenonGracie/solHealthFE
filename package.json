@@ -12,7 +12,7 @@
     "test:watch": "vitest --watch",
     "format": "prettier --write .",
     "prepare": "husky",
-    "generate-api": "openapi-typescript https://avoxz9lnhk.execute-api.us-east-2.amazonaws.com/dev/openapi/openapi.json --output src/api/types/api.ts"
+    "generate-api": "openapi-typescript https://api.dev.solhealth.co/openapi/openapi.json --output src/api/types/api.ts"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --write"
@@ -22,8 +22,11 @@
     "@tailwindcss/vite": "4.0.3",
     "@typeform/embed-react": "4.3.0",
     "axios": "1.7.9",
+    "date-fns": "4.1.0",
+    "date-fns-tz": "3.2.0",
     "lodash": "4.17.21",
     "react": "^18.3.1",
+    "react-day-picker": "9.5.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "3.0.1",
     "tailwindcss": "4.0.3"

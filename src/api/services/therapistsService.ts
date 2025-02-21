@@ -6,16 +6,9 @@ type MatchParams = ApiParams<'therapists_match_get'>;
 export type MatchResponse = ApiResponse<'therapists_match_get'>;
 
 export const useTherapistsService = () => {
-  const request = useRequest<MatchResponse>();
-
   return {
-    ...request,
-
-    getMatch: async (params: MatchParams) => {
-      return request.makeRequest({
-        url: ENDPOINTS.THERAPISTS.GET_MATCH,
-        params,
-      });
-    },
+    match: useRequest<MatchParams, never, MatchResponse>(
+      ENDPOINTS.THERAPISTS.GET_MATCH,
+    ),
   };
 };
