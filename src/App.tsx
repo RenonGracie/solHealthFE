@@ -37,6 +37,21 @@ function App() {
     [getMatch],
   );
 
+  // TEMPORARY SOLUTION:
+  // This effect is added to simplify application testing by allowing direct access
+  // through URL parameters. It should be removed before deploying to production
+  // as it bypasses the normal Typeform flow and could pose security risks.
+  React.useEffect(() => {
+    const responseIdFromUrl = window.location.pathname
+      .split('/')
+      .filter(Boolean)
+      .pop();
+
+    if (responseIdFromUrl) {
+      void handleTypeformSubmit(responseIdFromUrl);
+    }
+  }, [handleTypeformSubmit]);
+
   const renderStep = () => {
     switch (step) {
       case STEPS.TYPEFORM:
