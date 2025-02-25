@@ -10,11 +10,13 @@ import {
 import ArrowRightIcon from '../../assets/icons/arrow-right-icon.svg';
 
 type TProps = MatchResponse & {
+  clientResponseId: string | null;
   onShowBookingSection: () => void;
 };
 
 export const MatchedTherapist: React.FC<TProps> = ({
   therapists,
+  clientResponseId,
   onShowBookingSection,
 }) => {
   const [showBookingSection, setShowBookingSection] = React.useState(false);
@@ -43,7 +45,11 @@ export const MatchedTherapist: React.FC<TProps> = ({
 
   if (showBookingSection) {
     return (
-      <BookingSection availableSlots={firstTherapistData?.available_slots} />
+      <BookingSection
+        clientResponseId={clientResponseId}
+        therapistEmail={firstTherapistData?.email}
+        availableSlots={firstTherapistData?.available_slots}
+      />
     );
   }
 
@@ -138,6 +144,8 @@ export const MatchedTherapist: React.FC<TProps> = ({
         </div>
         <div className="lg:h-fit hidden lg:block">
           <BookingSection
+            clientResponseId={clientResponseId}
+            therapistEmail={firstTherapistData?.email}
             availableSlots={firstTherapistData?.available_slots}
           />
         </div>

@@ -24,23 +24,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/appointments/settings": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get booking settings */
-        get: operations["appointments_settings_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/appointments/{appointment_id}": {
         parameters: {
             query?: never;
@@ -193,6 +176,25 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/therapist_videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all therapist's videos */
+        get: operations["therapist_videos_get"];
+        put?: never;
+        /** Set therapist's videos */
+        post: operations["therapist_videos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update therapist's video */
+        patch: operations["therapist_videos_patch"];
         trace?: never;
     };
     "/therapists": {
@@ -375,15 +377,6 @@ export interface components {
             organizer?: boolean;
             /** Responsestatus */
             responseStatus?: string;
-        };
-        /** BookingSettings */
-        BookingSettings: {
-            /** Locations */
-            Locations?: components["schemas"]["Location"][];
-            /** Practitioners */
-            Practitioners?: components["schemas"]["Practitioner"][];
-            /** Services */
-            Services?: components["schemas"]["Service"][];
         };
         /** CalendarEvent */
         CalendarEvent: {
@@ -635,6 +628,23 @@ export interface components {
             /** Name */
             name?: string;
         };
+        /** CreateAppointment */
+        CreateAppointment: {
+            /** Client Response Id */
+            client_response_id: string;
+            /** Datetime */
+            datetime: string;
+            /** Is Promo */
+            is_promo: boolean;
+            /** Reminder Type */
+            reminder_type?: string;
+            /** Send Client Email Notification */
+            send_client_email_notification: boolean;
+            /** Status */
+            status: string;
+            /** Therapist Email */
+            therapist_email: string;
+        };
         /** CustomField */
         CustomField: {
             /** Fieldid */
@@ -652,6 +662,11 @@ export interface components {
             label?: string;
             /** Uri */
             uri?: string;
+        };
+        /** Error */
+        Error: {
+            /** Error */
+            error: string;
         };
         /** EvendDate */
         EvendDate: {
@@ -672,13 +687,6 @@ export interface components {
             /** Type */
             type?: string;
         };
-        /** Location */
-        Location: {
-            /** Id */
-            Id?: string;
-            /** Name */
-            Name?: string;
-        };
         /** MatchedTherapists */
         MatchedTherapists: {
             client?: components["schemas"]["ClientShort"];
@@ -689,19 +697,6 @@ export interface components {
         MediaLink: {
             /** Url */
             url: string;
-        };
-        /** Practitioner */
-        Practitioner: {
-            /** Completename */
-            CompleteName?: string;
-            /** Email */
-            Email?: string;
-            /** Firstname */
-            FirstName?: string;
-            /** Id */
-            Id?: string;
-            /** Lastname */
-            LastName?: string;
         };
         /** Reminders */
         Reminders: {
@@ -714,17 +709,6 @@ export interface components {
          * @enum {unknown}
          */
         S3MediaType: "image" | "welcome_video" | "intro_video";
-        /** Service */
-        Service: {
-            /** Duration */
-            Duration?: number;
-            /** Id */
-            Id?: string;
-            /** Name */
-            Name?: string;
-            /** Price */
-            Price?: number;
-        };
         /** SuccessResponse */
         SuccessResponse: {
             /** Success */
@@ -802,6 +786,22 @@ export interface components {
             welcome_video_link?: string;
             /** Working With Lgbtq Clients */
             working_with_lgbtq_clients?: string;
+        };
+        /** TherapistVideo */
+        TherapistVideo: {
+            /** Email */
+            email?: string;
+            /** Name */
+            name?: string;
+            /** Type */
+            type: string;
+            /** Video Url */
+            video_url: string;
+        };
+        /** TherapistVideos */
+        TherapistVideos: {
+            /** Videos */
+            videos: components["schemas"]["TherapistVideo"][];
         };
         /** Therapists */
         Therapists: {
@@ -920,7 +920,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AppointmentsShort"];
+                "application/json": components["schemas"]["CreateAppointment"];
             };
         };
         responses: {
@@ -931,6 +931,24 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Appointment"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
                 };
             };
             /** @description Unprocessable Entity */
@@ -973,26 +991,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    appointments_settings_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BookingSettings"];
                 };
             };
         };
@@ -1212,6 +1210,15 @@ export interface operations {
                     "application/json": components["schemas"]["ClientSignup"];
                 };
             };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
             /** @description Unprocessable Entity */
             422: {
                 headers: {
@@ -1262,6 +1269,92 @@ export interface operations {
         };
         requestBody?: never;
         responses: never;
+    };
+    therapist_videos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideos"];
+                };
+            };
+        };
+    };
+    therapist_videos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TherapistVideos"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideos"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    therapist_videos_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TherapistVideo"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideo"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
     };
     therapists_get: {
         parameters: {

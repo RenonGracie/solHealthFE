@@ -10,21 +10,31 @@ import {
   startOfDay,
 } from 'date-fns';
 
-import { Calendar, Button } from '../../../ui';
-import ArrowRightIcon from '../../../../assets/icons/arrow-right-icon.svg';
+import { Calendar, Error } from '../../../ui';
+import { useAppointmentsService } from '../../../../api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '../../../../constants';
-import { TimeSlot } from './components';
+import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
 
 interface IProps {
+  clientResponseId: string | null;
   availableSlots?: string[];
+  therapistEmail?: string;
 }
 
-export const BookingSection = ({ availableSlots }: IProps) => {
+export const BookingSection = ({
+  clientResponseId,
+  availableSlots,
+  therapistEmail,
+}: IProps) => {
   const [selectedDay, setSelectedDay] = React.useState<Date | undefined>();
   const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
     Date | undefined
   >();
+
+  const {
+    bookAppointment: { error, loading, makeRequest: bookAppointment },
+  } = useAppointmentsService();
 
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
@@ -67,7 +77,34 @@ export const BookingSection = ({ availableSlots }: IProps) => {
     ));
   }, [selectedDay, selectedTimeSlot, availableSlotsByDay]);
 
-  const isBookSessionButtonDisabled = !selectedDay || !selectedTimeSlot;
+  const isBookSessionButtonDisabled =
+    !selectedDay || !selectedTimeSlot || loading;
+
+  const handleBookSession = () => {
+    if (!clientResponseId || !selectedTimeSlot || !therapistEmail) {
+      return;
+    }
+
+    void bookAppointment({
+      data: {
+        is_promo: true,
+        status: 'Confirmed',
+        reminder_type: 'Email',
+        send_client_email_notification: true,
+        client_response_id: clientResponseId,
+        datetime: selectedTimeSlot.toISOString(),
+        therapist_email: therapistEmail,
+      },
+    });
+  };
+
+  if (error) {
+    return (
+      <Error>
+        <span>An error occurred while booking session</span>
+      </Error>
+    );
+  }
 
   return (
     <section className="pb-10">
@@ -98,19 +135,19 @@ export const BookingSection = ({ availableSlots }: IProps) => {
         <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
           {timeSlots}
         </div>
-        <Button
+        <BookButton
+          onClick={handleBookSession}
           disabled={isBookSessionButtonDisabled}
-          className="w-full h-12 rounded-4xl hidden lg:flex"
-        >
-          Book Session <ArrowRightIcon />
-        </Button>
+          loading={loading}
+          className="hidden lg:flex"
+        />
       </div>
-      <Button
+      <BookButton
+        onClick={handleBookSession}
         disabled={isBookSessionButtonDisabled}
-        className="w-full h-12 mt-6 rounded-4xl lg:hidden"
-      >
-        Book Session <ArrowRightIcon />
-      </Button>
+        loading={loading}
+        className="lg:hidden"
+      />
     </section>
   );
 };

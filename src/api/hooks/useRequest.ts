@@ -21,7 +21,10 @@ interface RequestState<TParams, TData, R> extends RequestStateBase<R> {
   makeRequest: (config: RequestConfig<TParams, TData>) => Promise<R>;
 }
 
-export const useRequest = <TParams, TData, R>(endpoint?: string) => {
+export const useRequest = <TParams, TData, R>(
+  endpoint: string,
+  defaultConfig?: RequestConfig<TParams, TData>,
+) => {
   const [data, setData] = React.useState<R | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | Error | null>(null);
@@ -39,6 +42,7 @@ export const useRequest = <TParams, TData, R>(endpoint?: string) => {
         setError(null);
         const response = await axiosInstance<R>({
           url: endpoint,
+          ...defaultConfig,
           ...config,
         });
         setData(response.data);

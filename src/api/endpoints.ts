@@ -3,4 +3,7 @@ export const ENDPOINTS = {
     GET_MATCH: '/therapists/match',
     GET_CALENDAR_EVENTS: '/therapists/calendar_events',
   },
+  APPOINTMENTS: {
+    BOOK_APPOINTMENT: '/appointments',
+  },
 } as const;

@@ -6,3 +6,4 @@ export * from './Button';
 export * from './Layout';
 export * from './Modal';
 export * from './Calendar';
+export * from './Error';
