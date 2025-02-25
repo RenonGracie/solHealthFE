@@ -56,7 +56,7 @@ export const useRequest = <TParams, TData, R>(
         setLoading(false);
       }
     },
-    [endpoint],
+    [endpoint, defaultConfig],
   );
 
   return {

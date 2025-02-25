@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { useTherapistsService } from './api/services';
 import { Loader, Layout, Error } from './components/ui';
 import { STEPS } from './constants';
 import { TypeformEmbed } from './components/TypeformEmbed';
 import { MatchedTherapist } from './components/MatchedTherapist';
+import { usePollFormAndRequestMatch } from './hooks';
 
 function App() {
   const [step, setStep] = React.useState<STEPS>(STEPS.TYPEFORM);
@@ -13,9 +13,8 @@ function App() {
     null,
   );
 
-  const {
-    match: { data, loading, error, makeRequest: getMatch },
-  } = useTherapistsService();
+  const { matchData, loading, error, pollFormAndRequestMatch } =
+    usePollFormAndRequestMatch();
 
   const handleConfirmGoBack = () => {
     setStep(STEPS.TYPEFORM);
@@ -30,15 +29,13 @@ function App() {
       setClientResponseId(responseId);
 
       try {
-        await getMatch({
-          params: { response_id: responseId },
-        });
+        await pollFormAndRequestMatch(responseId);
         setStep(STEPS.MATCHED_THERAPIST);
       } catch (error) {
         console.error(error);
       }
     },
-    [getMatch],
+    [pollFormAndRequestMatch],
   );
 
   // TEMPORARY SOLUTION:
@@ -69,7 +66,7 @@ function App() {
       case STEPS.MATCHED_THERAPIST:
         return (
           <MatchedTherapist
-            therapists={data?.therapists}
+            therapists={matchData?.therapists}
             clientResponseId={clientResponseId}
             onShowBookingSection={handleShowBookingSection}
           />
