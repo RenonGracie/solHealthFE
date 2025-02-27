@@ -7,3 +7,4 @@ export * from './Layout';
 export * from './Modal';
 export * from './Calendar';
 export * from './Error';
+export * from './Link';

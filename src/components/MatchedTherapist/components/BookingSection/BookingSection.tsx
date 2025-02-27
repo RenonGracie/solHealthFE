@@ -11,19 +11,24 @@ import {
 } from 'date-fns';
 
 import { Calendar, Error } from '../../../ui';
-import { useAppointmentsService } from '../../../../api/services';
+import {
+  useAppointmentsService,
+  BookAppointmentResponse,
+} from '../../../../api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '../../../../constants';
 import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
 
 interface IProps {
   clientResponseId: string | null;
+  onBookSession: (bookingData: BookAppointmentResponse) => void;
   availableSlots?: string[];
   therapistEmail?: string;
 }
 
 export const BookingSection = ({
   clientResponseId,
+  onBookSession,
   availableSlots,
   therapistEmail,
 }: IProps) => {
@@ -33,7 +38,12 @@ export const BookingSection = ({
   >();
 
   const {
-    bookAppointment: { error, loading, makeRequest: bookAppointment },
+    bookAppointment: {
+      data: bookingData,
+      error,
+      loading,
+      makeRequest: bookAppointment,
+    },
   } = useAppointmentsService();
 
   const today = startOfDay(new Date());
@@ -87,7 +97,6 @@ export const BookingSection = ({
 
     void bookAppointment({
       data: {
-        is_promo: true,
         status: 'Confirmed',
         reminder_type: 'Email',
         send_client_email_notification: true,
@@ -97,6 +106,12 @@ export const BookingSection = ({
       },
     });
   };
+
+  React.useEffect(() => {
+    if (bookingData) {
+      onBookSession(bookingData);
+    }
+  }, [bookingData, onBookSession]);
 
   if (error) {
     return (

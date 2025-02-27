@@ -4,7 +4,9 @@ import { Loader, Layout, Error } from './components/ui';
 import { STEPS } from './constants';
 import { TypeformEmbed } from './components/TypeformEmbed';
 import { MatchedTherapist } from './components/MatchedTherapist';
+import { Confirmation } from './components/Confirmation';
 import { usePollFormAndRequestMatch } from './hooks';
+import { BookAppointmentResponse } from './api/services';
 
 function App() {
   const [step, setStep] = React.useState<STEPS>(STEPS.TYPEFORM);
@@ -12,6 +14,8 @@ function App() {
   const [clientResponseId, setClientResponseId] = React.useState<string | null>(
     null,
   );
+  const [bookingData, setBookingData] =
+    React.useState<BookAppointmentResponse | null>(null);
 
   const { matchData, loading, error, pollFormAndRequestMatch } =
     usePollFormAndRequestMatch();
@@ -36,6 +40,14 @@ function App() {
       }
     },
     [pollFormAndRequestMatch],
+  );
+
+  const handleBookSession = React.useCallback(
+    (bookedSessionData: BookAppointmentResponse) => {
+      setBookingData(bookedSessionData);
+      setStep(STEPS.CONFIRMATION);
+    },
+    [],
   );
 
   // TEMPORARY SOLUTION:
@@ -65,11 +77,28 @@ function App() {
         );
       case STEPS.MATCHED_THERAPIST:
         return (
-          <MatchedTherapist
-            therapists={matchData?.therapists}
-            clientResponseId={clientResponseId}
-            onShowBookingSection={handleShowBookingSection}
-          />
+          <Layout hideTitle={hideTitle} onGoBack={handleConfirmGoBack}>
+            <MatchedTherapist
+              therapists={matchData?.therapists}
+              clientResponseId={clientResponseId}
+              onShowBookingSection={handleShowBookingSection}
+              onBookSession={handleBookSession}
+            />
+          </Layout>
+        );
+      case STEPS.CONFIRMATION:
+        return (
+          <Layout hideHeaderImage hideTitle>
+            <Confirmation
+              bookingData={bookingData}
+              therapistImageLink={
+                matchData?.therapists?.[0]?.therapist?.image_link
+              }
+              therapistVideoLink={
+                matchData?.therapists?.[0]?.therapist?.welcome_video_link
+              }
+            />
+          </Layout>
         );
       default:
         return null;
@@ -88,15 +117,7 @@ function App() {
     return <Loader className="min-h-screen min-w-screen" />;
   }
 
-  return (
-    <Layout
-      hideTitle={hideTitle}
-      unstyled={step === STEPS.TYPEFORM}
-      onConfirmGoBack={handleConfirmGoBack}
-    >
-      {renderStep()}
-    </Layout>
-  );
+  return renderStep();
 }
 
 export default App;

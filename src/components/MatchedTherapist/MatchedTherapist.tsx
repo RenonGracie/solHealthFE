@@ -8,16 +8,19 @@ import {
   BookingSection,
 } from './components';
 import ArrowRightIcon from '../../assets/icons/arrow-right-icon.svg';
+import { BookAppointmentResponse } from '../../api/services';
 
 type TProps = MatchResponse & {
   clientResponseId: string | null;
   onShowBookingSection: () => void;
+  onBookSession: (bookingData: BookAppointmentResponse) => void;
 };
 
 export const MatchedTherapist: React.FC<TProps> = ({
   therapists,
   clientResponseId,
   onShowBookingSection,
+  onBookSession,
 }) => {
   const [showBookingSection, setShowBookingSection] = React.useState(false);
   const [firstTherapist] = therapists || [];
@@ -49,6 +52,7 @@ export const MatchedTherapist: React.FC<TProps> = ({
         clientResponseId={clientResponseId}
         therapistEmail={firstTherapistData?.email}
         availableSlots={firstTherapistData?.available_slots}
+        onBookSession={onBookSession}
       />
     );
   }
@@ -78,7 +82,7 @@ export const MatchedTherapist: React.FC<TProps> = ({
               <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
                 <VideoPlayer
                   videoUrl={firstTherapistData?.welcome_video_link}
-                  className="w-full aspect-video rounded-[8px] lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
+                  className="w-full lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
                 />
               </div>
 
@@ -147,6 +151,7 @@ export const MatchedTherapist: React.FC<TProps> = ({
             clientResponseId={clientResponseId}
             therapistEmail={firstTherapistData?.email}
             availableSlots={firstTherapistData?.available_slots}
+            onBookSession={onBookSession}
           />
         </div>
       </div>

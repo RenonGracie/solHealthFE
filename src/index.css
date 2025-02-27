@@ -45,9 +45,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
-}
-
-body {
+  color: #363943;
   background-color: #fffbf3;
+  font-family: 'Inter', sans-serif;
 }

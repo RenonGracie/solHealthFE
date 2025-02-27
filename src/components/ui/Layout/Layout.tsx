@@ -9,48 +9,48 @@ import { Modal } from '../Modal';
 
 interface IProps {
   children: React.ReactNode;
-  onConfirmGoBack: () => void;
   hideTitle: boolean;
-  unstyled?: boolean;
+  hideHeaderImage?: boolean;
+  onGoBack?: () => void;
 }
 
 export const Layout = ({
   children,
-  onConfirmGoBack,
   hideTitle,
-  unstyled,
+  hideHeaderImage,
+  onGoBack,
 }: IProps) => {
   const [isGoBackModalOpen, setIsGoBackModalOpen] = React.useState(false);
 
   const handleConfirmGoBack = () => {
     setIsGoBackModalOpen(false);
-    onConfirmGoBack();
+    onGoBack?.();
   };
 
   const handleCloseGoBackModal = () => {
     setIsGoBackModalOpen(false);
   };
 
-  if (unstyled) {
-    return <>{children}</>;
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="relative w-full mb-8 lg:mb-13">
-        <div className="w-full h-25 lg:h-45">
-          <picture>
-            <source
-              srcSet={headerDesktopImageUrl}
-              media="(min-width: 1024px)"
-            />
-            <img
-              src={headerMobileImageUrl}
-              alt="Header"
-              className="w-full h-full object-cover object-center"
-            />
-          </picture>
-        </div>
+      <header
+        className={`relative w-full ${hideHeaderImage ? '' : 'mb-8 lg:mb-13'}`}
+      >
+        {!hideHeaderImage && (
+          <div className="w-full h-25 lg:h-45">
+            <picture>
+              <source
+                srcSet={headerDesktopImageUrl}
+                media="(min-width: 1024px)"
+              />
+              <img
+                src={headerMobileImageUrl}
+                alt="Header"
+                className="w-full h-full object-cover object-center"
+              />
+            </picture>
+          </div>
+        )}
         <div className="absolute top-8 left-8 hidden lg:flex gap-2 items-center">
           <h3 className="text-[40px] font-normal font-['Very_Vogue_Text']">
             Sol Health
@@ -59,20 +59,24 @@ export const Layout = ({
         </div>
       </header>
       <main className="flex-1 relative before:content-[''] before:absolute before:inset-0 before:bg-[url('/images/background.png')] before:bg-cover before:bg-center before:opacity-10">
-        <div className="relative max-w-7xl h-full px-3 mx-auto">
+        <div
+          className={`relative max-w-7xl h-full px-5 lg:px-0 mx-auto ${hideHeaderImage ? 'py-10 lg:py-[120px]' : ''}`}
+        >
           <div
-            className={`grid grid-cols-[auto_1fr_auto] items-center w-full lg:mb-8 ${hideTitle ? '' : 'mb-5'}`}
+            className={`${onGoBack ? 'grid grid-cols-[auto_1fr_auto]' : 'flex justify-center'} items-center w-full ${hideTitle ? '' : 'mb-5 lg:mb-8'}`}
           >
-            <button
-              type="button"
-              className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center mt-[14px] lg:mt-0 p-0 border-0 bg-transparent"
-              onClick={() => {
-                setIsGoBackModalOpen(true);
-              }}
-            >
-              <ArrowLeftIcon />
-            </button>
-            <div className="pr-8">
+            {!!onGoBack && (
+              <button
+                type="button"
+                className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center mt-[14px] lg:mt-0 p-0 border-0 bg-transparent"
+                onClick={() => {
+                  setIsGoBackModalOpen(true);
+                }}
+              >
+                <ArrowLeftIcon />
+              </button>
+            )}
+            <div className={`${onGoBack ? 'pr-8' : ''}`}>
               <div className="lg:hidden">
                 <div className="flex items-center justify-center gap-2 mb-4">
                   <h2 className="text-[40px] font-normal font-['Very_Vogue_Text']">
@@ -90,13 +94,13 @@ export const Layout = ({
               </div>
               <h2
                 className={`text-center leading-[43px] text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block ${
-                  hideTitle ? 'hidden' : ''
+                  hideTitle ? 'lg:hidden' : ''
                 }`}
               >
                 We Found the <i>Best Therapist</i> for You
               </h2>
             </div>
-            <div />
+            {!!onGoBack && <div />}
           </div>
           {children}
         </div>

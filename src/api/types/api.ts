@@ -127,6 +127,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Test google analytics event */
+        post: operations["events_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/hook": {
         parameters: {
             query?: never;
@@ -281,6 +298,23 @@ export interface components {
             ClientPhone?: string;
             /** Intakeid */
             IntakeId?: string;
+        };
+        /** AnalyticsEvent */
+        AnalyticsEvent: {
+            /** Client Id */
+            client_id: string;
+            /** Events */
+            events: components["schemas"]["Event"][];
+            /** Non Personalized Ads */
+            non_personalized_ads?: boolean;
+            /** Timestamp Micros */
+            timestamp_micros?: number;
+            /** User Id */
+            user_id?: string;
+            /** User Properties */
+            user_properties?: {
+                [key: string]: components["schemas"]["PropertyValue"];
+            };
         };
         /** Appointment */
         Appointment: {
@@ -634,8 +668,6 @@ export interface components {
             client_response_id: string;
             /** Datetime */
             datetime: string;
-            /** Is Promo */
-            is_promo: boolean;
             /** Reminder Type */
             reminder_type?: string;
             /** Send Client Email Notification */
@@ -675,6 +707,13 @@ export interface components {
             /** Timezone */
             timeZone?: string;
         };
+        /** Event */
+        Event: {
+            /** Name */
+            name: string;
+            /** Params */
+            params: Record<string, never>;
+        };
         /** EventCreator */
         EventCreator: {
             /** Creatorself */
@@ -697,6 +736,11 @@ export interface components {
         MediaLink: {
             /** Url */
             url: string;
+        };
+        /** PropertyValue */
+        PropertyValue: {
+            /** Value */
+            value?: unknown;
         };
         /** Reminders */
         Reminders: {
@@ -1218,6 +1262,37 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Error"];
                 };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    events_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsEvent"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Unprocessable Entity */
             422: {
