@@ -3,31 +3,54 @@ import { describe, it, expect } from 'vitest';
 
 import { VideoPlayer } from './VideoPlayer';
 
+const VIDEO_ID = 'dQw4w9WgXcQ';
+const MOCK_YOU_TUBE_URL = `https://www.youtube.com/watch?v=${VIDEO_ID}`;
+
 describe('VideoPlayer', () => {
-  const mockVideoUrl = 'https://example.com/video.mp4';
+  it('renders iframe with correct YouTube embed URL', () => {
+    render(<VideoPlayer videoUrl={MOCK_YOU_TUBE_URL} />);
+    const iframeElement = screen.getByTestId('video-player');
 
-  it('renders video element with correct source', () => {
-    render(<VideoPlayer videoUrl={mockVideoUrl} />);
-    const videoElement = screen.getByTestId('video-player');
-    const sourceElement = videoElement.querySelector('source');
-
-    expect(videoElement).toBeInTheDocument();
-    expect(sourceElement).toHaveAttribute('src', mockVideoUrl);
-    expect(sourceElement).toHaveAttribute('type', 'video/mp4');
+    expect(iframeElement).toBeInTheDocument();
+    expect(iframeElement).toHaveAttribute(
+      'src',
+      `https://www.youtube.com/embed/${VIDEO_ID}`,
+    );
   });
 
-  it('applies custom className when provided', () => {
+  it('applies custom className while preserving default classes', () => {
     const customClass = 'custom-video-class';
-    render(<VideoPlayer videoUrl={mockVideoUrl} className={customClass} />);
+    render(
+      <VideoPlayer videoUrl={MOCK_YOU_TUBE_URL} className={customClass} />,
+    );
 
-    const videoElement = screen.getByTestId('video-player');
-    expect(videoElement).toHaveClass(customClass);
+    const iframeElement = screen.getByTestId('video-player');
+    expect(iframeElement).toHaveClass(
+      'aspect-video',
+      'rounded-[8px]',
+      customClass,
+    );
   });
 
-  it('has controls enabled', () => {
-    render(<VideoPlayer videoUrl={mockVideoUrl} />);
-    const videoElement = screen.getByTestId('video-player');
+  it('renders iframe with empty video id when no URL provided', () => {
+    render(<VideoPlayer />);
+    const iframeElement = screen.getByTestId('video-player');
 
-    expect(videoElement).toHaveAttribute('controls');
+    expect(iframeElement).toHaveAttribute(
+      'src',
+      'https://www.youtube.com/embed/',
+    );
+  });
+
+  it('has correct iframe attributes for YouTube embedding', () => {
+    render(<VideoPlayer videoUrl={MOCK_YOU_TUBE_URL} />);
+    const iframeElement = screen.getByTestId('video-player');
+
+    expect(iframeElement).toHaveAttribute('title', 'YouTube video player');
+    expect(iframeElement).toHaveAttribute('allowFullScreen');
+    expect(iframeElement).toHaveAttribute(
+      'allow',
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+    );
   });
 });
