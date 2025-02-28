@@ -41,6 +41,25 @@ export const MatchedTherapist: React.FC<TProps> = ({
     [firstTherapistData],
   );
 
+  const generalExpertise = React.useMemo(() => {
+    return [
+      ...(firstTherapist?.matched_diagnoses || []),
+      ...(firstTherapist?.matched_specialities || []),
+    ];
+  }, [firstTherapist]);
+
+  const matchedExpertise = React.useMemo(() => {
+    const [firstMatchedDiagnose] = firstTherapist?.matched_diagnoses || [];
+    const [firstMatchedSpeciality, secondMatchedSpeciality] =
+      firstTherapist?.matched_specialities || [];
+
+    return [
+      firstMatchedDiagnose,
+      firstMatchedSpeciality,
+      secondMatchedSpeciality,
+    ];
+  }, [firstTherapist]);
+
   const handleShowBookingSection = () => {
     onShowBookingSection();
     setShowBookingSection(true);
@@ -87,7 +106,7 @@ export const MatchedTherapist: React.FC<TProps> = ({
               </div>
 
               <ExpandableList
-                items={firstTherapist?.matched}
+                items={matchedExpertise}
                 renderItem={(item) => <Tag>{item}</Tag>}
                 getItemKey={(item) => item}
                 className="mb-5 w-full order-2 lg:order-3"
@@ -126,22 +145,22 @@ export const MatchedTherapist: React.FC<TProps> = ({
               <TherapyStyleSection
                 title="Specializes at"
                 items={firstTherapistData?.specialities}
-                matchedItems={firstTherapist?.matched}
+                matchedItems={generalExpertise}
               />
               <TherapyStyleSection
                 title="Work with diagnoses"
                 items={firstTherapistData?.diagnoses}
-                matchedItems={firstTherapist?.matched}
+                matchedItems={generalExpertise}
               />
               <TherapyStyleSection
                 title="Therapeutic orientation"
                 items={firstTherapistData?.therapeutic_orientation}
-                matchedItems={firstTherapist?.matched}
+                matchedItems={generalExpertise}
               />
               <TherapyStyleSection
                 title="Has experience working with religions"
                 items={firstTherapistData?.religion}
-                matchedItems={firstTherapist?.matched}
+                matchedItems={generalExpertise}
               />
             </div>
           </div>

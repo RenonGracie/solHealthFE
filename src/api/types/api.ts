@@ -538,8 +538,10 @@ export interface components {
         };
         /** ClientMatch */
         ClientMatch: {
-            /** Matched */
-            matched: string[];
+            /** Matched Diagnoses */
+            matched_diagnoses: string[];
+            /** Matched Specialities */
+            matched_specialities: string[];
             /** Score */
             score: number;
             therapist: components["schemas"]["Therapist"];
