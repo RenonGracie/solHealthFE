@@ -3,9 +3,8 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
 import CalendarIcon from '@/assets/icons/calendar-icon.svg';
-
-import { VideoPlayer } from '../../ui';
-import { BookAppointmentResponse } from '../../../api/services';
+import { VideoPlayer } from '@/components/ui';
+import { BookAppointmentResponse } from '@/api/services';
 
 interface IProps {
   bookingData: BookAppointmentResponse | null;

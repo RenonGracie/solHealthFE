@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
-import { CALENDAR_GROUP_DATE_FORMAT } from '../../../../../constants';
+import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 
 export const groupByDay = (timeZone: string, timeSlots?: string[]) => {
   if (!timeSlots) return {};

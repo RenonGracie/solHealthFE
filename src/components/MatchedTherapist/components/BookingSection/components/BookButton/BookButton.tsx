@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 
-import { Button, Loader } from '../../../../../ui';
-import ArrowRightIcon from '../../../../../../assets/icons/arrow-right-icon.svg';
+import { Button, Loader } from '@/components/ui';
+import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 
 interface IProps {
   onClick: () => void;

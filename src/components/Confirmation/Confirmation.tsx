@@ -1,8 +1,8 @@
 import { Button, Link } from '../ui';
 import { SessionInfo } from './components';
-import ArrowRightIcon from '../../assets/icons/arrow-right-icon.svg';
-import InstagramIcon from '../../assets/icons/instagram-icon.svg';
-import { BookAppointmentResponse } from '../../api/services';
+import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
+import InstagramIcon from '@/assets/icons/instagram-icon.svg';
+import { BookAppointmentResponse } from '@/api/services';
 
 interface IProps {
   bookingData: BookAppointmentResponse | null;

@@ -30,9 +30,12 @@ export const ExpandableList = <T,>({
       className={`flex flex-wrap gap-2 ${className}`}
       data-testid="expandable-list"
     >
-      {visibleItems.map((item, index) => (
-        <div key={getItemKey?.(item) ?? index}>{renderItem(item)}</div>
-      ))}
+      {visibleItems.map(
+        (item, index) =>
+          !!item && (
+            <div key={getItemKey?.(item) ?? index}>{renderItem(item)}</div>
+          ),
+      )}
 
       {showButton && (
         <Button onClick={() => setIsExpanded(true)}>

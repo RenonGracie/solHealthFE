@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Tag, ExpandableList } from '../../../ui';
+import { Tag, ExpandableList } from '@/components/ui';
 
 interface IProps {
   title: string;

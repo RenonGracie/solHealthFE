@@ -10,12 +10,12 @@ import {
   startOfDay,
 } from 'date-fns';
 
-import { Calendar, Error } from '../../../ui';
+import { Calendar, Error } from '@/components/ui';
 import {
   useAppointmentsService,
   BookAppointmentResponse,
-} from '../../../../api/services';
-import { CALENDAR_GROUP_DATE_FORMAT } from '../../../../constants';
+} from '@/api/services';
+import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
 

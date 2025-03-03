@@ -1,14 +1,13 @@
 import * as React from 'react';
 
 import { Tag, VideoPlayer, ExpandableList, Button } from '../ui';
-import { MatchResponse } from '../../api/services/therapistsService';
 import {
   TherapyStyleSection,
   TherapistInfoSection,
   BookingSection,
 } from './components';
-import ArrowRightIcon from '../../assets/icons/arrow-right-icon.svg';
-import { BookAppointmentResponse } from '../../api/services';
+import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
+import { MatchResponse, BookAppointmentResponse } from '@/api/services';
 
 type TProps = MatchResponse & {
   clientResponseId: string | null;

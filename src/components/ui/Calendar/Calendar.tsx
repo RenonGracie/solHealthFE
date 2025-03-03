@@ -1,7 +1,7 @@
 import { DayPicker, DayPickerProps, UI } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
-import { CALENDAR_WEEK_DAYS } from '../../../constants';
+import { CALENDAR_WEEK_DAYS } from '@/constants';
 
 export const Calendar = (props: DayPickerProps) => {
   return (

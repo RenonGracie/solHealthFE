@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { isMatch } from 'date-fns';
 
-import { CALENDAR_GROUP_DATE_FORMAT } from '../../../../../constants';
+import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 
 import { groupByDay } from './groupByDay';
 
