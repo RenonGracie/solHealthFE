@@ -11,31 +11,21 @@ import {
 } from 'date-fns';
 
 import { Calendar, Error } from '@/components/ui';
-import {
-  useAppointmentsService,
-  BookAppointmentResponse,
-} from '@/api/services';
+import { useAppointmentsService } from '@/api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
+import { useTherapistContext } from '@/hooks/useTherapistContext';
 
-interface IProps {
-  clientResponseId: string | null;
-  onBookSession: (bookingData: BookAppointmentResponse) => void;
-  availableSlots?: string[];
-  therapistEmail?: string;
-}
-
-export const BookingSection = ({
-  clientResponseId,
-  onBookSession,
-  availableSlots,
-  therapistEmail,
-}: IProps) => {
-  const [selectedDay, setSelectedDay] = React.useState<Date | undefined>();
-  const [selectedTimeSlot, setSelectedTimeSlot] = React.useState<
-    Date | undefined
-  >();
+export const BookingSection = () => {
+  const {
+    bookingState: { selectedDay, selectedSlot },
+    clientResponseId,
+    currentTherapist,
+    onDaySelect,
+    onSlotSelect,
+    onBookSession,
+  } = useTherapistContext();
 
   const {
     bookAppointment: {
@@ -45,6 +35,9 @@ export const BookingSection = ({
       makeRequest: bookAppointment,
     },
   } = useAppointmentsService();
+
+  const { email: therapistEmail, available_slots: availableSlots } =
+    currentTherapist?.therapist || {};
 
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
@@ -56,8 +49,7 @@ export const BookingSection = ({
   const availableSlotsByDay = groupByDay(timezone, availableSlots);
 
   const handleChangeDay = (date?: Date) => {
-    setSelectedTimeSlot(undefined);
-    setSelectedDay(date);
+    onDaySelect(date);
   };
 
   const isDateDisabled = (date: Date) => {
@@ -71,9 +63,7 @@ export const BookingSection = ({
   };
 
   const timeSlots = React.useMemo(() => {
-    if (!selectedDay) {
-      return null;
-    }
+    if (!selectedDay) return null;
 
     const formattedDay = format(selectedDay, CALENDAR_GROUP_DATE_FORMAT);
 
@@ -81,17 +71,16 @@ export const BookingSection = ({
       <TimeSlot
         slot={slot}
         key={slot.toISOString()}
-        onSelect={setSelectedTimeSlot}
-        isSelected={!!selectedTimeSlot && isEqual(slot, selectedTimeSlot)}
+        onSelect={(date: Date) => onSlotSelect(date.toISOString())}
+        isSelected={!!selectedSlot && isEqual(slot, new Date(selectedSlot))}
       />
     ));
-  }, [selectedDay, selectedTimeSlot, availableSlotsByDay]);
+  }, [selectedDay, selectedSlot, availableSlotsByDay, onSlotSelect]);
 
-  const isBookSessionButtonDisabled =
-    !selectedDay || !selectedTimeSlot || loading;
+  const isBookSessionButtonDisabled = !selectedDay || !selectedSlot || loading;
 
   const handleBookSession = () => {
-    if (!clientResponseId || !selectedTimeSlot || !therapistEmail) {
+    if (!clientResponseId || !selectedSlot || !therapistEmail) {
       return;
     }
 
@@ -101,7 +90,7 @@ export const BookingSection = ({
         reminder_type: 'Email',
         send_client_email_notification: true,
         client_response_id: clientResponseId,
-        datetime: selectedTimeSlot.toISOString(),
+        datetime: selectedSlot,
         therapist_email: therapistEmail,
       },
     });
@@ -122,7 +111,7 @@ export const BookingSection = ({
   }
 
   return (
-    <section className="pb-10">
+    <section className="pb-10 lg:pb-0">
       <div className="flex flex-col gap-2 mb-5 lg:hidden">
         <h2 className="text-[40px] text-center font-normal font-['Very_Vogue_Text'] ">
           Book your <i>First</i> Session

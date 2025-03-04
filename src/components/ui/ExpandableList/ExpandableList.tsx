@@ -10,7 +10,7 @@ interface IProps<T> {
   className?: string;
 }
 
-export const ExpandableList = <T,>({
+const ExpandableListComponent = <T,>({
   items,
   renderItem,
   limit = 5,
@@ -18,6 +18,10 @@ export const ExpandableList = <T,>({
   className,
 }: IProps<T>) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsExpanded(false);
+  }, [items]);
 
   if (!items?.length) return null;
 
@@ -45,3 +49,7 @@ export const ExpandableList = <T,>({
     </div>
   );
 };
+
+export const ExpandableList = React.memo(ExpandableListComponent) as <T>(
+  props: IProps<T>,
+) => React.ReactElement;

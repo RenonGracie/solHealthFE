@@ -42,7 +42,7 @@ export const usePollFormAndRequestMatch = () => {
 
           if (response) {
             await getMatch({
-              params: { response_id: responseId },
+              params: { limit: 10, response_id: responseId },
             });
             setLoading(false);
           }

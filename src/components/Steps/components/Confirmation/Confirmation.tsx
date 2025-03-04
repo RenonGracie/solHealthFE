@@ -1,20 +1,12 @@
-import { Button, Link } from '../ui';
+import { Button, Link } from '../../../ui';
 import { SessionInfo } from './components';
 import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
-import { BookAppointmentResponse } from '@/api/services';
+import { useTherapistContext } from '@/hooks/useTherapistContext';
 
-interface IProps {
-  bookingData: BookAppointmentResponse | null;
-  therapistImageLink?: string;
-  therapistVideoLink?: string;
-}
+export const Confirmation = () => {
+  const { currentTherapist, bookingData } = useTherapistContext();
 
-export const Confirmation = ({
-  bookingData,
-  therapistImageLink,
-  therapistVideoLink,
-}: IProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto_auto_auto]">
       <h2 className="text-center lg:text-left leading-[36px] text-[40px] lg:text-[48px] lg:leading-[43px] font-normal font-['Very_Vogue_Text'] mb-5 lg:mb-6 lg:pr-8">
@@ -24,8 +16,8 @@ export const Confirmation = ({
       <div className="lg:row-span-4 mb-5 lg:mb-0">
         <SessionInfo
           bookingData={bookingData}
-          therapistImageLink={therapistImageLink}
-          therapistVideoLink={therapistVideoLink}
+          therapistImageLink={currentTherapist?.therapist?.image_link}
+          therapistVideoLink={currentTherapist?.therapist?.greetings_video_link}
         />
       </div>
       <div className="lg:pr-8">

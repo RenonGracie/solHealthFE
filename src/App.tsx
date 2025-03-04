@@ -1,12 +1,11 @@
 import * as React from 'react';
 
-import { Loader, Layout, Error } from './components/ui';
+import { Loader, Error } from './components/ui';
 import { STEPS } from './constants';
-import { TypeformEmbed } from './components/TypeformEmbed';
-import { MatchedTherapist } from './components/MatchedTherapist';
-import { Confirmation } from './components/Confirmation';
 import { usePollFormAndRequestMatch } from './hooks';
 import { BookAppointmentResponse } from './api/services';
+import { TherapistProvider } from './providers/TherapistProvider';
+import { Steps } from './components/Steps';
 
 function App() {
   const [step, setStep] = React.useState<STEPS>(STEPS.TYPEFORM);
@@ -65,46 +64,6 @@ function App() {
     }
   }, [handleTypeformSubmit]);
 
-  const renderStep = () => {
-    switch (step) {
-      case STEPS.TYPEFORM:
-        return (
-          <TypeformEmbed
-            onSubmit={(responseId) => {
-              void handleTypeformSubmit(responseId);
-            }}
-          />
-        );
-      case STEPS.MATCHED_THERAPIST:
-        return (
-          <Layout hideTitle={hideTitle} onGoBack={handleConfirmGoBack}>
-            <MatchedTherapist
-              therapists={matchData?.therapists}
-              clientResponseId={clientResponseId}
-              onShowBookingSection={handleShowBookingSection}
-              onBookSession={handleBookSession}
-            />
-          </Layout>
-        );
-      case STEPS.CONFIRMATION:
-        return (
-          <Layout hideHeaderImage hideTitle>
-            <Confirmation
-              bookingData={bookingData}
-              therapistImageLink={
-                matchData?.therapists?.[0]?.therapist?.image_link
-              }
-              therapistVideoLink={
-                matchData?.therapists?.[0]?.therapist?.welcome_video_link
-              }
-            />
-          </Layout>
-        );
-      default:
-        return null;
-    }
-  };
-
   if (error) {
     return (
       <Error className="min-h-screen min-w-screen">
@@ -117,7 +76,23 @@ function App() {
     return <Loader className="min-h-screen min-w-screen" />;
   }
 
-  return renderStep();
+  return (
+    <TherapistProvider
+      initialTherapist={matchData?.therapists?.[0]}
+      therapists={matchData?.therapists || []}
+      clientResponseId={clientResponseId}
+      bookingData={bookingData}
+      onBookSession={handleBookSession}
+      onShowBooking={handleShowBookingSection}
+    >
+      <Steps
+        step={step}
+        hideTitle={hideTitle}
+        onTypeformSubmit={handleTypeformSubmit}
+        onGoBack={handleConfirmGoBack}
+      />
+    </TherapistProvider>
+  );
 }
 
 export default App;

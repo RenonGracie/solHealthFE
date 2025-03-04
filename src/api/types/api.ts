@@ -794,6 +794,8 @@ export interface components {
             gender?: string;
             /** Gender Interest */
             gender_interest?: string;
+            /** Greetings Video Link */
+            greetings_video_link?: string;
             /** Has Children */
             has_children?: boolean;
             /** Id */
@@ -839,8 +841,7 @@ export interface components {
             email?: string;
             /** Name */
             name?: string;
-            /** Type */
-            type: string;
+            type: components["schemas"]["VideoType"];
             /** Video Url */
             video_url: string;
         };
@@ -877,6 +878,12 @@ export interface components {
              */
             type_?: string;
         };
+        /**
+         * VideoType
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        VideoType: "welcome" | "greeting";
     };
     responses: never;
     parameters: never;
