@@ -52,7 +52,7 @@ export const Layout = ({
           </div>
         )}
         <div className="absolute top-8 left-8 hidden lg:flex gap-2 items-center">
-          <h3 className="text-[40px] font-normal font-['Very_Vogue_Text']">
+          <h3 className="text-[28px] font-medium font-['Comfortaa']">
             Sol Health
           </h3>
           <LogoIcon />
@@ -68,7 +68,7 @@ export const Layout = ({
             {!!onGoBack && (
               <button
                 type="button"
-                className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center mt-[14px] lg:mt-0 p-0 border-0 bg-transparent"
+                className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center lg:mt-0 p-0 border-0 bg-transparent"
                 onClick={() => {
                   setIsGoBackModalOpen(true);
                 }}
@@ -79,7 +79,7 @@ export const Layout = ({
             <div className={`${onGoBack ? 'pr-8' : ''}`}>
               <div className="lg:hidden">
                 <div className="flex items-center justify-center gap-2 mb-4">
-                  <h2 className="text-[40px] font-normal font-['Very_Vogue_Text']">
+                  <h2 className="text-[22px] font-medium font-['Comfortaa']">
                     Sol Health
                   </h2>
                   <LogoIcon />
