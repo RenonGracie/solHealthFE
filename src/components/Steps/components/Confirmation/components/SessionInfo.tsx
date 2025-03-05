@@ -5,6 +5,7 @@ import { toZonedTime } from 'date-fns-tz';
 import CalendarIcon from '@/assets/icons/calendar-icon.svg';
 import { VideoPlayer } from '@/components/ui';
 import { BookAppointmentResponse } from '@/api/services';
+import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
 
 interface IProps {
   bookingData: BookAppointmentResponse | null;
@@ -46,7 +47,7 @@ export const SessionInfo = ({
       <div className="flex flex-col lg:flex-row lg:justify-between gap-1">
         <div className="flex gap-4 items-center">
           <img
-            src={therapistImageLink}
+            src={therapistImageLink || PLACEHOLDER_IMAGE_PATH}
             alt={`${PractitionerName} photo`}
             className="w-[80px] h-[80px] rounded-full object-cover"
           />

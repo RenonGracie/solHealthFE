@@ -7,11 +7,13 @@ interface ITherapistContext {
   bookingState: IBookingState;
   bookingData: BookAppointmentResponse | null;
   clientResponseId: string | null;
+  previousTherapistsList: TMatchedTherapistData[] | null;
   onFindAnotherTherapist: () => void;
   onShowBooking: () => void;
   onBookSession: (data: BookAppointmentResponse) => void;
   onSlotSelect: (slot: string) => void;
   onDaySelect: (day: Date | undefined) => void;
+  onViewPreviousTherapist: (therapistId: string) => void;
 }
 
 export const TherapistContext = React.createContext<

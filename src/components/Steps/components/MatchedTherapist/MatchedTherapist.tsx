@@ -5,8 +5,10 @@ import {
   TherapyStyleSection,
   TherapistInfoSection,
   BookingSection,
+  PreviousTherapistCard,
 } from './components';
 import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
+import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
 
 export const MatchedTherapist: React.FC = () => {
   const {
@@ -14,6 +16,8 @@ export const MatchedTherapist: React.FC = () => {
     onShowBooking,
     onFindAnotherTherapist,
     currentTherapist: therapistData,
+    previousTherapistsList,
+    onViewPreviousTherapist,
   } = useTherapistContext();
 
   const therapistIdentification = React.useMemo(
@@ -57,119 +61,162 @@ export const MatchedTherapist: React.FC = () => {
 
   return (
     <div>
-      <div className="lg:flex lg:gap-6 max-w-7xl w-full h-full mx-auto pb-[88px] lg:pb-0">
-        <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
-          <div className="flex flex-col gap-4 pb-4 lg:pb-8">
-            <div className="flex flex-col lg:flex-row flex-wrap">
-              <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
-                <img
-                  src={therapistData?.therapist?.image_link}
-                  alt={`${therapistData?.therapist?.intern_name} photo`}
-                  className="w-[80px] h-[80px] rounded-full object-cover"
-                />
-                <div>
-                  <h2 className="text-[32px] font-normal font-['Very_Vogue_Text']">
-                    {therapistData?.therapist?.intern_name}
-                  </h2>
-                  <p className="text-base font-light leading-6 tracking-[-0.02em]">
-                    Therapist
-                  </p>
+      <div className="lg:flex lg:flex-col max-w-7xl w-full h-full mx-auto pb-[100px]">
+        <div className="lg:flex lg:gap-6">
+          <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
+            <div className="flex flex-col gap-4 pb-4 lg:pb-8">
+              <div className="flex flex-col lg:flex-row flex-wrap">
+                <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
+                  <img
+                    src={
+                      therapistData?.therapist?.image_link ||
+                      PLACEHOLDER_IMAGE_PATH
+                    }
+                    alt={`${therapistData?.therapist?.intern_name} photo`}
+                    className="w-[80px] h-[80px] rounded-full object-cover"
+                  />
+                  <div>
+                    <h2 className="text-[32px] font-normal font-['Very_Vogue_Text']">
+                      {therapistData?.therapist?.intern_name}
+                    </h2>
+                    <p className="text-base font-light leading-6 tracking-[-0.02em]">
+                      Therapist
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
-                <VideoPlayer
-                  videoUrl={therapistData?.therapist?.welcome_video_link}
-                  className="w-full lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
+                <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
+                  <VideoPlayer
+                    videoUrl={therapistData?.therapist?.welcome_video_link}
+                    className="w-full lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
+                  />
+                </div>
+
+                <ExpandableList
+                  items={matchedExpertise}
+                  renderItem={(item) => <Tag>{item}</Tag>}
+                  getItemKey={(item) => item}
+                  className="mb-5 w-full order-2 lg:order-3"
                 />
               </div>
 
-              <ExpandableList
-                items={matchedExpertise}
-                renderItem={(item) => <Tag>{item}</Tag>}
-                getItemKey={(item) => item}
-                className="mb-5 w-full order-2 lg:order-3"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <TherapistInfoSection title="Identifies as">
-                {therapistIdentification}
-              </TherapistInfoSection>
-              <TherapistInfoSection title="Age:">
-                <span className="tracking-[-0.02em]">
-                  {therapistData?.therapist?.age}
-                </span>
-              </TherapistInfoSection>
-              <TherapistInfoSection title="Work in States:">
-                {therapistData?.therapist?.states?.map((state, index) => (
-                  <span key={state} className="tracking-[-0.02em]">
-                    {state}
-                    {index !==
-                      (therapistData?.therapist?.states?.length || 0) - 1 &&
-                      ', '}
+              <div className="space-y-2">
+                <TherapistInfoSection title="Identifies as">
+                  {therapistIdentification}
+                </TherapistInfoSection>
+                <TherapistInfoSection title="Age:">
+                  <span className="tracking-[-0.02em]">
+                    {therapistData?.therapist?.age}
                   </span>
-                ))}
-              </TherapistInfoSection>
-            </div>
+                </TherapistInfoSection>
+                <TherapistInfoSection title="Work in States:">
+                  {therapistData?.therapist?.states?.map((state, index) => (
+                    <span key={state} className="tracking-[-0.02em]">
+                      {state}
+                      {index !==
+                        (therapistData?.therapist?.states?.length || 0) - 1 &&
+                        ', '}
+                    </span>
+                  ))}
+                </TherapistInfoSection>
+              </div>
 
-            <p className="text-sm font-light leading-5 tracking-[-0.02em]">
-              {therapistData?.therapist?.biography}
-            </p>
-          </div>
-          <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
-            <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
-              Therapy style and experience
-            </h2>
-            <div className="flex flex-col gap-8">
-              <TherapyStyleSection
-                title="Specializes at"
-                items={therapistData?.therapist?.specialities}
-                matchedItems={generalExpertise}
-              />
-              <TherapyStyleSection
-                title="Work with diagnoses"
-                items={therapistData?.therapist?.diagnoses}
-                matchedItems={generalExpertise}
-              />
-              <TherapyStyleSection
-                title="Therapeutic orientation"
-                items={therapistData?.therapist?.therapeutic_orientation}
-                matchedItems={generalExpertise}
-              />
-              <TherapyStyleSection
-                title="Has experience working with religions"
-                items={therapistData?.therapist?.religion}
-                matchedItems={generalExpertise}
-              />
+              <p className="text-sm font-light leading-5 tracking-[-0.02em]">
+                {therapistData?.therapist?.biography}
+              </p>
+            </div>
+            <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
+              <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
+                Therapy style and experience
+              </h2>
+              <div className="flex flex-col gap-8">
+                <TherapyStyleSection
+                  title="Specializes at"
+                  items={therapistData?.therapist?.specialities}
+                  matchedItems={generalExpertise}
+                />
+                <TherapyStyleSection
+                  title="Work with diagnoses"
+                  items={therapistData?.therapist?.diagnoses}
+                  matchedItems={generalExpertise}
+                />
+                <TherapyStyleSection
+                  title="Therapeutic orientation"
+                  items={therapistData?.therapist?.therapeutic_orientation}
+                  matchedItems={generalExpertise}
+                />
+                <TherapyStyleSection
+                  title="Has experience working with religions"
+                  items={therapistData?.therapist?.religion}
+                  matchedItems={generalExpertise}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center gap-6 mt-8 mb-8 lg:hidden">
-          <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
-            This therapist isn&apos;t right for you?
-          </h3>
-          <Button
-            className="rounded-4xl bg-transparent"
-            onClick={onFindAnotherTherapist}
-          >
-            Find Another Therapist <ArrowRightIcon />
-          </Button>
-        </div>
-        <div className="lg:h-fit hidden lg:block">
-          <BookingSection />
-          <div className="flex flex-col items-center gap-6 mt-10.5">
+          <div className="flex flex-col items-center mt-8 lg:hidden">
             <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
               This therapist isn&apos;t right for you?
             </h3>
             <Button
-              className="rounded-4xl bg-transparent"
+              className="rounded-4xl bg-transparent mt-6"
               onClick={onFindAnotherTherapist}
             >
               Find Another Therapist <ArrowRightIcon />
             </Button>
+            {(previousTherapistsList?.length || 0) > 0 && (
+              <>
+                <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal mt-8">
+                  Previously Viewed Therapists
+                </h3>
+                <div className="flex gap-4 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
+                  {previousTherapistsList?.map((therapistInfo) => (
+                    <PreviousTherapistCard
+                      key={therapistInfo.therapist.id}
+                      name={therapistInfo.therapist.intern_name}
+                      photoSrc={therapistInfo.therapist.image_link}
+                      onClick={() =>
+                        onViewPreviousTherapist(therapistInfo.therapist.id)
+                      }
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="lg:h-fit hidden lg:block">
+            <BookingSection />
+            <div className="flex flex-col items-center gap-6 mt-10.5">
+              <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
+                This therapist isn&apos;t right for you?
+              </h3>
+              <Button
+                className="rounded-4xl bg-transparent"
+                onClick={onFindAnotherTherapist}
+              >
+                Find Another Therapist <ArrowRightIcon />
+              </Button>
+            </div>
           </div>
         </div>
+        {(previousTherapistsList?.length || 0) > 0 && (
+          <div className="hidden lg:block mt-10">
+            <h3 className="font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
+              Previously Viewed Therapists
+            </h3>
+            <div className="flex gap-6 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
+              {previousTherapistsList?.map((therapistInfo) => (
+                <PreviousTherapistCard
+                  key={therapistInfo.therapist.id}
+                  name={therapistInfo.therapist.intern_name}
+                  photoSrc={therapistInfo.therapist.image_link}
+                  onClick={() =>
+                    onViewPreviousTherapist(therapistInfo.therapist.id)
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] lg:hidden bg-[#fffbf3]">

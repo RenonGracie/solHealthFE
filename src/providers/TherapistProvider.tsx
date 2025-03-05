@@ -37,29 +37,45 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     selectedDay: undefined,
   });
 
+  const [previousTherapistsList, setPreviousTherapistsList] = React.useState<
+    TMatchedTherapistData[] | null
+  >(null);
+
   const handleFindAnotherTherapist = React.useCallback(() => {
     if (!therapists.length) return;
 
     const nextIndex = therapistState.currentIndex + 1;
 
-    if (nextIndex >= therapists.length) {
-      setTherapistState({
-        currentIndex: 0,
-        currentTherapist: therapists[0],
-      });
-    } else {
-      setTherapistState({
-        currentIndex: nextIndex,
-        currentTherapist: therapists[nextIndex],
-      });
+    const updatedCurrentIndex = nextIndex >= therapists.length ? 0 : nextIndex;
+    const updatedCurrentTherapist = therapists[updatedCurrentIndex];
+
+    const originalIndex = therapistState.currentIndex;
+
+    const originalTherapist = therapists[originalIndex];
+
+    const isPreviouslyViewed = !!previousTherapistsList?.find(
+      (therapistData) =>
+        therapistData.therapist.id === originalTherapist.therapist.id,
+    );
+
+    if (!isPreviouslyViewed) {
+      setPreviousTherapistsList((prevState) => [
+        ...(prevState || []),
+        originalTherapist,
+      ]);
     }
+
+    setTherapistState({
+      currentIndex: updatedCurrentIndex,
+      currentTherapist: updatedCurrentTherapist,
+    });
 
     setBookingState({
       showSection: false,
       selectedSlot: undefined,
       selectedDay: undefined,
     });
-  }, [therapistState.currentIndex, therapists]);
+  }, [therapistState.currentIndex, therapists, previousTherapistsList]);
 
   const handleShowBooking = React.useCallback(() => {
     onShowBookingProp();
@@ -74,16 +90,31 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     setBookingState((prev) => ({ ...prev, selectedDay: day }));
   }, []);
 
+  const handleViewPreviousTherapist = React.useCallback(
+    (therapistId: string) => {
+      const therapist = previousTherapistsList?.find(
+        (therapistInfo) => therapistInfo.therapist.id === therapistId,
+      );
+
+      if (!therapist) return;
+
+      setTherapistState((prev) => ({ ...prev, currentTherapist: therapist }));
+    },
+    [previousTherapistsList],
+  );
+
   const value = {
     bookingData,
     bookingState,
     clientResponseId,
+    previousTherapistsList,
     currentTherapist: therapistState.currentTherapist,
     onBookSession,
     onDaySelect: handleDaySelect,
     onSlotSelect: handleSlotSelect,
     onShowBooking: handleShowBooking,
     onFindAnotherTherapist: handleFindAnotherTherapist,
+    onViewPreviousTherapist: handleViewPreviousTherapist,
   };
 
   return (
