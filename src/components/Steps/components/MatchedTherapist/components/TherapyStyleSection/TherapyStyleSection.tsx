@@ -13,7 +13,20 @@ export const TherapyStyleSection: React.FC<IProps> = ({
   items,
   matchedItems,
 }) => {
-  if (!items?.length) return null;
+  const sortedItems = React.useMemo(() => {
+    if (!items?.length) return [];
+
+    return [...items].sort((a, b) => {
+      const isAMatched = matchedItems?.includes(a) ?? false;
+      const isBMatched = matchedItems?.includes(b) ?? false;
+
+      if (isAMatched && !isBMatched) return -1;
+      if (!isAMatched && isBMatched) return 1;
+      return 0;
+    });
+  }, [items, matchedItems]);
+
+  if (!sortedItems.length) return null;
 
   return (
     <section className="flex flex-col gap-3">
@@ -21,7 +34,7 @@ export const TherapyStyleSection: React.FC<IProps> = ({
         {title}
       </p>
       <ExpandableList
-        items={items}
+        items={sortedItems}
         renderItem={(item) => (
           <Tag
             className={`${matchedItems?.includes(item) ? 'bg-[#E6CAAF]' : ''}`}
