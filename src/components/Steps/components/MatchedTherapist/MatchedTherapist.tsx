@@ -65,8 +65,8 @@ export const MatchedTherapist: React.FC = () => {
         <div className="lg:flex lg:gap-6">
           <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
             <div className="flex flex-col gap-4 pb-4 lg:pb-8">
-              <div className="flex flex-col lg:flex-row flex-wrap">
-                <div className="flex items-center gap-4 mb-5 w-full lg:w-1/2 order-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto]">
+                <div className="flex items-center gap-4 mb-5 order-1">
                   <img
                     src={
                       therapistData?.therapist?.image_link ||
@@ -85,10 +85,10 @@ export const MatchedTherapist: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end mb-5 w-full lg:w-1/2 order-3 lg:order-2">
+                <div className="flex justify-end mb-5 lg:mb-0 lg:row-span-2 order-3 lg:order-2">
                   <VideoPlayer
                     videoUrl={therapistData?.therapist?.welcome_video_link}
-                    className="w-full lg:w-[140px] lg:h-[80px] lg:rounded-[4px]"
+                    className="w-full lg:w-[240px] lg:h-[140px] lg:rounded-[4px]"
                   />
                 </div>
 
@@ -96,7 +96,7 @@ export const MatchedTherapist: React.FC = () => {
                   items={matchedExpertise}
                   renderItem={(item) => <Tag>{item}</Tag>}
                   getItemKey={(item) => item}
-                  className="mb-5 w-full order-2 lg:order-3"
+                  className="mb-5 lg:mb-0 w-full order-2 lg:order-3"
                 />
               </div>
 
