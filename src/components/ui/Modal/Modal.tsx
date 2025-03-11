@@ -16,6 +16,8 @@ interface IProps {
   description: string;
   onClose: () => void;
   onConfirm: () => void;
+  confirmButtonTitle?: string;
+  cancelButtonTitle?: string;
 }
 
 export const Modal = ({
@@ -24,6 +26,8 @@ export const Modal = ({
   description,
   onClose,
   onConfirm,
+  confirmButtonTitle = 'Confirm',
+  cancelButtonTitle = 'Cancel',
 }: IProps) => {
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
@@ -63,9 +67,9 @@ export const Modal = ({
                 </Description>
                 <div className="flex justify-end gap-2">
                   <Button onClick={onClose} className="bg-white">
-                    Cancel
+                    {cancelButtonTitle}
                   </Button>
-                  <Button onClick={onConfirm}>Confirm</Button>
+                  <Button onClick={onConfirm}>{confirmButtonTitle}</Button>
                 </div>
               </DialogPanel>
             </TransitionChild>

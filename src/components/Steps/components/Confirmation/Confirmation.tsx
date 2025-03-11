@@ -1,11 +1,20 @@
-import { Button, Link } from '../../../ui';
-import { SessionInfo } from './components';
+import * as React from 'react';
+
+import { Button, Link, Modal } from '@/components/ui';
 import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
+import { SessionInfo } from './components';
 
 export const Confirmation = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
   const { currentTherapist, bookingData } = useTherapistContext();
+
+  const handleOpenEmailApp = () => {
+    setIsModalOpen(false);
+    window.open('mailto:');
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto_auto_auto]">
@@ -26,21 +35,23 @@ export const Confirmation = () => {
         </h3>
         <ol className="flex flex-col gap-3 list-decimal list-inside font-light text-[16px] tracking-[-0.02em]">
           <li>
-            Open Mandatory New Client Form. Password for Client form you can
-            find in your email
+            Please check your email so that to fill out Mandatory client form.
           </li>
           <li>
-            Once you submited the Mandatory New Client Form your account setup
-            was finished
+            Once you submitted the Mandatory New Client Form your account will
+            be activated.
           </li>
           <li>
-            In 24h we will send you an appointment confirmation email to your
-            inbox, which contains everything you need for your first session
+            In 24h after account setting up we will send you an appointment
+            confirmation on your email.
           </li>
         </ol>
       </div>
       <div className="lg:col-span-2 flex justify-center mt-6 lg:mt-[51px]">
-        <Button className="text-[16px] font-normal tracking-[-0.02em] px-6 py-3 rounded-4xl w-full lg:w-auto">
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          className="text-[16px] font-normal tracking-[-0.02em] px-6 py-3 rounded-4xl w-full lg:w-auto"
+        >
           Finish Setting up Account <ArrowRightIcon />
         </Button>
       </div>
@@ -67,6 +78,14 @@ export const Confirmation = () => {
           </Link>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleOpenEmailApp}
+        title="Email Application Opening"
+        description="Your default email application is about to open. Please check your inbox for the Mandatory New Client Form that needs to be completed to activate your account."
+        confirmButtonTitle="Proceed"
+      />
     </div>
   );
 };
