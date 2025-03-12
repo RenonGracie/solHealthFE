@@ -37,7 +37,6 @@ function App() {
 
       try {
         await pollFormAndRequestMatch(responseId);
-        setStep(STEPS.MATCHED_THERAPIST);
       } catch (error) {
         console.error(error);
       }
@@ -52,6 +51,16 @@ function App() {
     },
     [],
   );
+
+  React.useEffect(() => {
+    if (matchData?.therapists) {
+      if (matchData.therapists.length > 0) {
+        setStep(STEPS.MATCHED_THERAPIST);
+      } else {
+        setStep(STEPS.NO_MATCH);
+      }
+    }
+  }, [matchData?.therapists]);
 
   // TEMPORARY SOLUTION:
   // This effect is added to simplify application testing by allowing direct access
@@ -78,10 +87,6 @@ function App() {
 
   if (loading) {
     return <Loader className="min-h-screen min-w-screen" />;
-  }
-
-  if (matchData?.therapists?.length === 0) {
-    setStep(STEPS.NO_MATCH);
   }
 
   return (

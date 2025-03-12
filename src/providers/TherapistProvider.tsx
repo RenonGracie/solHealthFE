@@ -109,6 +109,12 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
 
       if (!therapist) return;
 
+      setBookingState({
+        showSection: false,
+        selectedSlot: undefined,
+        selectedDay: undefined,
+      });
+
       setTherapistState((prev) => ({ ...prev, currentTherapist: therapist }));
     },
     [previousTherapistsList],
