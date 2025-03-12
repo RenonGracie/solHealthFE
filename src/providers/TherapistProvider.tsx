@@ -13,8 +13,15 @@ interface IProps {
   initialTherapist?: TMatchedTherapistData;
   clientResponseId: string | null;
   onShowBooking: () => void;
+  onHideBooking: () => void;
   bookingData: BookAppointmentResponse | null;
 }
+
+const DEFAULT_BOOKING_STATE: IBookingState = {
+  showSection: false,
+  selectedSlot: undefined,
+  selectedDay: undefined,
+};
 
 export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   children,
@@ -23,6 +30,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   onBookSession,
   clientResponseId,
   onShowBooking: onShowBookingProp,
+  onHideBooking: onHideBookingProp,
   bookingData,
 }) => {
   const [therapistState, setTherapistState] =
@@ -31,11 +39,9 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
       currentTherapist: initialTherapist,
     });
 
-  const [bookingState, setBookingState] = React.useState<IBookingState>({
-    showSection: false,
-    selectedSlot: undefined,
-    selectedDay: undefined,
-  });
+  const [bookingState, setBookingState] = React.useState<IBookingState>(
+    DEFAULT_BOOKING_STATE,
+  );
 
   const [previousTherapistsList, setPreviousTherapistsList] = React.useState<
     TMatchedTherapistData[] | null
@@ -82,6 +88,11 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     setBookingState((prev) => ({ ...prev, showSection: true }));
   }, [onShowBookingProp]);
 
+  const handleHideBooking = React.useCallback(() => {
+    onHideBookingProp();
+    setBookingState(DEFAULT_BOOKING_STATE);
+  }, [onHideBookingProp]);
+
   const handleSlotSelect = React.useCallback((slot: string) => {
     setBookingState((prev) => ({ ...prev, selectedSlot: slot }));
   }, []);
@@ -113,6 +124,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     onDaySelect: handleDaySelect,
     onSlotSelect: handleSlotSelect,
     onShowBooking: handleShowBooking,
+    onHideBooking: handleHideBooking,
     onFindAnotherTherapist: handleFindAnotherTherapist,
     onViewPreviousTherapist: handleViewPreviousTherapist,
   };

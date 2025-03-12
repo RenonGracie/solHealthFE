@@ -4,6 +4,7 @@ import headerDesktopImageUrl from '@/assets/images/header-desktop.png';
 import headerMobileImageUrl from '@/assets/images/header-mobile.png';
 import LogoIcon from '@/assets/icons/logo-icon.svg';
 import ArrowLeftIcon from '@/assets/icons/arrow-left-icon.svg';
+import { useTherapistContext } from '@/hooks/useTherapistContext';
 
 import { Modal } from '../Modal';
 
@@ -21,6 +22,16 @@ export const Layout = ({
   onGoBack,
 }: IProps) => {
   const [isGoBackModalOpen, setIsGoBackModalOpen] = React.useState(false);
+
+  const { bookingState, onHideBooking } = useTherapistContext();
+
+  const handleGoBackClick = React.useCallback(() => {
+    if (bookingState.showSection) {
+      onHideBooking();
+    } else {
+      setIsGoBackModalOpen(true);
+    }
+  }, [bookingState.showSection, onHideBooking]);
 
   const handleConfirmGoBack = () => {
     setIsGoBackModalOpen(false);
@@ -69,9 +80,7 @@ export const Layout = ({
               <button
                 type="button"
                 className="cursor-pointer hover:opacity-80 transition-opacity self-start lg:self-center lg:mt-0 p-0 border-0 bg-transparent"
-                onClick={() => {
-                  setIsGoBackModalOpen(true);
-                }}
+                onClick={handleGoBackClick}
               >
                 <ArrowLeftIcon />
               </button>

@@ -10,6 +10,7 @@ interface ITherapistContext {
   previousTherapistsList: TMatchedTherapistData[] | null;
   onFindAnotherTherapist: () => void;
   onShowBooking: () => void;
+  onHideBooking: () => void;
   onBookSession: (data: BookAppointmentResponse) => void;
   onSlotSelect: (slot: string) => void;
   onDaySelect: (day: Date | undefined) => void;

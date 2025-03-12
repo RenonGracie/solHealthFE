@@ -27,6 +27,10 @@ function App() {
     setHideTitle(true);
   }, []);
 
+  const handleHideBookingSection = React.useCallback(() => {
+    setHideTitle(false);
+  }, []);
+
   const handleTypeformSubmit = React.useCallback(
     async (responseId: string) => {
       setClientResponseId(responseId);
@@ -84,6 +88,7 @@ function App() {
       bookingData={bookingData}
       onBookSession={handleBookSession}
       onShowBooking={handleShowBookingSection}
+      onHideBooking={handleHideBookingSection}
     >
       <Steps
         step={step}
