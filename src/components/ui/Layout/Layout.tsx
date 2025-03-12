@@ -10,13 +10,21 @@ import { Modal } from '../Modal';
 
 interface IProps {
   children: React.ReactNode;
-  hideTitle: boolean;
+  title?: React.ReactNode;
+  hideTitle?: boolean;
   hideHeaderImage?: boolean;
   onGoBack?: () => void;
 }
 
+const DEFAULT_TITLE = (
+  <>
+    We Found the <i>Best Therapist</i> for You
+  </>
+);
+
 export const Layout = ({
   children,
+  title = DEFAULT_TITLE,
   hideTitle,
   hideHeaderImage,
   onGoBack,
@@ -98,7 +106,7 @@ export const Layout = ({
                     hideTitle ? 'hidden' : ''
                   }`}
                 >
-                  We Found the <i>Best Therapist</i> for You
+                  {title}
                 </h2>
               </div>
               <h2
@@ -106,7 +114,7 @@ export const Layout = ({
                   hideTitle ? 'lg:hidden' : ''
                 }`}
               >
-                We Found the <i>Best Therapist</i> for You
+                {title}
               </h2>
             </div>
             {!!onGoBack && <div />}

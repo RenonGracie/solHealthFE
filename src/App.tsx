@@ -80,6 +80,10 @@ function App() {
     return <Loader className="min-h-screen min-w-screen" />;
   }
 
+  if (matchData?.therapists?.length === 0) {
+    setStep(STEPS.NO_MATCH);
+  }
+
   return (
     <TherapistProvider
       initialTherapist={matchData?.therapists?.[0]}

@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { STEPS } from '@/constants';
-import { MatchedTherapist, Confirmation, TypeformEmbed } from './components';
+import {
+  MatchedTherapist,
+  Confirmation,
+  TypeformEmbed,
+  NoMatch,
+} from './components';
 import { Layout } from '../ui';
 
 interface IProps {
@@ -24,6 +29,20 @@ export const Steps: React.FC<IProps> = ({
             void onTypeformSubmit(responseId);
           }}
         />
+      );
+    case STEPS.NO_MATCH:
+      return (
+        <Layout
+          title={
+            <>
+              We are sorry, but there are no therapists
+              <br /> who match your preferences
+            </>
+          }
+          onGoBack={onGoBack}
+        >
+          <NoMatch onGoToQuestionnaire={onGoBack} />
+        </Layout>
       );
     case STEPS.MATCHED_THERAPIST:
       return (
