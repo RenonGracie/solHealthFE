@@ -1,20 +1,10 @@
-import * as React from 'react';
-
-import { Button, Link, Modal } from '@/components/ui';
-import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
+import { Link } from '@/components/ui';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 import { SessionInfo } from './components';
 
 export const Confirmation = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-
   const { currentTherapist, bookingData } = useTherapistContext();
-
-  const handleOpenEmailApp = () => {
-    setIsModalOpen(false);
-    window.open('mailto:');
-  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto_auto_auto]">
@@ -47,14 +37,6 @@ export const Confirmation = () => {
           </li>
         </ol>
       </div>
-      <div className="lg:col-span-2 flex justify-center mt-6 lg:mt-[51px]">
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          className="text-[16px] font-normal tracking-[-0.02em] px-6 py-3 rounded-4xl w-full lg:w-auto"
-        >
-          Finish Setting up Account <ArrowRightIcon />
-        </Button>
-      </div>
       <div className="lg:col-span-2 flex flex-col lg:flex-row mt-6 lg:mt-20">
         <div className="flex flex-col gap-3 items-center justify-center lg:flex-row lg:flex-1 lg:pl-10">
           <h4 className="text-2xl font-['Very_Vogue_Text']">
@@ -78,14 +60,6 @@ export const Confirmation = () => {
           </Link>
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={handleOpenEmailApp}
-        title="Email Application Opening"
-        description="Your default email application is about to open. Please check your inbox for the Mandatory New Client Form that needs to be completed to activate your account."
-        confirmButtonTitle="Proceed"
-      />
     </div>
   );
 };
