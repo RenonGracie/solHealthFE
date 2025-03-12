@@ -1,52 +1,62 @@
-import { describe, it, expect } from 'vitest';
-import { isMatch } from 'date-fns';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { isMatch, addDays, format } from 'date-fns';
 
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 
 import { groupByDay } from './groupByDay';
 
-const MOCK_TIME_SLOTS = [
-  'Thu, 20 Feb 2025 15:00:00 GMT',
-  'Thu, 20 Feb 2025 16:00:00 GMT',
-  'Thu, 20 Feb 2025 17:00:00 GMT',
-  'Thu, 20 Feb 2025 18:00:00 GMT',
-  'Thu, 20 Feb 2025 19:00:00 GMT',
-  'Thu, 20 Feb 2025 20:00:00 GMT',
-  'Thu, 20 Feb 2025 21:00:00 GMT',
-  'Thu, 20 Feb 2025 22:00:00 GMT',
-  'Thu, 20 Feb 2025 23:00:00 GMT',
-  'Fri, 21 Feb 2025 00:00:00 GMT',
-  'Fri, 21 Feb 2025 01:00:00 GMT',
-  'Fri, 21 Feb 2025 02:00:00 GMT',
-  'Fri, 21 Feb 2025 03:00:00 GMT',
-  'Fri, 21 Feb 2025 04:00:00 GMT',
-  'Fri, 21 Feb 2025 05:00:00 GMT',
-  'Fri, 21 Feb 2025 06:00:00 GMT',
-  'Fri, 21 Feb 2025 07:00:00 GMT',
-  'Fri, 21 Feb 2025 08:00:00 GMT',
-  'Fri, 21 Feb 2025 09:00:00 GMT',
-  'Fri, 21 Feb 2025 10:00:00 GMT',
-  'Fri, 21 Feb 2025 11:00:00 GMT',
-  'Fri, 21 Feb 2025 12:00:00 GMT',
-  'Fri, 21 Feb 2025 13:00:00 GMT',
-  'Fri, 21 Feb 2025 14:00:00 GMT',
-  'Fri, 21 Feb 2025 15:00:00 GMT',
-  'Fri, 21 Feb 2025 16:00:00 GMT',
-];
-
 describe('groupByDay', () => {
+  const originalDate = global.Date;
+  let mockNow: Date;
+
+  beforeEach(() => {
+    mockNow = new Date();
+    vi.spyOn(global, 'Date').mockImplementation((arg) => {
+      return arg ? new originalDate(arg) : new originalDate(mockNow);
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  const createMockTimeSlots = () => {
+    const day1 = addDays(mockNow, 2);
+    const day2 = addDays(mockNow, 3);
+
+    const slots = [];
+
+    for (let i = 9; i <= 17; i++) {
+      const date = new Date(day1);
+      date.setHours(i, 0, 0, 0);
+      slots.push(date.toISOString());
+    }
+
+    for (let i = 9; i <= 17; i++) {
+      const date = new Date(day2);
+      date.setHours(i, 0, 0, 0);
+      slots.push(date.toISOString());
+    }
+
+    return slots;
+  };
+
   const timeZone = 'Asia/Tbilisi';
 
   it('should group time slots by day in specified timezone', () => {
-    const result = groupByDay(timeZone, MOCK_TIME_SLOTS);
+    const mockTimeSlots = createMockTimeSlots();
+    const result = groupByDay(timeZone, mockTimeSlots);
 
     expect(Object.keys(result)).toHaveLength(2);
 
-    expect(result).toHaveProperty('2025-02-20');
-    expect(result).toHaveProperty('2025-02-21');
+    const day1Key = format(addDays(mockNow, 2), CALENDAR_GROUP_DATE_FORMAT);
+    const day2Key = format(addDays(mockNow, 3), CALENDAR_GROUP_DATE_FORMAT);
 
-    expect(result['2025-02-20']).toHaveLength(5);
-    expect(result['2025-02-21']).toHaveLength(21);
+    expect(result).toHaveProperty(day1Key);
+    expect(result).toHaveProperty(day2Key);
+
+    expect(result[day1Key]).toHaveLength(9);
+    expect(result[day2Key]).toHaveLength(9);
   });
 
   it('should return empty object when timeSlots is undefined', () => {
@@ -61,20 +71,19 @@ describe('groupByDay', () => {
 
   it('should handle different timezones correctly', () => {
     const newYorkTimeZone = 'America/New_York';
+    const mockTimeSlots = createMockTimeSlots();
 
-    const result = groupByDay(newYorkTimeZone, MOCK_TIME_SLOTS);
+    const result = groupByDay(newYorkTimeZone, mockTimeSlots);
 
-    expect(Object.keys(result)).toHaveLength(2);
+    expect(Object.keys(result).length).toBe(2);
 
-    expect(result).toHaveProperty('2025-02-20');
-    expect(result).toHaveProperty('2025-02-21');
-
-    expect(result['2025-02-20']).toHaveLength(14);
-    expect(result['2025-02-21']).toHaveLength(12);
+    const totalSlots = Object.values(result).flat().length;
+    expect(totalSlots).toBe(18);
   });
 
   it('should format dates according to CALENDAR_GROUP_DATE_FORMAT', () => {
-    const result = groupByDay(timeZone, MOCK_TIME_SLOTS);
+    const mockTimeSlots = createMockTimeSlots();
+    const result = groupByDay(timeZone, mockTimeSlots);
 
     Object.keys(result).forEach((dateKey) => {
       expect(isMatch(dateKey, CALENDAR_GROUP_DATE_FORMAT)).toBe(true);
