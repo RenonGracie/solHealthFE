@@ -16,39 +16,87 @@ permissions:
   id-token: write
   contents: read
 jobs:
+  setup:
+    name: Setup environment
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_env: ${{ steps.set-env.outputs.deploy_env }}
+    steps:
+      - name: Set deploy environment
+        id: set-env
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          else
+            echo "DEPLOY_ENV=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
   deploy:
     name: Build & Upload Web Application
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ inputs.environment }}
+    needs: setup
+    environment: ${{ needs.setup.outputs.deploy_env }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_route53_hosted_zone_id: ${{ vars.ROUTE53_HOSTED_ZONE_ID }}
+      TF_VAR_environment: ${{ needs.setup.outputs.deploy_env }}
+      TF_VAR_domain_name: ${{ vars.DOMAIN_NAME }}
+      TF_VAR_acm_certificate_arn: ${{ vars.ACM_CERTIFICATE_ARN }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22.13.1'
           cache: 'npm'
           cache-dependency-path: 'yarn.lock'
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
+
+      - name: Get CloudFront Distribution ID
+        id: terraform_output
+        run: |
+          echo "CLOUDFRONT_DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_OUTPUT
+
       - name: Install Dependencies
         run: yarn
+
       - name: Build Bundle
         env:
           VITE_TYPEFORM_ID: ${{ vars.VITE_TYPEFORM_ID }}
         run: yarn build
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
+
       - name: Deliver Files
         env:
-          S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+          S3_BUCKET_NAME: ${{ vars.DOMAIN_NAME }}
         run: |
           aws s3 cp --recursive dist/ s3://$S3_BUCKET_NAME/
+
       - name: Invalidate CloudFront
         env:
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ steps.terraform_output.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws cloudfront create-invalidation \
-          --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
-          --paths "/index.html"
+            --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
+            --paths "/index.html"
