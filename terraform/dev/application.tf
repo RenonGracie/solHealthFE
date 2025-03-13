@@ -1,13 +1,13 @@
 module "application" {
   source  = "cn-terraform/s3-static-website/aws"
   version = "1.0.9"
-  acm_certificate_arn_to_use = var.acm_certificate_arn
+  acm_certificate_arn_to_use = "arn:aws:acm:us-east-1:762233746762:certificate/4895cfd1-b973-4c95-96d7-c470ce87d62f"
   create_acm_certificate     = false
-  route53_hosted_zone_id     = var.route53_hosted_zone_id
+  route53_hosted_zone_id     = "Z0565774GWNT1OIQP463"
   create_route53_hosted_zone = false
   www_website_redirect_enabled = false
   name_prefix         = "solhealth"
-  website_domain_name = var.domain_name
+  website_domain_name = "dev.solhealth.co"
   cloudfront_custom_error_responses = [{
     error_caching_min_ttl = 10,
     error_code            = 404,
@@ -22,7 +22,7 @@ module "application" {
   tags = {
     "Owner"       = "Terraform"
     "Application" = "solhealth"
-    "Environment" = var.environment
+    "Environment" = "dev"
   }
   providers = {
     aws.main         = aws,
