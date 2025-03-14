@@ -20,7 +20,7 @@ export const usePollFormAndRequestMatch = () => {
   const pollFormAndRequestMatch = React.useCallback(
     async (
       responseId: string,
-      delay = 2000,
+      delay = 3000,
       maxAttempts = 3,
     ): Promise<void> => {
       setLoading(true);
