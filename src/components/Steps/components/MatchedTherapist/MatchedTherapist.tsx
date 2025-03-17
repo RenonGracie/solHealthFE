@@ -95,7 +95,6 @@ export const MatchedTherapist: React.FC = () => {
                 <ExpandableList
                   items={matchedExpertise}
                   renderItem={(item) => <Tag>{item}</Tag>}
-                  getItemKey={(item) => item}
                   className="mb-5 lg:mb-0 w-full order-2 lg:order-3"
                 />
               </div>

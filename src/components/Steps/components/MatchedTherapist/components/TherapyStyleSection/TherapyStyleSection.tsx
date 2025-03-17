@@ -42,7 +42,6 @@ export const TherapyStyleSection: React.FC<IProps> = ({
             {item}
           </Tag>
         )}
-        getItemKey={(item) => item}
       />
     </section>
   );
