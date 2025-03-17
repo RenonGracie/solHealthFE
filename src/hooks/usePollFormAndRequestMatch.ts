@@ -21,7 +21,7 @@ export const usePollFormAndRequestMatch = () => {
     async (
       responseId: string,
       delay = 3000,
-      maxAttempts = 3,
+      maxAttempts = 20,
     ): Promise<void> => {
       setLoading(true);
       let attempts = 0;

@@ -86,7 +86,13 @@ function App() {
   }
 
   if (loading) {
-    return <Loader className="min-h-screen min-w-screen" />;
+    return (
+      <Loader className="min-h-screen min-w-screen">
+        <p className="text-xl font-light leading-5 tracking-[-0.02em]">
+          Please wait. It takes time.
+        </p>
+      </Loader>
+    );
   }
 
   return (
