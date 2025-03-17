@@ -24,17 +24,9 @@ export const Confirmation = () => {
           How to prepare for the first session
         </h3>
         <ol className="flex flex-col gap-3 list-decimal list-inside font-light text-[16px] tracking-[-0.02em]">
-          <li>
-            Please check your email so that to fill out Mandatory client form.
-          </li>
-          <li>
-            Once you submitted the Mandatory New Client Form your account will
-            be activated.
-          </li>
-          <li>
-            In 24h after account setting up we will send you an appointment
-            confirmation on your email.
-          </li>
+          <li>Please check your email for your appointment confirmation.</li>
+          <li>You will soon receive a Mandatory Client Form via email.</li>
+          <li>Once you submit this form, your account will be activated.</li>
         </ol>
       </div>
       <div className="lg:col-span-2 flex flex-col lg:flex-row mt-6 lg:mt-20">
