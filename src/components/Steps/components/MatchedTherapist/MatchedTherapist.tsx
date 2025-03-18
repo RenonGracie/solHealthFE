@@ -80,7 +80,7 @@ export const MatchedTherapist: React.FC = () => {
                       {therapistData?.therapist?.intern_name}
                     </h2>
                     <p className="text-base font-light leading-6 tracking-[-0.02em]">
-                      Therapist
+                      Therapist-in-Training
                     </p>
                   </div>
                 </div>
@@ -108,7 +108,7 @@ export const MatchedTherapist: React.FC = () => {
                     {therapistData?.therapist?.age}
                   </span>
                 </TherapistInfoSection>
-                <TherapistInfoSection title="Work in States:">
+                <TherapistInfoSection title="Works in States:">
                   {therapistData?.therapist?.states?.map((state, index) => (
                     <span key={state} className="tracking-[-0.02em]">
                       {state}
@@ -126,11 +126,11 @@ export const MatchedTherapist: React.FC = () => {
             </div>
             <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
               <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
-                Therapy style and experience
+                Skills and Experience
               </h2>
               <div className="flex flex-col gap-8">
                 <TherapyStyleSection
-                  title="Specializes at"
+                  title="Specializes in"
                   items={therapistData?.therapist?.specialities}
                   matchedItems={generalExpertise}
                 />
