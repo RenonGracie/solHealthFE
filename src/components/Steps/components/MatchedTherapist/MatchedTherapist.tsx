@@ -135,7 +135,7 @@ export const MatchedTherapist: React.FC = () => {
                   matchedItems={generalExpertise}
                 />
                 <TherapyStyleSection
-                  title="Work with diagnoses"
+                  title="Works with diagnoses"
                   items={therapistData?.therapist?.diagnoses}
                   matchedItems={generalExpertise}
                 />
