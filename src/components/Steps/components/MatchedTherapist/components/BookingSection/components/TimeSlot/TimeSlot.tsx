@@ -26,7 +26,7 @@ export const TimeSlot = ({ slot, isSelected, onSelect }: ITimeSlotProps) => {
         }}
       />
       <div className="w-full text-center p-2.5 rounded-lg border border-[#7B4720] peer-checked:bg-[#FFE279]">
-        {format(slot, 'hh:mmaaa')}
+        {format(slot, 'h:mmaaa')}
       </div>
     </label>
   );

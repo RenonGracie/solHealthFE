@@ -8,7 +8,7 @@ export const Confirmation = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto_auto_auto]">
-      <h2 className="text-center lg:text-left leading-[36px] text-[40px] lg:text-[48px] lg:leading-[43px] font-normal font-['Very_Vogue_Text'] mb-5 lg:mb-6 lg:pr-8">
+      <h2 className="text-center lg:text-left leading-[90%] text-[40px] lg:text-[48px] lg:leading-[90%] font-normal font-['Very_Vogue_Text'] mb-5 lg:mb-6 lg:pr-8">
         We&apos;re so Glad to <i>Have You</i> at Sol Health,{' '}
         {bookingData?.ClientName}!
       </h2>

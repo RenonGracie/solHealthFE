@@ -1,12 +1,28 @@
 import * as React from 'react';
 
-import headerDesktopImageUrl from '@/assets/images/header-desktop.png';
-import headerMobileImageUrl from '@/assets/images/header-mobile.png';
+import headerDesktop1ImageUrl from '@/assets/images/header-desktop-1.jpg';
+import headerDesktop2ImageUrl from '@/assets/images/header-desktop-2.jpg';
+import headerDesktop3ImageUrl from '@/assets/images/header-desktop-3.jpg';
+import headerMobile1ImageUrl from '@/assets/images/header-mobile-1.jpg';
+import headerMobile2ImageUrl from '@/assets/images/header-mobile-2.jpg';
+import headerMobile3ImageUrl from '@/assets/images/header-mobile-3.jpg';
 import LogoIcon from '@/assets/icons/logo-icon.svg';
 import ArrowLeftIcon from '@/assets/icons/arrow-left-icon.svg';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 
 import { Modal } from '../Modal';
+
+const HEADER_DESKTOP_IMAGES = [
+  headerDesktop1ImageUrl,
+  headerDesktop2ImageUrl,
+  headerDesktop3ImageUrl,
+];
+
+const HEADER_MOBILE_IMAGES = [
+  headerMobile1ImageUrl,
+  headerMobile2ImageUrl,
+  headerMobile3ImageUrl,
+];
 
 interface IProps {
   children: React.ReactNode;
@@ -30,6 +46,9 @@ export const Layout = ({
   onGoBack,
 }: IProps) => {
   const [isGoBackModalOpen, setIsGoBackModalOpen] = React.useState(false);
+  const [headerImageIndex] = React.useState(() =>
+    Math.floor(Math.random() * HEADER_DESKTOP_IMAGES.length),
+  );
 
   const { bookingState, onHideBooking } = useTherapistContext();
 
@@ -56,18 +75,24 @@ export const Layout = ({
         className={`relative w-full ${hideHeaderImage ? '' : 'mb-8 lg:mb-13'}`}
       >
         {!hideHeaderImage && (
-          <div className="w-full h-25 lg:h-45">
+          <div className="relative w-full h-25 lg:h-45">
             <picture>
               <source
-                srcSet={headerDesktopImageUrl}
+                srcSet={HEADER_DESKTOP_IMAGES[headerImageIndex]}
                 media="(min-width: 1024px)"
               />
               <img
-                src={headerMobileImageUrl}
+                src={HEADER_MOBILE_IMAGES[headerImageIndex]}
                 alt="Header"
                 className="w-full h-full object-cover object-center"
               />
             </picture>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-center font-['Very_Vogue_Text'] text-[16px] lg:text-[28px] leading-[80%]">
+                CHANGE CAN BE SUNSHINE
+                <br /> IF YOU LET IT IN
+              </h3>
+            </div>
           </div>
         )}
         <div className="absolute top-8 left-8 hidden lg:flex gap-2 items-center">
@@ -95,14 +120,14 @@ export const Layout = ({
             )}
             <div className={`${onGoBack ? 'pr-8' : ''}`}>
               <div className="lg:hidden">
-                <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="flex items-center justify-center gap-2 mb-6">
                   <h2 className="text-[22px] font-medium font-['Comfortaa']">
                     Sol Health
                   </h2>
                   <LogoIcon />
                 </div>
                 <h2
-                  className={`text-center leading-[36px] text-[40px] font-normal font-['Very_Vogue_Text'] lg:hidden ${
+                  className={`text-center leading-[90%] text-[40px] font-normal font-['Very_Vogue_Text'] lg:hidden ${
                     hideTitle ? 'hidden' : ''
                   }`}
                 >
@@ -110,7 +135,7 @@ export const Layout = ({
                 </h2>
               </div>
               <h2
-                className={`text-center leading-[43px] text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block ${
+                className={`text-center leading-[90%] text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block ${
                   hideTitle ? 'lg:hidden' : ''
                 }`}
               >

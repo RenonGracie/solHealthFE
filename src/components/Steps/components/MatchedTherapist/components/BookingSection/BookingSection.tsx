@@ -113,7 +113,7 @@ export const BookingSection = () => {
   return (
     <section className="pb-10 lg:pb-0">
       <div className="flex flex-col gap-2 mb-5 lg:hidden">
-        <h2 className="text-[40px] text-center font-normal font-['Very_Vogue_Text'] ">
+        <h2 className="text-[40px] text-center font-normal font-['Very_Vogue_Text'] leading-[90%]">
           Book your <i>First</i> Session
         </h2>
         <p className="text-sm text-center font-light tracking-[-0.02em]">
