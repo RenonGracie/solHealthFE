@@ -100,7 +100,7 @@ export const MatchedTherapist: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <TherapistInfoSection title="Identifies as">
+                <TherapistInfoSection title="Identifies as:">
                   {therapistIdentification}
                 </TherapistInfoSection>
                 <TherapistInfoSection title="Age:">

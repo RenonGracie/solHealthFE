@@ -9,4 +9,7 @@ export const ENDPOINTS = {
   CLIENTS_SIGNUP_FORMS: {
     GET_FORM: '/clients_signup',
   },
+  INTAKEQ_FORMS: {
+    SEND_MANDATORY_FORM: '/intakeq_forms/mandatory_form',
+  },
 } as const;

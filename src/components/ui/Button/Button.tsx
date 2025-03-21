@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { Loader } from '../Loader';
+
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   className?: string;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 export const Button: React.FC<IProps> = ({
   children,
   className = '',
+  loading = false,
+  disabled = false,
   ...props
 }) => (
   <button
@@ -25,12 +31,13 @@ export const Button: React.FC<IProps> = ({
         text-sm font-light leading-4 text-center
         hover:cursor-pointer
         hover:opacity-80
-        disabled:opacity-50 disabled:cursor-not-allowed
+        disabled:opacity-70 disabled:cursor-not-allowed
       `,
       className,
     )}
+    disabled={disabled || loading}
     {...props}
   >
-    {children}
+    {loading ? <Loader /> : children}
   </button>
 );

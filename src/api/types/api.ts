@@ -4,78 +4,6 @@
  */
 
 export interface paths {
-    "/appointments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Search for existing appointments */
-        get: operations["appointments_get"];
-        /** Update an existing appointment */
-        put: operations["appointments_put"];
-        /** Create a new appointment */
-        post: operations["appointments_post"];
-        /** Cancel an existing appointment */
-        delete: operations["appointments_delete"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/appointments/{appointment_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get an existing appointment */
-        get: operations["appointments__int_appointment_id__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/clients": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update client */
-        patch: operations["clients_patch"];
-        trace?: never;
-    };
-    "/clients/clientTags": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Add client tag */
-        post: operations["clientsclientTags_post"];
-        /** Delete client tag */
-        delete: operations["clientsclientTags_delete"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/clients/search": {
         parameters: {
             query?: never;
@@ -127,7 +55,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/events": {
+    "/appointments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search for existing appointments */
+        get: operations["appointments_get"];
+        put?: never;
+        /** Create a new appointment */
+        post: operations["appointments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/appointments/{appointment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an existing appointment */
+        get: operations["appointments__int_appointment_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/appointments/all": {
         parameters: {
             query?: never;
             header?: never;
@@ -136,82 +99,12 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Test google analytics event */
-        post: operations["events_post"];
-        delete?: never;
+        post?: never;
+        /** Delete all appointments by therapist email from db */
+        delete: operations["appointmentsall_delete"];
         options?: never;
         head?: never;
         patch?: never;
-        trace?: never;
-    };
-    "/hook": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Webhook for typeform */
-        post: operations["typeform_webhook_hook_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/hook_bot": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Webhook for bot */
-        post: operations["bot_hook_hook_bot_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/intakeq_hook": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Webhook for IntakeQ Appointments */
-        post: operations["intakeq_hook_intakeq_hook_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/therapist_videos": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get all therapist's videos */
-        get: operations["therapist_videos_get"];
-        put?: never;
-        /** Set therapist's videos */
-        post: operations["therapist_videos_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Update therapist's video */
-        patch: operations["therapist_videos_patch"];
         trace?: never;
     };
     "/therapists": {
@@ -223,23 +116,6 @@ export interface paths {
         };
         /** Get therapists table */
         get: operations["therapists_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/therapists/calendar_events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get calendar events */
-        get: operations["therapists_calendar_events_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -265,6 +141,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/therapists/calendar_events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get calendar events */
+        get: operations["therapists_calendar_events_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/therapists/media": {
         parameters: {
             query?: never;
@@ -282,451 +175,456 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/therapists/with_calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get therapists who shared their calendar */
+        get: operations["therapistswith_calendar_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/therapist_videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all therapist's videos */
+        get: operations["therapist_videos_get"];
+        put?: never;
+        /** Set therapist's videos */
+        post: operations["therapist_videos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update therapist's video */
+        patch: operations["therapist_videos_patch"];
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get analytics event */
+        get: operations["events_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/intakeq_forms/mandatory_form": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send mandatory form and get its link */
+        post: operations["intakeq_formsmandatory_form_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/hook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Webhook for typeform */
+        post: operations["typeform_webhook_hook_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/intakeq_hook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Webhook for IntakeQ Appointments */
+        post: operations["intakeq_hook_intakeq_hook_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** AdditionalClient */
-        AdditionalClient: {
-            /** Clientemail */
-            ClientEmail?: string;
-            /** Clientid */
-            ClientId?: string;
-            /** Clientname */
-            ClientName?: string;
-            /** Clientphone */
-            ClientPhone?: string;
-            /** Intakeid */
-            IntakeId?: string;
+        /** Clients */
+        Clients: {
+            /** Clients */
+            clients?: components["schemas"]["Client"][];
         };
-        /** AnalyticsEvent */
-        AnalyticsEvent: {
-            /** Client Id */
-            client_id: string;
-            /** Events */
-            events: components["schemas"]["Event"][];
-            /** Non Personalized Ads */
-            non_personalized_ads?: boolean;
-            /** Timestamp Micros */
-            timestamp_micros?: number;
-            /** User Id */
-            user_id?: string;
-            /** User Properties */
-            user_properties?: {
-                [key: string]: components["schemas"]["PropertyValue"];
-            };
-        };
-        /** Appointment */
-        Appointment: {
-            /** Additionalclients */
-            AdditionalClients?: components["schemas"]["AdditionalClient"][];
-            /** Attendanceconfirmationresponse */
-            AttendanceConfirmationResponse?: string;
-            /** Bookedbyclient */
-            BookedByClient?: boolean;
-            /** Cancellationdate */
-            CancellationDate?: string;
-            /** Clientemail */
-            ClientEmail?: string;
-            /** Clientid */
-            ClientId?: string;
-            /** Clientname */
-            ClientName?: string;
-            /** Createdby */
-            CreatedBy?: string;
-            /** Customfields */
-            CustomFields?: components["schemas"]["CustomField"][];
-            /** Datecreated */
-            DateCreated?: number;
-            /** Duration */
-            Duration?: number;
-            /** Enddate */
-            EndDate?: number;
-            /** Enddateiso */
-            EndDateIso?: string;
-            /** Enddatelocal */
-            EndDateLocal?: string;
-            /** Fullcancellationreason */
-            FullCancellationReason?: string;
-            /** Id */
-            Id?: string;
-            /** Lastmodified */
-            LastModified?: number;
-            /** Locationid */
-            LocationId?: string;
-            /** Locationname */
-            LocationName?: string;
-            /** Practitioneremail */
-            PractitionerEmail?: string;
-            /** Practitionerid */
-            PractitionerId?: string;
-            /** Practitionername */
-            PractitionerName?: string;
-            /** Price */
-            Price?: number;
-            /** Remindertype */
-            ReminderType?: string;
-            /** Startdate */
-            StartDate?: number;
-            /** Startdateiso */
-            StartDateIso: string;
-            /** Startdatelocal */
-            StartDateLocal?: string;
-            /** Startdatelocalformatted */
-            StartDateLocalFormatted?: string;
-            /** Status */
-            Status?: string;
-        };
-        /** Appointments */
-        Appointments: {
-            /** Appointments */
-            appointments?: components["schemas"]["Appointment"][];
-        };
-        /** AppointmentsShort */
-        AppointmentsShort: {
-            /** Clientid */
-            ClientId?: string;
-            /** Locationid */
-            LocationId?: string;
-            /** Practitionerid */
-            PractitionerId?: string;
-            /** Remindertype */
-            ReminderType?: string;
-            /** Sendclientemailnotification */
-            SendClientEmailNotification?: boolean;
-            /** Serviceid */
-            ServiceId?: string;
-            /** Status */
-            Status?: string;
-            /** Utcdatetime */
-            UtcDateTime?: number;
-        };
-        /** Attendee */
-        Attendee: {
-            /** Attendeeself */
-            attendeeself?: boolean;
-            /** Email */
-            email?: string;
-            /** Organizer */
-            organizer?: boolean;
-            /** Responsestatus */
-            responseStatus?: string;
-        };
-        /** CalendarEvent */
-        CalendarEvent: {
-            /** Attendees */
-            attendees?: components["schemas"]["Attendee"][];
-            conferenceData?: components["schemas"]["ConferenceData"];
-            /** Created */
-            created?: string;
-            creator?: components["schemas"]["EventCreator"];
-            end?: components["schemas"]["EvendDate"];
-            /** Etag */
-            etag?: string;
-            /** Eventtype */
-            eventType?: string;
-            /** Hangoutlink */
-            hangoutLink?: string;
-            /** Htmllink */
-            htmlLink?: string;
-            /** Icaluid */
-            iCalUID?: string;
-            /** Id */
-            id?: string;
-            /** Kind */
-            kind?: string;
-            organizer?: components["schemas"]["EventCreator"];
-            reminders?: components["schemas"]["Reminders"];
-            /** Sequence */
-            sequence?: number;
-            start?: components["schemas"]["EvendDate"];
-            /** Status */
-            status?: string;
-            /** Summary */
-            summary?: string;
-            /**
-             * Updated
-             * Format: date-time
-             */
-            updated?: string;
-        };
-        /** CalendarEvents */
-        CalendarEvents: {
-            /** Events */
-            events?: components["schemas"]["CalendarEvent"][];
-        };
-        /** CancelAppointment */
-        CancelAppointment: {
-            /** Appointmentid */
-            AppointmentId?: string;
-            /** Reason */
-            Reason?: string;
+        /** CustomField */
+        CustomField: {
+            /** Fieldid */
+            FieldId?: string;
+            /** Value */
+            Value?: string;
+            /** Text */
+            Text?: string;
         };
         /** Client */
         Client: {
-            /** Additionalinformation */
-            AdditionalInformation?: string;
-            /** Archived */
-            Archived?: boolean;
-            /** Billingtype */
-            BillingType?: number;
             /** Clientid */
             ClientId?: string;
+            /** Firstname */
+            FirstName?: string;
+            /** Lastname */
+            LastName?: string;
+            /** Middlename */
+            MiddleName?: string;
+            /** Name */
+            Name?: string;
+            /** Email */
+            Email?: string;
+            /** Phone */
+            Phone?: string;
+            /** Gender */
+            Gender?: string;
+            /** Stateshort */
+            StateShort?: string;
+            /** Dateofbirth */
+            DateOfBirth?: number;
             /**
              * Country
              * @default US
              */
             Country: string;
-            /** Creditbalance */
-            CreditBalance?: number;
+            /** Additionalinformation */
+            AdditionalInformation?: string;
             /** Customfields */
             CustomFields?: components["schemas"]["CustomField"][];
-            /** Datecreated */
-            DateCreated?: number;
-            /** Dateofbirth */
-            DateOfBirth?: number;
-            /** Email */
-            Email?: string;
-            /** Firstname */
-            FirstName?: string;
-            /** Gender */
-            Gender?: string;
             /** Guid */
             Guid?: string;
-            /** Lastactivitydate */
-            LastActivityDate?: number;
-            /** Lastactivityname */
-            LastActivityName?: string;
-            /** Lastname */
-            LastName?: string;
-            /** Lastupdatedate */
-            LastUpdateDate?: number;
-            /** Linkedclients */
-            LinkedClients?: string[];
-            /** Middlename */
-            MiddleName?: string;
             /** Mobilephone */
             MobilePhone?: number;
-            /** Name */
-            Name?: string;
-            /** Phone */
-            Phone?: string;
-            /** Practitionerid */
-            PractitionerId?: string;
-            /** Stateshort */
-            StateShort?: string;
+            /** Archived */
+            Archived?: boolean;
             /** Tags */
             Tags?: string[];
-        };
-        /** ClientDiagnose */
-        ClientDiagnose: {
-            /** Code */
-            Code?: string;
-            /** Date */
-            Date?: string;
-            /** Description */
-            Description?: string;
-            /** Enddate */
-            EndDate?: string;
-            /** Noteid */
-            NoteId?: string;
+            /** Practitionerid */
+            PractitionerId?: string;
+            /** Linkedclients */
+            LinkedClients?: string[];
+            /** Datecreated */
+            DateCreated?: number;
+            /** Billingtype */
+            BillingType?: number;
+            /** Lastactivityname */
+            LastActivityName?: string;
+            /** Creditbalance */
+            CreditBalance?: number;
+            /** Lastactivitydate */
+            LastActivityDate?: number;
+            /** Lastupdatedate */
+            LastUpdateDate?: number;
         };
         /** ClientDiagnoses */
         ClientDiagnoses: {
             /** Diagnoses */
             diagnoses?: components["schemas"]["ClientDiagnose"][];
         };
-        /** ClientMatch */
-        ClientMatch: {
-            /** Matched Diagnoses */
-            matched_diagnoses: string[];
-            /** Matched Specialities */
-            matched_specialities: string[];
-            /** Score */
-            score: number;
-            therapist: components["schemas"]["Therapist"];
-        };
-        /** ClientShort */
-        ClientShort: {
-            /** Email */
-            email?: string;
-            /** First Name */
-            first_name?: string;
-            /**
-             * Id
-             * Format: uuid
-             */
-            id?: string;
-            /** Last Name */
-            last_name?: string;
-            /** Response Id */
-            response_id?: string;
+        /** ClientDiagnose */
+        ClientDiagnose: {
+            /** Code */
+            Code?: string;
+            /** Description */
+            Description?: string;
+            /** Date */
+            Date?: string;
+            /** Enddate */
+            EndDate?: string;
+            /** Noteid */
+            NoteId?: string;
         };
         /** ClientSignup */
         ClientSignup: {
-            /** Age */
-            age?: string;
-            /** Alcohol */
-            alcohol?: string;
-            /** Being So Restless */
-            being_so_restless?: string;
-            /** Best Time For First Session */
-            best_time_for_first_session?: string;
-            /** Drugs */
-            drugs?: string;
-            /** Easily Annoyed */
-            easily_annoyed?: string;
-            /** Email */
-            email?: string;
-            /** Feeling Afraid */
-            feeling_afraid?: string;
-            /** Feeling Bad About Yourself */
-            feeling_bad_about_yourself?: string;
-            /** Feeling Down */
-            feeling_down?: string;
-            /** Feeling Nervous */
-            feeling_nervous?: string;
-            /** Feeling Tired */
-            feeling_tired?: string;
-            /** First Name */
-            first_name?: string;
-            /** Gender */
-            gender?: string;
-            /** I Would Like Therapist */
-            i_would_like_therapist?: string[];
             /**
              * Id
              * Format: uuid4
              */
             id: string;
-            /** Last Name */
-            last_name?: string;
-            /** Lived Experiences */
-            lived_experiences?: string[];
-            /** Moving Or Speaking So Slowly */
-            moving_or_speaking_so_slowly?: string;
-            /** Not Control Worrying */
-            not_control_worrying?: string;
-            /** Phone */
-            phone?: string;
-            /** Pleasure Doing Things */
-            pleasure_doing_things?: string;
-            /** Poor Appetite */
-            poor_appetite?: string;
-            /** Promo Code */
-            promo_code?: string;
-            /** Referred By */
-            referred_by?: string;
             /** Response Id */
             response_id?: string;
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Email */
+            email?: string;
+            /** Phone */
+            phone?: string;
+            /** Gender */
+            gender?: string;
+            /** Age */
+            age?: string;
             /** State */
             state?: string;
-            /** Suicidal Thoughts */
-            suicidal_thoughts?: string;
-            /** Trouble Concentrating */
-            trouble_concentrating?: string;
+            /** I Would Like Therapist */
+            i_would_like_therapist?: string[];
+            /** Alcohol */
+            alcohol?: string;
+            /** Drugs */
+            drugs?: string;
+            /** Pleasure Doing Things */
+            pleasure_doing_things?: string;
+            /** Feeling Down */
+            feeling_down?: string;
             /** Trouble Falling */
             trouble_falling?: string;
+            /** Feeling Tired */
+            feeling_tired?: string;
+            /** Poor Appetite */
+            poor_appetite?: string;
+            /** Feeling Bad About Yourself */
+            feeling_bad_about_yourself?: string;
+            /** Trouble Concentrating */
+            trouble_concentrating?: string;
+            /** Moving Or Speaking So Slowly */
+            moving_or_speaking_so_slowly?: string;
+            /** Suicidal Thoughts */
+            suicidal_thoughts?: string;
+            /** Feeling Nervous */
+            feeling_nervous?: string;
+            /** Not Control Worrying */
+            not_control_worrying?: string;
+            /** Worrying Too Much */
+            worrying_too_much?: string;
             /** Trouble Relaxing */
             trouble_relaxing?: string;
+            /** Being So Restless */
+            being_so_restless?: string;
+            /** Easily Annoyed */
+            easily_annoyed?: string;
+            /** Feeling Afraid */
+            feeling_afraid?: string;
             /** University */
             university?: string;
             /** What Brings You */
             what_brings_you?: string;
-            /** Worrying Too Much */
-            worrying_too_much?: string;
-        };
-        /** ClientTag */
-        ClientTag: {
-            /** Clientid */
-            ClientId: string;
-            /** Tag */
-            Tag: string;
-        };
-        /** Clients */
-        Clients: {
-            /** Clients */
-            clients?: components["schemas"]["Client"][];
-        };
-        /** ConferenceData */
-        ConferenceData: {
-            /** Conferenceid */
-            conferenceId?: string;
-            conferenceSolution?: components["schemas"]["ConferenceSolution"];
-            /** Entrypoints */
-            entryPoints?: components["schemas"]["EntryPoint"][];
-        };
-        /** ConferenceSolution */
-        ConferenceSolution: {
-            /** Iconuri */
-            iconUri?: string;
-            key?: components["schemas"]["Key"];
-            /** Name */
-            name?: string;
-        };
-        /** CreateAppointment */
-        CreateAppointment: {
-            /** Client Response Id */
-            client_response_id: string;
-            /** Datetime */
-            datetime: string;
-            /** Reminder Type */
-            reminder_type?: string;
-            /** Send Client Email Notification */
-            send_client_email_notification: boolean;
-            /** Status */
-            status: string;
-            /** Therapist Email */
-            therapist_email: string;
-        };
-        /** CustomField */
-        CustomField: {
-            /** Fieldid */
-            FieldId?: string;
-            /** Text */
-            Text?: string;
-            /** Value */
-            Value?: string;
-        };
-        /** EntryPoint */
-        EntryPoint: {
-            /** Entrypointtype */
-            entryPointType?: string;
-            /** Label */
-            label?: string;
-            /** Uri */
-            uri?: string;
+            /** Lived Experiences */
+            lived_experiences?: string[];
+            /** Best Time For First Session */
+            best_time_for_first_session?: string;
+            /** Promo Code */
+            promo_code?: string;
+            /** Referred By */
+            referred_by?: string;
         };
         /** Error */
         Error: {
             /** Error */
             error: string;
         };
-        /** EvendDate */
-        EvendDate: {
+        /** Appointments */
+        Appointments: {
+            /** Appointments */
+            appointments?: components["schemas"]["Appointment"][];
+        };
+        /** AdditionalClient */
+        AdditionalClient: {
+            /** Clientid */
+            ClientId?: string;
+            /** Clientname */
+            ClientName?: string;
+            /** Clientemail */
+            ClientEmail?: string;
+            /** Clientphone */
+            ClientPhone?: string;
+            /** Intakeid */
+            IntakeId?: string;
+        };
+        /** Appointment */
+        Appointment: {
+            /** Enddatelocal */
+            EndDateLocal?: string;
+            /** Datecreated */
+            DateCreated?: number;
+            /** Locationname */
+            LocationName?: string;
+            /** Startdate */
+            StartDate?: number;
+            /** Lastmodified */
+            LastModified?: number;
+            /** Fullcancellationreason */
+            FullCancellationReason?: string;
+            /** Clientname */
+            ClientName?: string;
+            /** Enddateiso */
+            EndDateIso?: string;
+            /** Startdatelocalformatted */
+            StartDateLocalFormatted?: string;
+            /** Clientid */
+            ClientId?: string;
+            /** Startdateiso */
+            StartDateIso: string;
+            /** Practitionername */
+            PractitionerName?: string;
+            /** Remindertype */
+            ReminderType?: string;
+            /** Status */
+            Status?: string;
+            /** Createdby */
+            CreatedBy?: string;
+            /** Cancellationdate */
+            CancellationDate?: string;
+            /** Locationid */
+            LocationId?: string;
+            /** Duration */
+            Duration?: number;
+            /** Practitionerid */
+            PractitionerId?: string;
+            /** Clientemail */
+            ClientEmail?: string;
+            /** Enddate */
+            EndDate?: number;
+            /** Bookedbyclient */
+            BookedByClient?: boolean;
+            /** Additionalclients */
+            AdditionalClients?: components["schemas"]["AdditionalClient"][];
+            /** Customfields */
+            CustomFields?: components["schemas"]["CustomField"][];
+            /** Price */
+            Price?: number;
+            /** Attendanceconfirmationresponse */
+            AttendanceConfirmationResponse?: string;
+            /** Id */
+            Id?: string;
+            /** Practitioneremail */
+            PractitionerEmail?: string;
+            /** Startdatelocal */
+            StartDateLocal?: string;
+        };
+        /** CreateAppointment */
+        CreateAppointment: {
+            /** Client Response Id */
+            client_response_id: string;
+            /** Therapist Email */
+            therapist_email: string;
             /** Datetime */
-            dateTime?: string;
-            /** Timezone */
-            timeZone?: string;
+            datetime: string;
+            /** Send Client Email Notification */
+            send_client_email_notification: boolean;
+            /** Reminder Type */
+            reminder_type?: string;
+            /** Status */
+            status: string;
         };
-        /** Event */
-        Event: {
-            /** Name */
-            name: string;
-            /** Params */
-            params: Record<string, never>;
+        /** Therapists */
+        Therapists: {
+            /** Therapists */
+            therapists: components["schemas"]["Therapist"][];
         };
-        /** EventCreator */
-        EventCreator: {
-            /** Creatorself */
-            creatorself?: boolean;
+        /** Therapist */
+        Therapist: {
+            /** Id */
+            id: string;
+            /** Intern Name */
+            intern_name?: string;
+            /** Age */
+            age?: string;
             /** Email */
             email?: string;
-        };
-        /** Key */
-        Key: {
-            /** Type */
-            type?: string;
+            /** Calendar Email */
+            calendar_email?: string;
+            /** Biography */
+            biography?: string;
+            /** Availability */
+            availability?: string[];
+            /** Birth Order */
+            birth_order?: string;
+            /** Caretaker Role */
+            caretaker_role?: boolean;
+            /** Caseload Tracker */
+            caseload_tracker?: string;
+            /** Has Children */
+            has_children?: boolean;
+            /** Cohort */
+            cohort?: string;
+            /** Diagnoses */
+            diagnoses?: string[];
+            /** Ethnicity */
+            ethnicity?: string[];
+            /** Gender */
+            gender?: string;
+            /** Gender Interest */
+            gender_interest?: string;
+            /** Immigration Background */
+            immigration_background?: string;
+            /** Lgbtq Part */
+            lgbtq_part?: boolean;
+            /** Culture */
+            culture?: string;
+            /** Places */
+            places?: string;
+            /** Married */
+            married?: boolean;
+            /** Max Caseload */
+            max_caseload?: string;
+            /** Neurodivergence */
+            neurodivergence?: string;
+            /** Performing */
+            performing?: boolean;
+            /** Program */
+            program?: string;
+            /** Religion */
+            religion?: string[];
+            /** Experience With Risk Clients */
+            experience_with_risk_clients?: string;
+            /** Working With Lgbtq Clients */
+            working_with_lgbtq_clients?: string;
+            /** Negative Affect By Social Media */
+            negative_affect_by_social_media?: boolean;
+            /** Specialities */
+            specialities?: string[];
+            /** States */
+            states?: string[];
+            /** Therapeutic Orientation */
+            therapeutic_orientation?: string[];
+            /** Family Household */
+            family_household?: string;
+            /** Welcome Video Link */
+            welcome_video_link?: string;
+            /** Greetings Video Link */
+            greetings_video_link?: string;
+            /** Image Link */
+            image_link?: string;
+            /** Available Slots */
+            available_slots?: string[];
         };
         /** MatchedTherapists */
         MatchedTherapists: {
@@ -734,20 +632,56 @@ export interface components {
             /** Therapists */
             therapists?: components["schemas"]["ClientMatch"][];
         };
-        /** MediaLink */
-        MediaLink: {
-            /** Url */
-            url: string;
+        /** ClientShort */
+        ClientShort: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id?: string;
+            /** First Name */
+            first_name?: string;
+            /** Last Name */
+            last_name?: string;
+            /** Email */
+            email?: string;
+            /** Response Id */
+            response_id?: string;
         };
-        /** PropertyValue */
-        PropertyValue: {
-            /** Value */
-            value?: unknown;
+        /** ClientMatch */
+        ClientMatch: {
+            therapist: components["schemas"]["Therapist"];
+            /** Score */
+            score: number;
+            /** Matched Diagnoses */
+            matched_diagnoses: string[];
+            /** Matched Specialities */
+            matched_specialities: string[];
         };
-        /** Reminders */
-        Reminders: {
-            /** Usedefault */
-            useDefault?: boolean;
+        /** CalendarEvents */
+        CalendarEvents: {
+            /** Data */
+            data?: components["schemas"]["CalendarEventsDateGroup"][];
+        };
+        /** CalendarEvent */
+        CalendarEvent: {
+            /** Start */
+            start?: string;
+            /** End */
+            end?: string;
+            /** Event */
+            event?: string;
+            /** Description */
+            description?: string;
+            /** Recurrence */
+            recurrence?: string[];
+        };
+        /** CalendarEventsDateGroup */
+        CalendarEventsDateGroup: {
+            /** Date */
+            date: string;
+            /** Events */
+            events: components["schemas"]["CalendarEvent"][];
         };
         /**
          * S3MediaType
@@ -755,113 +689,107 @@ export interface components {
          * @enum {unknown}
          */
         S3MediaType: "image" | "welcome_video" | "intro_video";
-        /** SuccessResponse */
-        SuccessResponse: {
-            /** Success */
-            success: boolean;
+        /** MediaLink */
+        MediaLink: {
+            /** Url */
+            url: string;
         };
-        /** Therapist */
-        Therapist: {
-            /** Age */
-            age?: string;
-            /** Availability */
-            availability?: string[];
-            /** Available Slots */
-            available_slots?: string[];
-            /** Biography */
-            biography?: string;
-            /** Birth Order */
-            birth_order?: string;
-            /** Caretaker Role */
-            caretaker_role?: boolean;
-            /** Caseload Tracker */
-            caseload_tracker?: string;
-            /** Cohort */
-            cohort?: string;
-            /** Culture */
-            culture?: string;
-            /** Diagnoses */
-            diagnoses?: string[];
-            /** Email */
-            email?: string;
-            /** Ethnicity */
-            ethnicity?: string[];
-            /** Experience With Risk Clients */
-            experience_with_risk_clients?: string;
-            /** Family Household */
-            family_household?: string;
-            /** Gender */
-            gender?: string;
-            /** Gender Interest */
-            gender_interest?: string;
-            /** Greetings Video Link */
-            greetings_video_link?: string;
-            /** Has Children */
-            has_children?: boolean;
-            /** Id */
-            id: string;
-            /** Image Link */
-            image_link?: string;
-            /** Immigration Background */
-            immigration_background?: string;
-            /** Intern Name */
-            intern_name?: string;
-            /** Lgbtq Part */
-            lgbtq_part?: boolean;
-            /** Married */
-            married?: boolean;
-            /** Max Caseload */
-            max_caseload?: string;
-            /** Negative Affect By Social Media */
-            negative_affect_by_social_media?: boolean;
-            /** Neurodivergence */
-            neurodivergence?: string;
-            /** Performing */
-            performing?: boolean;
-            /** Places */
-            places?: string;
-            /** Program */
-            program?: string;
-            /** Religion */
-            religion?: string[];
-            /** Specialities */
-            specialities?: string[];
-            /** States */
-            states?: string[];
-            /** Therapeutic Orientation */
-            therapeutic_orientation?: string[];
-            /** Welcome Video Link */
-            welcome_video_link?: string;
-            /** Working With Lgbtq Clients */
-            working_with_lgbtq_clients?: string;
-        };
-        /** TherapistVideo */
-        TherapistVideo: {
-            /** Email */
-            email?: string;
-            /** Name */
-            name?: string;
-            type: components["schemas"]["VideoType"];
-            /** Video Url */
-            video_url: string;
+        /** TherapistEmails */
+        TherapistEmails: {
+            /** Emails */
+            emails: string[];
         };
         /** TherapistVideos */
         TherapistVideos: {
             /** Videos */
             videos: components["schemas"]["TherapistVideo"][];
         };
-        /** Therapists */
-        Therapists: {
-            /** Therapists */
-            therapists: components["schemas"]["Therapist"][];
+        /**
+         * VideoType
+         * @description An enumeration.
+         * @enum {unknown}
+         */
+        VideoType: "welcome" | "greeting";
+        /** TherapistVideo */
+        TherapistVideo: {
+            /** Name */
+            name?: string;
+            /** Email */
+            email?: string;
+            /** Video Url */
+            video_url: string;
+            type: components["schemas"]["VideoType"];
+        };
+        /** AnalyticsEvents */
+        AnalyticsEvents: {
+            /** Events */
+            events: components["schemas"]["AnalyticsEvent"][];
+        };
+        /** AnalyticsEvent */
+        AnalyticsEvent: {
+            /** Client Id */
+            client_id?: string;
+            /** Email */
+            email?: string;
+            /** User Id */
+            user_id?: string;
+            /** Session Id */
+            session_id?: string;
+            /** Type */
+            type?: string;
+            /** Name */
+            name?: string;
+            /** Var 1 */
+            var_1?: string;
+            /** Var 2 */
+            var_2?: string;
+            /** Utm Source */
+            utm_source?: string;
+            /** Utm Medium */
+            utm_medium?: string;
+            /** Utm Campaign */
+            utm_campaign?: string;
+            /** Utm Adid */
+            utm_adid?: string;
+            /** Utm Adgroup */
+            utm_adgroup?: string;
+            /** Utm Content */
+            utm_content?: string;
+            /** Utm Term */
+            utm_term?: string;
+            /** Clid */
+            clid?: string;
+            /**
+             * Id
+             * Format: uuid4
+             */
+            id: string;
+            /** Created At */
+            created_at?: string;
+            /** Params */
+            params?: Record<string, never>;
+            /** Value */
+            value?: string;
+        };
+        /** IntakeQMandatoryFormQuery */
+        IntakeQMandatoryFormQuery: {
+            /** Client Id */
+            client_id: string;
+            /** Therapist Id */
+            therapist_id: string;
+        };
+        /** Url */
+        Url: {
+            /** Url */
+            url: string;
+        };
+        /** SuccessResponse */
+        SuccessResponse: {
+            /** Success */
+            success: boolean;
         };
         /** ValidationErrorModel */
         ValidationErrorModel: {
-            /**
-             * Error context
-             * @description an optional object which contains values required to render the error message.
-             */
-            ctx?: Record<string, never>;
             /**
              * Location
              * @description the error's location as a list.
@@ -877,13 +805,12 @@ export interface components {
              * @description a human readable explanation of the error.
              */
             type_?: string;
+            /**
+             * Error context
+             * @description an optional object which contains values required to render the error message.
+             */
+            ctx?: Record<string, never>;
         };
-        /**
-         * VideoType
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        VideoType: "welcome" | "greeting";
     };
     responses: never;
     parameters: never;
@@ -893,286 +820,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    appointments_get: {
-        parameters: {
-            query?: {
-                client?: number;
-                startDate?: string;
-                endDate?: string;
-                status?: string;
-                practitionerEmail?: string;
-                page?: number;
-                updatedSince?: string;
-                deletedOnly?: boolean;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Appointments"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    appointments_put: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AppointmentsShort"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Appointment"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    appointments_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateAppointment"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Appointment"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    appointments_delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CancelAppointment"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Appointment"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    appointments__int_appointment_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                appointment_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Appointment"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    clients_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Client"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Client"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    clientsclientTags_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ClientTag"];
-            };
-        };
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    clientsclientTags_delete: {
-        parameters: {
-            query?: {
-                clientId?: string;
-                tag?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
     clientssearch_get: {
         parameters: {
             query?: {
@@ -1283,7 +930,45 @@ export interface operations {
             };
         };
     };
-    events_post: {
+    appointments_get: {
+        parameters: {
+            query?: {
+                client?: number;
+                startDate?: string;
+                endDate?: string;
+                status?: string;
+                practitionerEmail?: string;
+                page?: number;
+                updatedSince?: string;
+                deletedOnly?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Appointments"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    appointments_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -1292,9 +977,90 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AnalyticsEvent"];
+                "application/json": components["schemas"]["CreateAppointment"];
             };
         };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Appointment"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    appointments__int_appointment_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                appointment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Appointment"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    appointmentsall_delete: {
+        parameters: {
+            query: {
+                email: string;
+                admin_password: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description No Content */
             204: {
@@ -1302,132 +1068,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    typeform_webhook_hook_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SuccessResponse"];
-                };
-            };
-        };
-    };
-    bot_hook_hook_bot_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: never;
-    };
-    intakeq_hook_intakeq_hook_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: never;
-    };
-    therapist_videos_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistVideos"];
-                };
-            };
-        };
-    };
-    therapist_videos_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TherapistVideos"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistVideos"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    therapist_videos_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TherapistVideo"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistVideo"];
-                };
             };
             /** @description Unprocessable Entity */
             422: {
@@ -1456,40 +1096,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Therapists"];
-                };
-            };
-        };
-    };
-    therapists_calendar_events_get: {
-        parameters: {
-            query: {
-                calendar_id: string;
-                time_min?: string;
-                time_max?: string;
-                max_results?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CalendarEvents"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
                 };
             };
         };
@@ -1528,6 +1134,49 @@ export interface operations {
             };
         };
     };
+    therapists_calendar_events_get: {
+        parameters: {
+            query: {
+                calendar_id: string;
+                date_min?: string;
+                date_max?: string;
+                max_results?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarEvents"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     therapists_media_get: {
         parameters: {
             query: {
@@ -1559,5 +1208,224 @@ export interface operations {
                 };
             };
         };
+    };
+    therapistswith_calendar_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistEmails"];
+                };
+            };
+        };
+    };
+    therapist_videos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideos"];
+                };
+            };
+        };
+    };
+    therapist_videos_post: {
+        parameters: {
+            query: {
+                admin_password: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TherapistVideos"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideos"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    therapist_videos_patch: {
+        parameters: {
+            query: {
+                admin_password: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TherapistVideo"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TherapistVideo"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    events_get: {
+        parameters: {
+            query?: {
+                client_id?: string;
+                email?: string;
+                user_id?: string;
+                session_id?: string;
+                type?: string;
+                name?: string;
+                var_1?: string;
+                var_2?: string;
+                utm_source?: string;
+                utm_medium?: string;
+                utm_campaign?: string;
+                utm_adid?: string;
+                utm_adgroup?: string;
+                utm_content?: string;
+                utm_term?: string;
+                clid?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyticsEvents"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    intakeq_formsmandatory_form_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntakeQMandatoryFormQuery"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Url"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    typeform_webhook_hook_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessResponse"];
+                };
+            };
+        };
+    };
+    intakeq_hook_intakeq_hook_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: never;
     };
 }
