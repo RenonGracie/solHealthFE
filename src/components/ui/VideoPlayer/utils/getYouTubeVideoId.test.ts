@@ -38,4 +38,22 @@ describe('getYouTubeVideoId', () => {
       getYouTubeVideoId(`https://www.youtube.com/watch?v=${VIDEO_ID}&t=123`),
     ).toBe(VIDEO_ID);
   });
+
+  it('extracts video id from youtube shorts url', () => {
+    expect(
+      getYouTubeVideoId(`https://youtube.com/shorts/${VIDEO_ID}?feature=share`),
+    ).toBe(VIDEO_ID);
+  });
+
+  it('extracts video id from youtube shorts url without parameters', () => {
+    expect(getYouTubeVideoId(`https://youtube.com/shorts/${VIDEO_ID}`)).toBe(
+      VIDEO_ID,
+    );
+  });
+
+  it('extracts video id from youtube shorts url with www', () => {
+    expect(
+      getYouTubeVideoId(`https://www.youtube.com/shorts/${VIDEO_ID}`),
+    ).toBe(VIDEO_ID);
+  });
 });
