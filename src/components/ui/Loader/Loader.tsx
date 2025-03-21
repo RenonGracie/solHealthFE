@@ -18,11 +18,15 @@ export const Loader = ({
     right: 'flex-row',
   };
 
+  const effectivePosition = children ? childrenPosition : null;
+
   return (
     <div
       className={twMerge(
         'flex h-full w-full items-center justify-center',
-        `flex ${childrenClassNames[childrenPosition]} gap-4`,
+        effectivePosition
+          ? `${childrenClassNames[effectivePosition]} gap-4`
+          : '',
         className,
       )}
     >
