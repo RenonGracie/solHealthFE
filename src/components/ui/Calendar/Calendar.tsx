@@ -25,6 +25,8 @@ export const Calendar = (props: DayPickerProps) => {
           'text-[#363943] rounded-sm outline outline-1 outline-[#7B4720] bg-[#FDDB6D]',
         disabled: 'opacity-30',
         [UI.Day]: 'font-normal text-sm tracking-[-0.02em]',
+        [UI.DayButton]:
+          'hover:cursor-pointer w-[36px] h-[35px] lg:w-[42px] lg:h-[41px]',
         [UI.Weekday]: 'font-normal text-base opacity-70 tracking-[-0.02em]',
       }}
       {...props}
