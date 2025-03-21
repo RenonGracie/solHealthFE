@@ -120,7 +120,7 @@ export const BookingSection = () => {
           Local Timezone ({timezone})
         </p>
       </div>
-      <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-fit p-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
+      <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
         <div className="flex-col gap-2 hidden lg:flex">
           <h2 className="text-[32px] text-center font-normal font-['Very_Vogue_Text']">
             Book Your First Session

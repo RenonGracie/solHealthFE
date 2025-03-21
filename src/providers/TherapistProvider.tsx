@@ -98,7 +98,11 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   }, []);
 
   const handleDaySelect = React.useCallback((day: Date | undefined) => {
-    setBookingState((prev) => ({ ...prev, selectedDay: day }));
+    setBookingState((prev) => ({
+      ...prev,
+      selectedSlot: undefined,
+      selectedDay: day,
+    }));
   }, []);
 
   const handleViewPreviousTherapist = React.useCallback(
