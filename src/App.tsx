@@ -88,8 +88,9 @@ function App() {
   if (loading) {
     return (
       <Loader className="min-h-screen min-w-screen">
-        <p className="text-xl font-light leading-5 tracking-[-0.02em]">
-          Please wait. It takes time.
+        <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
+          Now the fun part. We&apos;re running our matching algorithm and
+          finding your best therapist.
         </p>
       </Loader>
     );
