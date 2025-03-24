@@ -16,7 +16,7 @@ export const Confirmation = () => {
   } = useIntakeqService();
 
   const handleFillOutFormClick = async () => {
-    if (!bookingData?.ClientId || !currentTherapist?.therapist.id) {
+    if (!bookingData?.ClientId || !bookingData.PractitionerId) {
       return;
     }
 
@@ -24,7 +24,7 @@ export const Confirmation = () => {
       const mandatoryFormData = await sendMandatoryForm({
         data: {
           client_id: bookingData.ClientId,
-          therapist_id: currentTherapist.therapist.id,
+          therapist_id: bookingData.PractitionerId,
         },
       });
 
