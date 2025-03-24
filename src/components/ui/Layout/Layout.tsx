@@ -34,7 +34,7 @@ interface IProps {
 
 const DEFAULT_TITLE = (
   <>
-    We Found the <i>Best Therapist</i> for You
+    We Found the <i>Best Therapist</i>&nbsp; for You
   </>
 );
 
