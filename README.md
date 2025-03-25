@@ -38,6 +38,37 @@ yarn test
 
 For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https://semver.org/).
 
+### Release Process
+
+1. Create a new branch from `develop` for version update:
+
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b release/vX.X.X
+   ```
+
+2. Update the version using one of the following commands:
+
+   ```bash
+   yarn version:patch  # for small fixes (0.0.X)
+   yarn version:minor  # for new features (0.X.0)
+   yarn version:major  # for major changes (X.0.0)
+   ```
+
+3. Push the branch and create a pull request to `develop`:
+
+   ```bash
+   git push origin release/vX.X.X
+   ```
+
+4. After the PR is approved and merged, checkout `develop` and push the tag:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git push origin --tags
+   ```
+
 There are two ways to create a new tag:
 
 ### 1. Using Automated Commands (Recommended)
@@ -52,6 +83,7 @@ Make sure you're on the `develop` branch and all changes are committed:
 
 ```bash
 git checkout develop
+git pull origin develop
 git status  # should show "nothing to commit, working tree clean"
 ```
 
@@ -63,7 +95,7 @@ yarn version:minor  # for new features (0.X.0)
 yarn version:major  # for major changes (X.0.0)
 ```
 
-Push the changes:
+Push the changes and the new tag:
 
 ```bash
 git push origin develop
@@ -85,4 +117,5 @@ Note: Tags starting with 'v' will trigger the production deployment workflow.
 
 1. Create a new branch for your feature
 2. Make your changes
-3. Submit a pull request
+3. Submit a pull request to `develop`
+4. After merge, follow the release process above if deploying to production
