@@ -6,6 +6,7 @@ import { usePollFormAndRequestMatch } from './hooks';
 import { BookAppointmentResponse } from './api/services';
 import { TherapistProvider } from './providers/TherapistProvider';
 import { Steps } from './components/Steps';
+import { setSentryUser } from './lib/sentryUtils';
 
 function App() {
   const [step, setStep] = React.useState<STEPS>(STEPS.TYPEFORM);
@@ -63,6 +64,14 @@ function App() {
       }
     }
   }, [matchData?.therapists]);
+
+  React.useEffect(() => {
+    if (clientResponseId) {
+      setSentryUser({
+        responseId: clientResponseId,
+      });
+    }
+  }, [clientResponseId]);
 
   // TEMPORARY SOLUTION:
   // This effect is added to simplify application testing by allowing direct access
