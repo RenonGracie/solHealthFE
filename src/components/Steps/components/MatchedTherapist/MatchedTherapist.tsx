@@ -37,13 +37,6 @@ export const MatchedTherapist: React.FC = () => {
     [therapistData?.therapist],
   );
 
-  const generalExpertise = React.useMemo(() => {
-    return [
-      ...(therapistData?.matched_diagnoses || []),
-      ...(therapistData?.matched_specialities || []),
-    ];
-  }, [therapistData]);
-
   const matchedExpertise = React.useMemo(() => {
     const [firstMatchedDiagnose] = therapistData?.matched_diagnoses || [];
     const [firstMatchedSpeciality, secondMatchedSpeciality] =
@@ -151,22 +144,18 @@ export const MatchedTherapist: React.FC = () => {
                 <TherapyStyleSection
                   title="Specializes in"
                   items={therapistData?.therapist?.specialities}
-                  matchedItems={generalExpertise}
                 />
                 <TherapyStyleSection
                   title="Works with diagnoses"
                   items={therapistData?.therapist?.diagnoses}
-                  matchedItems={generalExpertise}
                 />
                 <TherapyStyleSection
                   title="Therapeutic orientation"
                   items={therapistData?.therapist?.therapeutic_orientation}
-                  matchedItems={generalExpertise}
                 />
                 <TherapyStyleSection
                   title="Has experience working with religions"
                   items={therapistData?.therapist?.religion}
-                  matchedItems={generalExpertise}
                 />
               </div>
             </div>
