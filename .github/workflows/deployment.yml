@@ -9,7 +9,13 @@ on:
         description: 'Environment'
         required: true
         default: 'dev'
-        type: environment
+        type: choice
+        options:
+          - 'dev'
+          - 'stg'
+  push:
+    tags:
+      - 'v*'
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
 permissions:
@@ -27,6 +33,8 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "DEPLOY_ENV=prod" >> $GITHUB_OUTPUT
           else
             echo "DEPLOY_ENV=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi

@@ -12,7 +12,10 @@
     "test:watch": "vitest --watch",
     "format": "prettier --write .",
     "prepare": "husky",
-    "generate-api": "openapi-typescript https://api.dev.solhealth.co/openapi/openapi.json --output src/api/types/api.ts"
+    "generate-api": "openapi-typescript https://api.dev.solhealth.co/openapi/openapi.json --output src/api/types/api.ts",
+    "version:patch": "yarn version patch",
+    "version:minor": "yarn version minor",
+    "version:major": "yarn version major"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --write"
