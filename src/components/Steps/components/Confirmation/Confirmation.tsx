@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import { Link, Button } from '@/components/ui';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
@@ -6,6 +8,10 @@ import { useIntakeqService } from '@/api/services/intakeqService';
 import { SessionInfo } from './components';
 
 export const Confirmation = () => {
+  const [mandatoryFormUrl, setMandatoryFormUrl] = React.useState<string | null>(
+    null,
+  );
+
   const { currentTherapist, bookingData } = useTherapistContext();
 
   const {
@@ -20,6 +26,11 @@ export const Confirmation = () => {
       return;
     }
 
+    if (mandatoryFormUrl) {
+      window.open(mandatoryFormUrl, '_blank');
+      return;
+    }
+
     try {
       const mandatoryFormData = await sendMandatoryForm({
         data: {
@@ -29,6 +40,7 @@ export const Confirmation = () => {
       });
 
       if (mandatoryFormData?.url) {
+        setMandatoryFormUrl(mandatoryFormData.url);
         window.open(mandatoryFormData.url, '_blank');
       }
     } catch (error) {
