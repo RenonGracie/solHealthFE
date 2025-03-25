@@ -26,7 +26,7 @@ export const BookButton = ({
         <Loader />
       ) : (
         <>
-          Book Session <ArrowRightIcon />
+          Book 45-Minute Session <ArrowRightIcon />
         </>
       )}
     </Button>

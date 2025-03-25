@@ -15,6 +15,8 @@ function App() {
   );
   const [bookingData, setBookingData] =
     React.useState<BookAppointmentResponse | null>(null);
+  const [isSearchingAnotherTherapist, setIsSearchingAnotherTherapist] =
+    React.useState(false);
 
   const { matchData, loading, error, pollFormAndRequestMatch } =
     usePollFormAndRequestMatch();
@@ -105,13 +107,23 @@ function App() {
       onBookSession={handleBookSession}
       onShowBooking={handleShowBookingSection}
       onHideBooking={handleHideBookingSection}
+      setIsSearchingAnotherTherapist={setIsSearchingAnotherTherapist}
     >
-      <Steps
-        step={step}
-        hideTitle={hideTitle}
-        onTypeformSubmit={handleTypeformSubmit}
-        onGoBack={handleConfirmGoBack}
-      />
+      {isSearchingAnotherTherapist ? (
+        <Loader className="min-h-screen min-w-screen">
+          <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
+            Now the fun part. We&apos;re running our matching algorithm and
+            finding your best therapist.
+          </p>
+        </Loader>
+      ) : (
+        <Steps
+          step={step}
+          hideTitle={hideTitle}
+          onTypeformSubmit={handleTypeformSubmit}
+          onGoBack={handleConfirmGoBack}
+        />
+      )}
     </TherapistProvider>
   );
 }

@@ -15,6 +15,7 @@ interface ITherapistContext {
   onSlotSelect: (slot: string) => void;
   onDaySelect: (day: Date | undefined) => void;
   onViewPreviousTherapist: (therapistId: string) => void;
+  setIsSearchingAnotherTherapist: (isFinding: boolean) => void;
 }
 
 export const TherapistContext = React.createContext<

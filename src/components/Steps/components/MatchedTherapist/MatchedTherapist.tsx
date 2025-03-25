@@ -18,6 +18,7 @@ export const MatchedTherapist: React.FC = () => {
     currentTherapist: therapistData,
     previousTherapistsList,
     onViewPreviousTherapist,
+    setIsSearchingAnotherTherapist,
   } = useTherapistContext();
 
   const therapistIdentification = React.useMemo(
@@ -54,6 +55,24 @@ export const MatchedTherapist: React.FC = () => {
       secondMatchedSpeciality,
     ];
   }, [therapistData]);
+
+  const triggerLoading = () => {
+    setIsSearchingAnotherTherapist(true);
+
+    setTimeout(() => {
+      setIsSearchingAnotherTherapist(false);
+    }, 500);
+  };
+
+  const handleFindAnotherTherapist = () => {
+    onFindAnotherTherapist();
+    triggerLoading();
+  };
+
+  const handleViewPreviousTherapist = (therapistId: string) => {
+    onViewPreviousTherapist(therapistId);
+    triggerLoading();
+  };
 
   if (bookingState.showSection) {
     return <BookingSection />;
@@ -158,7 +177,7 @@ export const MatchedTherapist: React.FC = () => {
             </h3>
             <Button
               className="rounded-4xl bg-transparent mt-6"
-              onClick={onFindAnotherTherapist}
+              onClick={handleFindAnotherTherapist}
             >
               Find Another Therapist <ArrowRightIcon />
             </Button>
@@ -174,7 +193,7 @@ export const MatchedTherapist: React.FC = () => {
                       name={therapistInfo.therapist.intern_name}
                       photoSrc={therapistInfo.therapist.image_link}
                       onClick={() =>
-                        onViewPreviousTherapist(therapistInfo.therapist.id)
+                        handleViewPreviousTherapist(therapistInfo.therapist.id)
                       }
                     />
                   ))}
@@ -190,7 +209,7 @@ export const MatchedTherapist: React.FC = () => {
               </h3>
               <Button
                 className="rounded-4xl bg-transparent"
-                onClick={onFindAnotherTherapist}
+                onClick={handleFindAnotherTherapist}
               >
                 Find Another Therapist <ArrowRightIcon />
               </Button>
@@ -209,7 +228,7 @@ export const MatchedTherapist: React.FC = () => {
                   name={therapistInfo.therapist.intern_name}
                   photoSrc={therapistInfo.therapist.image_link}
                   onClick={() =>
-                    onViewPreviousTherapist(therapistInfo.therapist.id)
+                    handleViewPreviousTherapist(therapistInfo.therapist.id)
                   }
                 />
               ))}
