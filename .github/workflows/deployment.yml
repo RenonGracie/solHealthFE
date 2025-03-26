@@ -13,7 +13,6 @@ on:
         options:
           - 'dev'
           - 'stg'
-          - 'dev & stg'
   push:
     tags:
       - 'v*'
@@ -33,11 +32,7 @@ jobs:
         id: set-env
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            if [ "${{ github.event.inputs.environment }}" == "dev & stg" ]; then
-              echo "DEPLOY_ENV=dev,stg" >> $GITHUB_OUTPUT
-            else
-              echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
-            fi
+            echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_OUTPUT
           else
@@ -48,10 +43,7 @@ jobs:
     name: Build & Upload Web Application
     runs-on: ubuntu-latest
     needs: setup
-    strategy:
-      matrix:
-        environment: ${{ fromJSON(format('["{0}"]', needs.setup.outputs.deploy_env)) }}
-    environment: ${{ matrix.environment }}
+    environment: ${{ needs.setup.outputs.deploy_env }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
