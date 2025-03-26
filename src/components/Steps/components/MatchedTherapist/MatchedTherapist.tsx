@@ -31,7 +31,7 @@ export const MatchedTherapist: React.FC = () => {
               ', '}
           </span>
         ))}
-        , {therapistData?.therapist?.gender}
+        , {therapistData?.therapist?.identities_as}
       </span>
     ),
     [therapistData?.therapist],

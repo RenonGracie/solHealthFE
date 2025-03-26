@@ -192,6 +192,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/therapists/slots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get therapist's available slots by calendar email */
+        get: operations["therapistsslots_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/therapist_videos": {
         parameters: {
             query?: never;
@@ -209,23 +226,6 @@ export interface paths {
         head?: never;
         /** Update therapist's video */
         patch: operations["therapist_videos_patch"];
-        trace?: never;
-    };
-    "/events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get analytics event */
-        get: operations["events_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     "/intakeq_forms/mandatory_form": {
@@ -551,6 +551,8 @@ export interface components {
         };
         /** Therapist */
         Therapist: {
+            /** Available Slots */
+            available_slots?: string[];
             /** Id */
             id: string;
             /** Intern Name */
@@ -581,6 +583,8 @@ export interface components {
             ethnicity?: string[];
             /** Gender */
             gender?: string;
+            /** Identities As */
+            identities_as?: string;
             /** Gender Interest */
             gender_interest?: string;
             /** Immigration Background */
@@ -623,8 +627,6 @@ export interface components {
             greetings_video_link?: string;
             /** Image Link */
             image_link?: string;
-            /** Available Slots */
-            available_slots?: string[];
         };
         /** MatchedTherapists */
         MatchedTherapists: {
@@ -699,6 +701,11 @@ export interface components {
             /** Emails */
             emails: string[];
         };
+        /** AvailableSlots */
+        AvailableSlots: {
+            /** Available Slots */
+            available_slots?: string[];
+        };
         /** TherapistVideos */
         TherapistVideos: {
             /** Videos */
@@ -719,57 +726,6 @@ export interface components {
             /** Video Url */
             video_url: string;
             type: components["schemas"]["VideoType"];
-        };
-        /** AnalyticsEvents */
-        AnalyticsEvents: {
-            /** Events */
-            events: components["schemas"]["AnalyticsEvent"][];
-        };
-        /** AnalyticsEvent */
-        AnalyticsEvent: {
-            /** Client Id */
-            client_id?: string;
-            /** Email */
-            email?: string;
-            /** User Id */
-            user_id?: string;
-            /** Session Id */
-            session_id?: string;
-            /** Type */
-            type?: string;
-            /** Name */
-            name?: string;
-            /** Var 1 */
-            var_1?: string;
-            /** Var 2 */
-            var_2?: string;
-            /** Utm Source */
-            utm_source?: string;
-            /** Utm Medium */
-            utm_medium?: string;
-            /** Utm Campaign */
-            utm_campaign?: string;
-            /** Utm Adid */
-            utm_adid?: string;
-            /** Utm Adgroup */
-            utm_adgroup?: string;
-            /** Utm Content */
-            utm_content?: string;
-            /** Utm Term */
-            utm_term?: string;
-            /** Clid */
-            clid?: string;
-            /**
-             * Id
-             * Format: uuid4
-             */
-            id: string;
-            /** Created At */
-            created_at?: string;
-            /** Params */
-            params?: Record<string, never>;
-            /** Value */
-            value?: string;
         };
         /** IntakeQMandatoryFormQuery */
         IntakeQMandatoryFormQuery: {
@@ -1229,6 +1185,37 @@ export interface operations {
             };
         };
     };
+    therapistsslots_get: {
+        parameters: {
+            query: {
+                email: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AvailableSlots"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
     therapist_videos_get: {
         parameters: {
             query?: never;
@@ -1306,52 +1293,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TherapistVideo"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    events_get: {
-        parameters: {
-            query?: {
-                client_id?: string;
-                email?: string;
-                user_id?: string;
-                session_id?: string;
-                type?: string;
-                name?: string;
-                var_1?: string;
-                var_2?: string;
-                utm_source?: string;
-                utm_medium?: string;
-                utm_campaign?: string;
-                utm_adid?: string;
-                utm_adgroup?: string;
-                utm_content?: string;
-                utm_term?: string;
-                clid?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AnalyticsEvents"];
                 };
             };
             /** @description Unprocessable Entity */
