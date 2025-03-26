@@ -40,11 +40,11 @@ For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https:
 
 ### Release Process
 
-1. Create a new branch from `develop` for version update:
+1. Create a new branch from `main` for version update:
 
    ```bash
-   git checkout develop
-   git pull origin develop
+   git checkout main
+   git pull origin main
    git checkout -b release/vX.X.X
    ```
 
@@ -56,66 +56,23 @@ For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https:
    yarn version:major  # for major changes (X.0.0)
    ```
 
-3. Push the branch and create a pull request to `develop`:
+3. Push the branch and create a pull request to `main`:
 
    ```bash
    git push origin release/vX.X.X
    ```
 
-4. After the PR is approved and merged, checkout `develop` and push the tag:
+4. After the PR is approved and merged, checkout `main` and push the tag:
+
    ```bash
-   git checkout develop
-   git pull origin develop
+   git checkout main
+   git pull origin main
    git push origin --tags
    ```
 
-There are two ways to create a new tag:
-
-### 1. Using Automated Commands (Recommended)
-
-First, check your current version:
-
-```bash
-cat package.json | grep version
-```
-
-Make sure you're on the `develop` branch and all changes are committed:
-
-```bash
-git checkout develop
-git pull origin develop
-git status  # should show "nothing to commit, working tree clean"
-```
-
-Then run one of the following commands:
-
-```bash
-yarn version:patch  # for small fixes (0.0.X)
-yarn version:minor  # for new features (0.X.0)
-yarn version:major  # for major changes (X.0.0)
-```
-
-Push the changes and the new tag:
-
-```bash
-git push origin develop
-git push origin --tags
-```
-
-### 2. Manual Tag Creation
-
-You can also create a tag manually:
-
-```bash
-git tag v1.2.3  # replace with your desired version
-git push origin v1.2.3
-```
-
-Note: Tags starting with 'v' will trigger the production deployment workflow.
-
 ## Contributing
 
-1. Create a new branch for your feature
-2. Make your changes
-3. Submit a pull request to `develop`
-4. After merge, follow the release process above if deploying to production
+5. Create a new branch for your feature
+6. Make your changes
+7. Submit a pull request to `main`
+8. After merge, follow the release process above if deploying to production
