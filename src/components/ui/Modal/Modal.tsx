@@ -11,6 +11,7 @@ import {
 import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import { Button } from '../Button';
+import { Loader } from '../Loader';
 
 interface IProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ interface IProps {
   cancelButtonTitle?: React.ReactNode;
   confirmButtonWithArrow?: boolean;
   cancelButtonWithArrow?: boolean;
+  loading?: boolean;
 }
 
 export const Modal = ({
@@ -35,10 +37,17 @@ export const Modal = ({
   confirmButtonWithArrow = false,
   cancelButtonWithArrow = false,
   children,
+  loading = false,
 }: React.PropsWithChildren<IProps>) => {
+  const handleClose = () => {
+    if (loading) return;
+
+    onClose();
+  };
+
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <TransitionChild
           as={React.Fragment}
           enter="ease-out duration-300"
@@ -66,13 +75,15 @@ export const Modal = ({
                 style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
                 className="relative w-full max-w-[600px] transform overflow-hidden rounded-lg bg-center py-10 px-5 lg:px-8 shadow-xl transition-all"
               >
-                <button
-                  onClick={onClose}
-                  className="absolute right-6 top-6 hover:opacity-80 transition-opacity cursor-pointer"
-                  aria-label="Close modal"
-                >
-                  <CloseIcon />
-                </button>
+                {!loading && (
+                  <button
+                    onClick={handleClose}
+                    className="absolute right-6 top-6 hover:opacity-80 transition-opacity cursor-pointer"
+                    aria-label="Close modal"
+                  >
+                    <CloseIcon />
+                  </button>
+                )}
                 <DialogTitle
                   as="h3"
                   className="text-center font-['Very_Vogue_Text'] text-[40px] leading-[90%] font-normal mb-2"
@@ -84,20 +95,26 @@ export const Modal = ({
                 </Description>
                 {children}
                 <div className="flex flex-col gap-4 lg:flex-row-reverse mt-6 lg:mt-8">
-                  <Button
-                    className="h-[48px] rounded-4xl text-[16px] lg:w-full"
-                    onClick={onConfirm}
-                    withArrow={confirmButtonWithArrow}
-                  >
-                    {confirmButtonTitle}
-                  </Button>
-                  <Button
-                    onClick={onClose}
-                    className="bg-transparent h-[48px] rounded-4xl text-[16px] lg:w-full"
-                    withArrow={cancelButtonWithArrow}
-                  >
-                    {cancelButtonTitle}
-                  </Button>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <Button
+                        className="h-[48px] rounded-4xl text-[16px] lg:w-full"
+                        onClick={onConfirm}
+                        withArrow={confirmButtonWithArrow}
+                      >
+                        {confirmButtonTitle}
+                      </Button>
+                      <Button
+                        onClick={handleClose}
+                        className="bg-transparent h-[48px] rounded-4xl text-[16px] lg:w-full"
+                        withArrow={cancelButtonWithArrow}
+                      >
+                        {cancelButtonTitle}
+                      </Button>
+                    </>
+                  )}
                 </div>
               </DialogPanel>
             </TransitionChild>

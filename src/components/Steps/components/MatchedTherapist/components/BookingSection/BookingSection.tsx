@@ -152,14 +152,12 @@ export const BookingSection = () => {
         <BookButton
           onClick={() => setIsModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
-          loading={loading}
           className="hidden lg:flex"
         />
       </div>
       <BookButton
         onClick={() => setIsModalOpen(true)}
         disabled={isBookSessionButtonDisabled}
-        loading={loading}
         className="lg:hidden"
       />
       <Modal
@@ -174,6 +172,7 @@ export const BookingSection = () => {
         onConfirm={handleBookSession}
         confirmButtonTitle="Book Session"
         confirmButtonWithArrow
+        loading={loading}
       >
         <div className="rounded-[8px] border border-[#7B4720] p-4">
           <SessionInfo
