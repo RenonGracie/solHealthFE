@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { Link, Button } from '@/components/ui';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
-import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 import { useIntakeqService } from '@/api/services/intakeqService';
-import { SessionInfo } from './components';
+import { VideoPlayer } from '@/components/ui';
+import { SessionInfo } from '../SessionInfo';
 
 export const Confirmation = () => {
   const [mandatoryFormUrl, setMandatoryFormUrl] = React.useState<string | null>(
@@ -55,11 +55,17 @@ export const Confirmation = () => {
         {bookingData?.ClientName}!
       </h2>
       <div className="lg:row-span-4 mb-5 lg:mb-0">
-        <SessionInfo
-          bookingData={bookingData}
-          therapistImageLink={currentTherapist?.therapist?.image_link}
-          therapistVideoLink={currentTherapist?.therapist?.greetings_video_link}
-        />
+        <div className="flex flex-col rounded-[8px] border border-[#7B4720] px-4 lg:px-6 py-6 gap-2 lg:gap-4">
+          <SessionInfo
+            therapistName={bookingData?.PractitionerName}
+            startDate={bookingData?.StartDateIso}
+            endDate={bookingData?.EndDateIso}
+            therapistImageLink={currentTherapist?.therapist?.image_link}
+          />
+          <VideoPlayer
+            videoUrl={currentTherapist?.therapist?.greetings_video_link}
+          />
+        </div>
       </div>
       <div className="lg:pr-8">
         <h3 className="leading-[29px] text-[32px] font-normal font-['Very_Vogue_Text'] mb-3">
@@ -79,11 +85,12 @@ export const Confirmation = () => {
       </div>
       <div className="lg:col-span-2 flex justify-center mt-6 lg:mt-[51px]">
         <Button
+          withArrow
           onClick={() => void handleFillOutFormClick()}
           loading={mandatoryFormLoading}
           className="text-[14px] lg:text-[16px] font-normal tracking-[-0.02em] px-6 py-3 rounded-4xl h-12 w-full lg:w-[340px]"
         >
-          Fill out Mandatory New Client Form <ArrowRightIcon />
+          Fill out Mandatory New Client Form
         </Button>
       </div>
       <div className="lg:col-span-2 flex flex-col lg:flex-row mt-6 lg:mt-20">

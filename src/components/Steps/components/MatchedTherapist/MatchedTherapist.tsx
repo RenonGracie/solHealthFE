@@ -7,7 +7,6 @@ import {
   BookingSection,
   PreviousTherapistCard,
 } from './components';
-import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
 import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 
@@ -177,10 +176,11 @@ export const MatchedTherapist: React.FC = () => {
               This therapist isn&apos;t right for you?
             </h3>
             <Button
+              withArrow
               className="rounded-4xl bg-transparent mt-6"
               onClick={handleFindAnotherTherapist}
             >
-              Find Another Therapist <ArrowRightIcon />
+              Find Another Therapist
             </Button>
             {(previousTherapistsList?.length || 0) > 0 && (
               <>
@@ -209,10 +209,11 @@ export const MatchedTherapist: React.FC = () => {
                 This therapist isn&apos;t right for you?
               </h3>
               <Button
+                withArrow
                 className="rounded-4xl bg-transparent"
                 onClick={handleFindAnotherTherapist}
               >
-                Find Another Therapist <ArrowRightIcon />
+                Find Another Therapist
               </Button>
             </div>
           </div>
@@ -244,8 +245,12 @@ export const MatchedTherapist: React.FC = () => {
       >
         <div className="p-4 pb-6 relative h-full w-full">
           <div className="relative w-full h-full px-3">
-            <Button onClick={onShowBooking} className="w-full h-12 rounded-4xl">
-              Select This Therapist <ArrowRightIcon />
+            <Button
+              withArrow
+              onClick={onShowBooking}
+              className="w-full h-12 rounded-4xl"
+            >
+              Select This Therapist
             </Button>
           </div>
         </div>

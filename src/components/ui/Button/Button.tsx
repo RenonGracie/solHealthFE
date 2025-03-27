@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
-
+import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import { Loader } from '../Loader';
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,6 +8,7 @@ interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   loading?: boolean;
   disabled?: boolean;
+  withArrow?: boolean;
 }
 
 export const Button: React.FC<IProps> = ({
@@ -15,6 +16,7 @@ export const Button: React.FC<IProps> = ({
   className = '',
   loading = false,
   disabled = false,
+  withArrow = false,
   ...props
 }) => (
   <button
@@ -38,6 +40,13 @@ export const Button: React.FC<IProps> = ({
     disabled={disabled || loading}
     {...props}
   >
-    {loading ? <Loader /> : children}
+    {loading ? (
+      <Loader />
+    ) : (
+      <>
+        {children}
+        {withArrow && <ArrowRightIcon />}
+      </>
+    )}
   </button>
 );

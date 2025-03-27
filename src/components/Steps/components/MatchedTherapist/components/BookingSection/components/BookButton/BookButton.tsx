@@ -1,7 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-import { Button, Loader } from '@/components/ui';
-import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
+import { Button } from '@/components/ui';
 
 interface IProps {
   onClick: () => void;
@@ -18,17 +17,13 @@ export const BookButton = ({
 }: IProps) => {
   return (
     <Button
+      withArrow
+      loading={loading}
       onClick={onClick}
       disabled={disabled}
       className={twMerge('w-full h-12 mt-6 rounded-4xl', className)}
     >
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          Book 45-Minute Session <ArrowRightIcon />
-        </>
-      )}
+      Book 45-Minute Session
     </Button>
   );
 };

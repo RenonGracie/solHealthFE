@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  addMinutes,
   addWeeks,
   addDays,
   addMonths,
@@ -10,14 +11,17 @@ import {
   startOfDay,
 } from 'date-fns';
 
-import { Calendar, Error } from '@/components/ui';
+import { Calendar, Error, Modal } from '@/components/ui';
 import { useAppointmentsService } from '@/api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
+import { SessionInfo } from '../../../SessionInfo';
 
 export const BookingSection = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
   const {
     bookingState: { selectedDay, selectedSlot },
     clientResponseId,
@@ -76,6 +80,12 @@ export const BookingSection = () => {
       />
     ));
   }, [selectedDay, selectedSlot, availableSlotsByDay, onSlotSelect]);
+
+  const sessionEndDateTime = React.useMemo(() => {
+    if (!selectedSlot) return;
+
+    return addMinutes(new Date(selectedSlot), 45).toISOString();
+  }, [selectedSlot]);
 
   const isBookSessionButtonDisabled = !selectedDay || !selectedSlot || loading;
 
@@ -140,18 +150,40 @@ export const BookingSection = () => {
           {timeSlots}
         </div>
         <BookButton
-          onClick={handleBookSession}
+          onClick={() => setIsModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
           loading={loading}
           className="hidden lg:flex"
         />
       </div>
       <BookButton
-        onClick={handleBookSession}
+        onClick={() => setIsModalOpen(true)}
         disabled={isBookSessionButtonDisabled}
         loading={loading}
         className="lg:hidden"
       />
+      <Modal
+        title={
+          <>
+            Confirm <i>your</i>&nbsp; Selection
+          </>
+        }
+        description="Do you want to book session with this therapist?"
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleBookSession}
+        confirmButtonTitle="Book Session"
+        confirmButtonWithArrow
+      >
+        <div className="rounded-[8px] border border-[#7B4720] p-4">
+          <SessionInfo
+            therapistName={currentTherapist?.therapist?.intern_name}
+            therapistImageLink={currentTherapist?.therapist?.image_link}
+            startDate={selectedSlot}
+            endDate={sessionEndDateTime}
+          />
+        </div>
+      </Modal>
     </section>
   );
 };

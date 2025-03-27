@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Button, Modal } from '@/components/ui';
-import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 
 interface IProps {
   onGoToQuestionnaire: () => void;
@@ -30,10 +29,11 @@ export const NoMatch = ({ onGoToQuestionnaire }: IProps) => {
           Please try to expand your answers in the form
         </h4>
         <Button
+          withArrow
           className="lg:max-w-fit rounded-4xl"
           onClick={handleGoToQuestionnaireClick}
         >
-          Go to Questionnaire <ArrowRightIcon />
+          Go to Questionnaire
         </Button>
       </div>
       <Modal

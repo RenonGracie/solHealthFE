@@ -52,4 +52,11 @@ describe('Button', () => {
     expect(button).toBeDisabled();
     expect(button).toHaveAttribute('type', 'submit');
   });
+
+  it('renders arrow icon when withArrow prop is true', () => {
+    render(<Button withArrow>Click me</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button.querySelector('svg')).toBeInTheDocument();
+  });
 });

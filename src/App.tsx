@@ -91,7 +91,10 @@ function App() {
 
   if (error) {
     return (
-      <Error className="min-h-screen min-w-screen">
+      <Error
+        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
+        className="min-h-screen min-w-screen bg-center"
+      >
         <span>An error occurred while fetching the therapists</span>
       </Error>
     );
