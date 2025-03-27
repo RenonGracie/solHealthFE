@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import { Loader, Error } from './components/ui';
 import { STEPS } from './constants';
 import { usePollFormAndRequestMatch } from './hooks';
@@ -98,7 +99,10 @@ function App() {
 
   if (loading) {
     return (
-      <Loader className="min-h-screen min-w-screen">
+      <Loader
+        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
+        className="min-h-screen min-w-screen bg-center"
+      >
         <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
           Now the fun part. We&apos;re running our matching algorithm and
           finding your best therapist.

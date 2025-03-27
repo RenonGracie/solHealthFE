@@ -9,6 +9,7 @@ import {
 } from './components';
 import ArrowRightIcon from '@/assets/icons/arrow-right-icon.svg';
 import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
+import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 
 export const MatchedTherapist: React.FC = () => {
   const {
@@ -237,8 +238,11 @@ export const MatchedTherapist: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] lg:hidden bg-[#fffbf3]">
-        <div className="p-4 pb-6 relative h-full w-full before:content-[''] before:absolute before:inset-0 before:bg-[url('/images/background.png')] before:bg-cover before:bg-center before:opacity-10 before:block">
+      <div
+        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
+        className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] bg-center lg:hidden"
+      >
+        <div className="p-4 pb-6 relative h-full w-full">
           <div className="relative w-full h-full px-3">
             <Button onClick={onShowBooking} className="w-full h-12 rounded-4xl">
               Select This Therapist <ArrowRightIcon />

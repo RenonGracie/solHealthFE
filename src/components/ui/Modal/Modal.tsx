@@ -8,6 +8,7 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
+import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import { Button } from '../Button';
 
 interface IProps {
@@ -55,7 +56,10 @@ export const Modal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel className="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+              <DialogPanel
+                style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
+                className="relative w-full max-w-md transform overflow-hidden rounded-lg bg-center p-6 shadow-xl transition-all"
+              >
                 <DialogTitle
                   as="h3"
                   className="text-xl font-normal leading-6 text-gray-900 mb-4"
@@ -66,7 +70,7 @@ export const Modal = ({
                   {description}
                 </Description>
                 <div className="flex justify-end gap-2">
-                  <Button onClick={onClose} className="bg-white">
+                  <Button onClick={onClose} className="bg-transparent">
                     {cancelButtonTitle}
                   </Button>
                   <Button onClick={onConfirm}>{confirmButtonTitle}</Button>

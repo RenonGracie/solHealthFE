@@ -4,12 +4,14 @@ import { twMerge } from 'tailwind-merge';
 interface IProps {
   className?: string;
   childrenPosition?: 'top' | 'bottom' | 'left' | 'right';
+  style?: React.CSSProperties;
 }
 
 export const Loader = ({
   className,
   children,
   childrenPosition = 'bottom',
+  style,
 }: React.PropsWithChildren<IProps>) => {
   const childrenClassNames = {
     top: 'flex-col-reverse',
@@ -22,6 +24,7 @@ export const Loader = ({
 
   return (
     <div
+      style={style}
       className={twMerge(
         'flex h-full w-full items-center justify-center',
         effectivePosition
