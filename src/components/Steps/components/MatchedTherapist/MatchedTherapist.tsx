@@ -52,7 +52,7 @@ export const MatchedTherapist: React.FC = () => {
       firstMatchedDiagnose,
       firstMatchedSpeciality,
       secondMatchedSpeciality,
-    ];
+    ].filter(Boolean);
   }, [therapistData]);
 
   const triggerLoading = () => {
