@@ -49,7 +49,7 @@ export const SessionInfo = ({
           className="w-[80px] h-[80px] rounded-full object-cover"
         />
         <div>
-          <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] leading-[90%]">
+          <h2 className="text-[32px] very-vogue-text leading-[90%]">
             {therapistName}
           </h2>
           <p className="text-base font-light leading-6 tracking-[-0.02em]">

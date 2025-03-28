@@ -63,3 +63,7 @@
     background-position: center;
   }
 }
+
+@utility very-vogue-text {
+  @apply font-['Very_Vogue_Text'];
+}

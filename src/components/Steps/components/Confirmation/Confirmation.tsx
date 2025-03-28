@@ -50,7 +50,7 @@ export const Confirmation = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto_auto_auto]">
-      <h2 className="text-center lg:text-left leading-[90%] text-[40px] lg:text-[48px] lg:leading-[90%] font-normal font-['Very_Vogue_Text'] mb-5 lg:mb-6 lg:pr-8">
+      <h2 className="text-center lg:text-left leading-[90%] text-[40px] lg:text-[48px] lg:leading-[90%] very-vogue-text mb-5 lg:mb-6 lg:pr-8">
         We&apos;re so Glad to <i>Have You</i> at Sol Health,{' '}
         {bookingData?.ClientName}!
       </h2>
@@ -68,7 +68,7 @@ export const Confirmation = () => {
         </div>
       </div>
       <div className="lg:pr-8">
-        <h3 className="leading-[29px] text-[32px] font-normal font-['Very_Vogue_Text'] mb-3">
+        <h3 className="leading-[29px] text-[32px] very-vogue-text mb-3">
           How to prepare for your first session
         </h3>
         <ol className="flex flex-col gap-3 list-decimal list-inside font-light text-[16px] tracking-[-0.02em]">
@@ -95,7 +95,7 @@ export const Confirmation = () => {
       </div>
       <div className="lg:col-span-2 flex flex-col lg:flex-row mt-6 lg:mt-20">
         <div className="flex flex-col gap-3 items-center justify-center lg:flex-row lg:flex-1 lg:pl-10">
-          <h4 className="text-2xl font-['Very_Vogue_Text']">
+          <h4 className="text-2xl very-vogue-text">
             Have any questions in mind?
           </h4>
           <Link

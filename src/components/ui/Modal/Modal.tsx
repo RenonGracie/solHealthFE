@@ -82,7 +82,7 @@ export const Modal = ({
                 )}
                 <DialogTitle
                   as="h3"
-                  className="text-center font-['Very_Vogue_Text'] text-[40px] leading-[90%] font-normal mb-2"
+                  className="text-center very-vogue-text text-[40px] leading-[90%] mb-2"
                 >
                   {title}
                 </DialogTitle>

@@ -25,7 +25,7 @@ export const NoMatch = ({ onGoToQuestionnaire }: IProps) => {
   return (
     <>
       <div className="flex flex-col items-stretch lg:items-center  gap-[100px] lg:gap-[80px]">
-        <h4 className="text-center text-[24px] lg:text-[32px] leading-[22px] lg:leading-[28px] font-normal font-['Very_Vogue_Text']">
+        <h4 className="text-center text-[24px] lg:text-[32px] leading-[22px] lg:leading-[28px] very-vogue-text">
           Please try to expand your answers in the form
         </h4>
         <Button

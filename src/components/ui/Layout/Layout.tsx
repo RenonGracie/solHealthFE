@@ -88,7 +88,7 @@ export const Layout = ({
               />
             </picture>
             <div className="absolute inset-0 flex items-center justify-center">
-              <h3 className="text-center font-['Very_Vogue_Text'] text-[16px] lg:text-[28px] leading-[80%]">
+              <h3 className="text-center very-vogue-text text-[16px] lg:text-[28px] leading-[80%]">
                 CHANGE CAN BE SUNSHINE
                 <br /> IF YOU LET IT IN
               </h3>
@@ -127,7 +127,7 @@ export const Layout = ({
                   <LogoIcon />
                 </div>
                 <h2
-                  className={`text-center leading-[90%] text-[40px] font-normal font-['Very_Vogue_Text'] lg:hidden ${
+                  className={`text-center leading-[90%] text-[40px] very-vogue-text lg:hidden ${
                     hideTitle ? 'hidden' : ''
                   }`}
                 >
@@ -135,7 +135,7 @@ export const Layout = ({
                 </h2>
               </div>
               <h2
-                className={`text-center leading-[90%] text-5xl font-normal font-['Very_Vogue_Text'] hidden lg:block ${
+                className={`text-center leading-[90%] text-5xl very-vogue-text hidden lg:block ${
                   hideTitle ? 'lg:hidden' : ''
                 }`}
               >

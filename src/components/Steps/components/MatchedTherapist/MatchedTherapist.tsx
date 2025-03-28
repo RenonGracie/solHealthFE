@@ -94,7 +94,7 @@ export const MatchedTherapist: React.FC = () => {
                     className="w-[80px] h-[80px] rounded-full object-cover"
                   />
                   <div>
-                    <h2 className="text-[32px] font-normal font-['Very_Vogue_Text']">
+                    <h2 className="text-[32px] very-vogue-text">
                       {therapistData?.therapist?.intern_name}
                     </h2>
                     <p className="text-base font-light leading-6 tracking-[-0.02em]">
@@ -143,7 +143,7 @@ export const MatchedTherapist: React.FC = () => {
               </p>
             </div>
             <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
-              <h2 className="text-[32px] font-normal font-['Very_Vogue_Text'] mb-6">
+              <h2 className="text-[32px] very-vogue-text mb-6">
                 Skills and Experience
               </h2>
               <div className="flex flex-col gap-8">
@@ -171,7 +171,7 @@ export const MatchedTherapist: React.FC = () => {
             </div>
           </div>
           <div className="flex flex-col items-center mt-8 lg:hidden">
-            <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
+            <h3 className="text-center very-vogue-text text-[32px] leading-7">
               This therapist isn&apos;t right for you?
             </h3>
             <Button
@@ -183,7 +183,7 @@ export const MatchedTherapist: React.FC = () => {
             </Button>
             {(previousTherapistsList?.length || 0) > 0 && (
               <>
-                <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal mt-8">
+                <h3 className="text-center very-vogue-text text-[32px] leading-7 mt-8">
                   Previously Viewed Therapists
                 </h3>
                 <div className="flex gap-4 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
@@ -204,7 +204,7 @@ export const MatchedTherapist: React.FC = () => {
           <div className="lg:h-fit hidden lg:block">
             <BookingSection />
             <div className="flex flex-col items-center gap-6 mt-10.5">
-              <h3 className="text-center font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
+              <h3 className="text-center very-vogue-text text-[32px] leading-7">
                 This therapist isn&apos;t right for you?
               </h3>
               <Button
@@ -219,7 +219,7 @@ export const MatchedTherapist: React.FC = () => {
         </div>
         {(previousTherapistsList?.length || 0) > 0 && (
           <div className="hidden lg:block mt-10">
-            <h3 className="font-['Very_Vogue_Text'] text-[32px] leading-7 font-normal">
+            <h3 className="very-vogue-text text-[32px] leading-7">
               Previously Viewed Therapists
             </h3>
             <div className="flex gap-6 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">

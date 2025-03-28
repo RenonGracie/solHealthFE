@@ -7,7 +7,7 @@ interface IProps {
 
 export const TherapistInfoSection: React.FC<IProps> = ({ title, children }) => (
   <section className="text-base font-light leading-5">
-    <span className="text-xl font-normal leading-6 font-['Very_Vogue_Text']">
+    <span className="text-xl leading-6 font-normal very-vogue-text">
       {title}{' '}
     </span>
     {children}

@@ -123,7 +123,7 @@ export const BookingSection = () => {
   return (
     <section className="pb-10 lg:pb-0">
       <div className="flex flex-col gap-2 mb-5 lg:hidden">
-        <h2 className="text-[40px] text-center font-normal font-['Very_Vogue_Text'] leading-[90%]">
+        <h2 className="text-[40px] text-center very-vogue-text leading-[90%]">
           Book your <i>First</i> Session
         </h2>
         <p className="text-sm text-center font-light tracking-[-0.02em]">
@@ -132,7 +132,7 @@ export const BookingSection = () => {
       </div>
       <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
         <div className="flex-col gap-2 hidden lg:flex">
-          <h2 className="text-[32px] text-center font-normal font-['Very_Vogue_Text']">
+          <h2 className="text-[32px] text-center very-vogue-text">
             Book Your First Session
           </h2>
           <p className="text-sm text-center font-light tracking-[-0.02em]">
