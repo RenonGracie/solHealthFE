@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import { Loader, Error } from './components/ui';
 import { STEPS } from './constants';
 import { usePollFormAndRequestMatch } from './hooks';
@@ -91,10 +90,7 @@ function App() {
 
   if (error) {
     return (
-      <Error
-        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-        className="min-h-screen min-w-screen bg-center"
-      >
+      <Error className="min-h-screen min-w-screen">
         <span>An error occurred while fetching the therapists</span>
       </Error>
     );
@@ -102,10 +98,7 @@ function App() {
 
   if (loading) {
     return (
-      <Loader
-        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-        className="min-h-screen min-w-screen bg-center"
-      >
+      <Loader className="min-h-screen min-w-screen">
         <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
           Now the fun part. We&apos;re running our matching algorithm and
           finding your best therapist.

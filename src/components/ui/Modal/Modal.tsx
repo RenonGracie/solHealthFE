@@ -8,7 +8,6 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
-import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import { Button } from '../Button';
 import { Loader } from '../Loader';
@@ -71,10 +70,7 @@ export const Modal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel
-                style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-                className="relative w-full max-w-[600px] transform overflow-hidden rounded-lg bg-center py-10 px-5 lg:px-8 shadow-xl transition-all"
-              >
+              <DialogPanel className="relative w-full max-w-[600px] transform overflow-hidden rounded-lg py-10 px-5 lg:px-8 shadow-xl transition-all grainy-background">
                 {!loading && (
                   <button
                     onClick={handleClose}

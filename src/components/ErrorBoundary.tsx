@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as Sentry from '@sentry/react';
 
-import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import { Button } from './ui';
 
 interface IState {
@@ -28,10 +27,7 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, IState> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div
-          style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-          className="flex flex-col items-center justify-center min-h-screen p-4 bg-center"
-        >
+        <div className="flex flex-col items-center justify-center min-h-screen p-4">
           <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
           <p className="text-gray-600 mb-4">
             We are already working on fixing the issue

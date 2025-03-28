@@ -1,52 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'Very Vogue Text';
-  src:
-    url('/fonts/VeryVogue-Display.woff2') format('woff2'),
-    url('/fonts/VeryVogue-Display.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+@layer base {
+  @font-face {
+    font-family: 'Very Vogue Text';
+    src:
+      url('/fonts/VeryVogue-Display.woff2') format('woff2'),
+      url('/fonts/VeryVogue-Display.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Very Vogue Text';
+    src:
+      url('/fonts/VeryVogue-Display-Italic.woff2') format('woff2'),
+      url('/fonts/VeryVogue-Display-Italic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Very Vogue Text';
+    src:
+      url('/fonts/VeryVogue-Text.woff2') format('woff2'),
+      url('/fonts/VeryVogue-Text.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Very Vogue Text';
+    src:
+      url('/fonts/VeryVogue-Text-Italic.woff2') format('woff2'),
+      url('/fonts/VeryVogue-Text-Italic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    color: #363943;
+    background-color: #fffbf3;
+    background-image: url('/src/assets/images/grainy-background.svg');
+    background-position: center;
+    font-family: 'Inter', sans-serif;
+  }
 }
 
-@font-face {
-  font-family: 'Very Vogue Text';
-  src:
-    url('/fonts/VeryVogue-Display-Italic.woff2') format('woff2'),
-    url('/fonts/VeryVogue-Display-Italic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Very Vogue Text';
-  src:
-    url('/fonts/VeryVogue-Text.woff2') format('woff2'),
-    url('/fonts/VeryVogue-Text.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Very Vogue Text';
-  src:
-    url('/fonts/VeryVogue-Text-Italic.woff2') format('woff2'),
-    url('/fonts/VeryVogue-Text-Italic.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  color: #363943;
-  background-color: #fffbf3;
-  font-family: 'Inter', sans-serif;
+@layer components {
+  .grainy-background {
+    background-color: #fffbf3;
+    background-image: url('/src/assets/images/grainy-background.svg');
+    background-position: center;
+  }
 }

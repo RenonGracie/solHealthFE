@@ -8,7 +8,6 @@ import {
   PreviousTherapistCard,
 } from './components';
 import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
-import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 
 export const MatchedTherapist: React.FC = () => {
   const {
@@ -239,10 +238,7 @@ export const MatchedTherapist: React.FC = () => {
         )}
       </div>
 
-      <div
-        style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-        className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] bg-center lg:hidden"
-      >
+      <div className="fixed bottom-0 left-0 right-0 shadow-[0_-2px_10.6px_0_rgba(0,0,0,0.15)] grainy-background lg:hidden">
         <div className="p-4 pb-6 relative h-full w-full">
           <div className="relative w-full h-full px-3">
             <Button

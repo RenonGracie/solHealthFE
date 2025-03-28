@@ -7,7 +7,6 @@ import headerMobile1ImageUrl from '@/assets/images/header-mobile-1.jpg';
 import headerMobile2ImageUrl from '@/assets/images/header-mobile-2.jpg';
 import headerMobile3ImageUrl from '@/assets/images/header-mobile-3.jpg';
 import LogoIcon from '@/assets/icons/logo-icon.svg';
-import grainyBackgroundUrl from '@/assets/images/grainy-background.svg?url';
 import ArrowLeftIcon from '@/assets/icons/arrow-left-icon.svg';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 
@@ -71,10 +70,7 @@ export const Layout = ({
   };
 
   return (
-    <div
-      style={{ backgroundImage: `url(${grainyBackgroundUrl})` }}
-      className={`min-h-screen flex flex-col bg-center`}
-    >
+    <div className={`min-h-screen flex flex-col`}>
       <header
         className={`relative w-full ${hideHeaderImage ? '' : 'mb-8 lg:mb-13'}`}
       >
