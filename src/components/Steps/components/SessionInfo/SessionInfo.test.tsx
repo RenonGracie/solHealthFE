@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
 import { SessionInfo } from '../SessionInfo';
+import * as hooks from '@/hooks';
 
 const MOCK_PROPS = {
   therapistName: 'John Doe',
@@ -44,13 +46,27 @@ describe('SessionInfo', () => {
   });
 
   it('formats session time correctly', () => {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const startDate = new Date('2024-03-27T10:00:00Z');
-    const endDate = new Date('2024-03-27T10:45:00Z');
+    const mockFormattedTimeZone = 'GMT+4';
+    const mockUserTimeZone = 'Asia/Tbilisi';
 
-    const startTime = format(startDate, 'h:mmaaa');
-    const endTime = format(endDate, 'h:mmaaa');
-    const expectedTime = `${startTime} - ${endTime} ${timeZone}`;
+    vi.spyOn(hooks, 'useFormattedTimeZone').mockReturnValue({
+      userTimeZone: mockUserTimeZone,
+      formattedTimeZone: mockFormattedTimeZone,
+    });
+
+    const zonedStartDate = toZonedTime(
+      new Date(MOCK_PROPS.startDate),
+      mockUserTimeZone,
+    );
+    const zonedEndDate = toZonedTime(
+      new Date(MOCK_PROPS.endDate),
+      mockUserTimeZone,
+    );
+
+    const startTime = format(zonedStartDate, 'h:mmaaa');
+    const endTime = format(zonedEndDate, 'h:mmaaa');
+
+    const expectedTime = `${startTime} - ${endTime} ${mockFormattedTimeZone}`;
 
     render(<SessionInfo {...MOCK_PROPS} />);
 

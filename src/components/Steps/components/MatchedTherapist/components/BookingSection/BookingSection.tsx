@@ -14,6 +14,7 @@ import {
 import { Calendar, Error, Modal } from '@/components/ui';
 import { useAppointmentsService } from '@/api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
+import { useFormattedTimeZone } from '@/hooks';
 import { TimeSlot, BookButton } from './components';
 import { groupByDay } from './utils';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
@@ -40,6 +41,8 @@ export const BookingSection = () => {
     },
   } = useAppointmentsService();
 
+  const { userTimeZone, formattedTimeZone } = useFormattedTimeZone();
+
   const { email: therapistEmail, available_slots: availableSlots } =
     currentTherapist?.therapist || {};
 
@@ -48,9 +51,7 @@ export const BookingSection = () => {
   const twoWeeksFromTomorrow = addWeeks(tomorrow, 2);
   const oneMonthFromTomorrow = addMonths(tomorrow, 1);
 
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const availableSlotsByDay = groupByDay(timezone, availableSlots);
+  const availableSlotsByDay = groupByDay(userTimeZone, availableSlots);
 
   const handleChangeDay = (date?: Date) => {
     onDaySelect(date);
@@ -127,7 +128,7 @@ export const BookingSection = () => {
           Book your <i>First</i> Session
         </h2>
         <p className="text-sm text-center font-light tracking-[-0.02em]">
-          Local Timezone ({timezone})
+          Local Timezone ({formattedTimeZone || userTimeZone})
         </p>
       </div>
       <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
@@ -136,7 +137,7 @@ export const BookingSection = () => {
             Book Your First Session
           </h2>
           <p className="text-sm text-center font-light tracking-[-0.02em]">
-            Local Timezone ({timezone})
+            Local Timezone ({formattedTimeZone || userTimeZone})
           </p>
         </div>
         <Calendar
