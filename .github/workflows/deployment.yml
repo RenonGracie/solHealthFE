@@ -16,14 +16,21 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - 'release/v*'
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
 permissions:
   id-token: write
   contents: read
 jobs:
+  ci:
+    name: Run CI Checks
+    uses: ./.github/workflows/ci.yml
+
   setup:
     name: Setup environment
+    needs: ci
     runs-on: ubuntu-latest
     outputs:
       deploy_env: ${{ steps.set-env.outputs.deploy_env }}
@@ -35,6 +42,8 @@ jobs:
             echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/release/v* ]]; then
+            echo "DEPLOY_ENV=stg" >> $GITHUB_OUTPUT
           else
             echo "DEPLOY_ENV=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
