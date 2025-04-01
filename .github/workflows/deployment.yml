@@ -67,6 +67,7 @@ jobs:
           VITE_SENTRY_PROJECT: ${{ vars.VITE_SENTRY_PROJECT }}
           VITE_SENTRY_AUTH_TOKEN: ${{ secrets.VITE_SENTRY_AUTH_TOKEN }}
           VITE_ENV: ${{ needs.setup.outputs.deploy_env }}
+          VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
         run: yarn build
 
       - name: Configure AWS Credentials
