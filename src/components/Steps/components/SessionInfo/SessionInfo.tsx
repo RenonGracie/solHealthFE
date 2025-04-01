@@ -4,6 +4,7 @@ import { toZonedTime } from 'date-fns-tz';
 
 import CalendarIcon from '@/assets/icons/calendar-icon.svg';
 import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
+import { useFormattedTimeZone } from '@/hooks';
 
 interface IProps {
   therapistName?: string;
@@ -18,7 +19,7 @@ export const SessionInfo = ({
   startDate,
   endDate,
 }: IProps) => {
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const { userTimeZone, formattedTimeZone } = useFormattedTimeZone();
 
   const sessionDate = React.useMemo(() => {
     if (!startDate) return '';
@@ -37,11 +38,11 @@ export const SessionInfo = ({
     const startTime = format(zonedStartDate, 'h:mmaaa');
     const endTime = format(zonedEndDate, 'h:mmaaa');
 
-    return `${startTime} - ${endTime} ${userTimeZone}`;
-  }, [startDate, endDate, userTimeZone]);
+    return `${startTime} - ${endTime} ${formattedTimeZone || userTimeZone}`;
+  }, [startDate, endDate, userTimeZone, formattedTimeZone]);
 
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-between gap-1">
+    <div className="flex flex-col lg:flex-row lg:justify-between gap-1 lg:gap-2">
       <div className="flex gap-4 items-center">
         <img
           src={therapistImageLink || PLACEHOLDER_IMAGE_PATH}
@@ -63,7 +64,7 @@ export const SessionInfo = ({
         </div>
         <div className="flex flex-col gap-1 text-[16px] leading-[18px] tracking-[-0.02em]">
           <p>{sessionDate}</p>
-          <p className="font-[300]">{sessionTime}</p>
+          <p className="font-[300] whitespace-nowrap">{sessionTime}</p>
         </div>
       </div>
     </div>
