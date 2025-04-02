@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import svgr from 'vite-plugin-svgr';
@@ -7,6 +7,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+  const commitHash = env.VITE_COMMIT_HASH?.slice(0, 7) || '';
 
   return {
     build: {
@@ -23,15 +24,25 @@ export default defineConfig(({ mode }) => {
       svgr({
         include: '**/*.svg',
       }),
-      sentryVitePlugin({
-        org: env.VITE_SENTRY_ORG,
-        project: env.VITE_SENTRY_PROJECT,
-        authToken: env.VITE_SENTRY_AUTH_TOKEN,
-        sourcemaps: {
-          assets: './dist/**',
-          filesToDeleteAfterUpload: ['./dist/**/*.map'],
-        },
-      }),
+      ...(env.VITE_ENV
+        ? [
+            sentryVitePlugin({
+              org: env.VITE_SENTRY_ORG,
+              project: env.VITE_SENTRY_PROJECT,
+              authToken: env.VITE_SENTRY_AUTH_TOKEN,
+              release: {
+                name: commitHash,
+                deploy: {
+                  env: env.VITE_ENV,
+                },
+              },
+              sourcemaps: {
+                assets: './dist/**',
+                filesToDeleteAfterUpload: ['./dist/**/*.map'],
+              },
+            }) as Plugin,
+          ]
+        : []),
     ],
     server: {
       proxy: {

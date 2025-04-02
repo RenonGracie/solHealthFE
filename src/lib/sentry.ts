@@ -5,9 +5,12 @@ const getTracesSampleRate = () => {
 };
 
 if (import.meta.env.VITE_ENV) {
+  const commitHash = import.meta.env.VITE_COMMIT_HASH?.slice(0, 7) || '';
+
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN as string,
     environment: import.meta.env.VITE_ENV as string,
+    release: commitHash,
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.browserProfilingIntegration(),
