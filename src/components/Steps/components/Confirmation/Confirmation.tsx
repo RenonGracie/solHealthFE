@@ -21,30 +21,32 @@ export const Confirmation = () => {
     },
   } = useIntakeqService();
 
-  const handleFillOutFormClick = async () => {
-    if (!bookingData?.ClientId || !bookingData.PractitionerId) {
-      return;
-    }
+  React.useEffect(() => {
+    void (async () => {
+      if (!bookingData?.ClientId || !bookingData?.PractitionerId) {
+        return;
+      }
 
+      try {
+        const mandatoryFormData = await sendMandatoryForm({
+          data: {
+            client_id: bookingData.ClientId,
+            therapist_id: bookingData.PractitionerId,
+          },
+        });
+
+        if (mandatoryFormData?.url) {
+          setMandatoryFormUrl(mandatoryFormData.url);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [bookingData?.ClientId, bookingData?.PractitionerId]);
+
+  const handleFillOutFormClick = () => {
     if (mandatoryFormUrl) {
       window.open(mandatoryFormUrl, '_blank');
-      return;
-    }
-
-    try {
-      const mandatoryFormData = await sendMandatoryForm({
-        data: {
-          client_id: bookingData.ClientId,
-          therapist_id: bookingData.PractitionerId,
-        },
-      });
-
-      if (mandatoryFormData?.url) {
-        setMandatoryFormUrl(mandatoryFormData.url);
-        window.open(mandatoryFormData.url, '_blank');
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 

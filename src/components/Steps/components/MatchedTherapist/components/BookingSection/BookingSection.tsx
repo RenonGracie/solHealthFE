@@ -43,8 +43,11 @@ export const BookingSection = () => {
 
   const { userTimeZone, formattedTimeZone } = useFormattedTimeZone();
 
-  const { email: therapistEmail, available_slots: availableSlots } =
-    currentTherapist?.therapist || {};
+  const {
+    email: therapistEmail,
+    available_slots: availableSlots,
+    intern_name: therapistName,
+  } = currentTherapist?.therapist || {};
 
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
@@ -91,7 +94,12 @@ export const BookingSection = () => {
   const isBookSessionButtonDisabled = !selectedDay || !selectedSlot || loading;
 
   const handleBookSession = () => {
-    if (!clientResponseId || !selectedSlot || !therapistEmail) {
+    if (
+      !clientResponseId ||
+      !selectedSlot ||
+      !therapistEmail ||
+      !therapistName
+    ) {
       return;
     }
 
@@ -103,6 +111,7 @@ export const BookingSection = () => {
         client_response_id: clientResponseId,
         datetime: selectedSlot,
         therapist_email: therapistEmail,
+        therapist_name: therapistName,
       },
     });
   };

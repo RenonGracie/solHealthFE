@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clients_signup/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search clients */
+        get: operations["clients_signupall_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/appointments": {
         parameters: {
             query?: never;
@@ -239,6 +256,23 @@ export interface paths {
         put?: never;
         /** Send mandatory form and get its link */
         post: operations["intakeq_formsmandatory_form_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get analytic events */
+        get: operations["events_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -449,6 +483,8 @@ export interface components {
         Error: {
             /** Error */
             error: string;
+            /** Details */
+            details?: Record<string, never>[];
         };
         /** Appointments */
         Appointments: {
@@ -535,6 +571,8 @@ export interface components {
             client_response_id: string;
             /** Therapist Email */
             therapist_email: string;
+            /** Therapist Name */
+            therapist_name: string;
             /** Datetime */
             datetime: string;
             /** Send Client Email Notification */
@@ -627,6 +665,8 @@ export interface components {
             greetings_video_link?: string;
             /** Image Link */
             image_link?: string;
+            /** Accepting New Clients */
+            accepting_new_clients?: boolean;
         };
         /** MatchedTherapists */
         MatchedTherapists: {
@@ -673,6 +713,8 @@ export interface components {
             end?: string;
             /** Event */
             event?: string;
+            /** Zone */
+            zone?: string;
             /** Description */
             description?: string;
             /** Recurrence */
@@ -738,6 +780,60 @@ export interface components {
         Url: {
             /** Url */
             url: string;
+        };
+        /** AnalyticsEvents */
+        AnalyticsEvents: {
+            /** Events */
+            events: components["schemas"]["AnalyticsEvent"][];
+        };
+        /** AnalyticsEvent */
+        AnalyticsEvent: {
+            /** Client Id */
+            client_id?: string;
+            /** Email */
+            email?: string;
+            /** User Id */
+            user_id?: string;
+            /** Session Id */
+            session_id?: string;
+            /** Event Type */
+            event_type?: string;
+            /** Value */
+            value?: string;
+            /** Name */
+            name?: string;
+            /** Var 1 */
+            var_1?: string;
+            /** Var 2 */
+            var_2?: string;
+            /** Utm Source */
+            utm_source?: string;
+            /** Utm Medium */
+            utm_medium?: string;
+            /** Utm Campaign */
+            utm_campaign?: string;
+            /** Utm Adid */
+            utm_adid?: string;
+            /** Utm Adgroup */
+            utm_adgroup?: string;
+            /** Utm Content */
+            utm_content?: string;
+            /** Utm Term */
+            utm_term?: string;
+            /** Clid */
+            clid?: string;
+            /**
+             * Id
+             * Format: uuid4
+             */
+            id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at?: string;
+            /** Params */
+            params?: Record<string, never>;
         };
         /** SuccessResponse */
         SuccessResponse: {
@@ -850,6 +946,46 @@ export interface operations {
         parameters: {
             query: {
                 response_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClientSignup"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    clients_signupall_get: {
+        parameters: {
+            query: {
+                email: string;
             };
             header?: never;
             path?: never;
@@ -1326,6 +1462,53 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Url"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    events_get: {
+        parameters: {
+            query?: {
+                client_id?: string;
+                email?: string;
+                user_id?: string;
+                session_id?: string;
+                event_type?: string;
+                value?: string;
+                name?: string;
+                var_1?: string;
+                var_2?: string;
+                utm_source?: string;
+                utm_medium?: string;
+                utm_campaign?: string;
+                utm_adid?: string;
+                utm_adgroup?: string;
+                utm_content?: string;
+                utm_term?: string;
+                clid?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyticsEvents"];
                 };
             };
             /** @description Unprocessable Entity */
