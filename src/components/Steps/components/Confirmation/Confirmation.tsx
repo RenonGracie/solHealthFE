@@ -42,7 +42,7 @@ export const Confirmation = () => {
         console.error(error);
       }
     })();
-  }, [bookingData?.ClientId, bookingData?.PractitionerId]);
+  }, [bookingData?.ClientId, bookingData?.PractitionerId, sendMandatoryForm]);
 
   const handleFillOutFormClick = () => {
     if (mandatoryFormUrl) {

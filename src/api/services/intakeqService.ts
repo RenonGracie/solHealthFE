@@ -12,8 +12,6 @@ export const useIntakeqService = () => {
       never,
       SendMandatoryFormData,
       SendMandatoryFormResponse
-    >(ENDPOINTS.INTAKEQ_FORMS.SEND_MANDATORY_FORM, {
-      method: 'POST',
-    }),
+    >(ENDPOINTS.INTAKEQ_FORMS.SEND_MANDATORY_FORM, 'POST'),
   };
 };

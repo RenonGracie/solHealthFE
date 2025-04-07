@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, Method } from 'axios';
 import axiosInstance from '../axios';
 
 type RequestConfig<TParams, TData> = Omit<
@@ -23,17 +23,17 @@ interface RequestState<TParams, TData, R> extends RequestStateBase<R> {
 
 export const useRequest = <TParams, TData, R>(
   endpoint: string,
-  defaultConfig?: RequestConfig<TParams, TData>,
+  method?: Method,
 ) => {
   const [data, setData] = React.useState<R | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | Error | null>(null);
 
-  const reset = () => {
+  const reset = React.useCallback(() => {
     setData(null);
     setLoading(false);
     setError(null);
-  };
+  }, []);
 
   const makeRequest = React.useCallback(
     async (config: RequestConfig<TParams, TData>) => {
@@ -41,8 +41,8 @@ export const useRequest = <TParams, TData, R>(
         setLoading(true);
         setError(null);
         const response = await axiosInstance<R>({
+          method,
           url: endpoint,
-          ...defaultConfig,
           ...config,
         });
         setData(response.data);
@@ -56,7 +56,7 @@ export const useRequest = <TParams, TData, R>(
         setLoading(false);
       }
     },
-    [endpoint, defaultConfig],
+    [endpoint, method],
   );
 
   return {

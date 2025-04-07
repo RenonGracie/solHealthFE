@@ -11,8 +11,6 @@ export const useAppointmentsService = () => {
       never,
       BookAppointmentData,
       BookAppointmentResponse
-    >(ENDPOINTS.APPOINTMENTS.BOOK_APPOINTMENT, {
-      method: 'POST',
-    }),
+    >(ENDPOINTS.APPOINTMENTS.BOOK_APPOINTMENT, 'POST'),
   };
 };
