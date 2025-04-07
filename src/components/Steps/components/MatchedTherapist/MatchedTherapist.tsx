@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
-import { Tag, VideoPlayer, ExpandableList, Button } from '../../../ui';
+import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
+import { Tag, VideoPlayer, ExpandableList, Button } from '@/components/ui';
 import {
   TherapyStyleSection,
   TherapistInfoSection,
@@ -72,6 +73,10 @@ export const MatchedTherapist: React.FC = () => {
     onViewPreviousTherapist(therapistId);
     triggerLoading();
   };
+
+  React.useEffect(() => {
+    trackEvent(GTM_EVENTS.RECOMMENDED_THERAPIST);
+  }, []);
 
   if (bookingState.showSection) {
     return <BookingSection />;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
 
 import { Loader, Error } from './components/ui';
 import { STEPS } from './constants';
@@ -37,6 +38,7 @@ function App() {
   const handleTypeformSubmit = React.useCallback(
     async (responseId: string) => {
       setClientResponseId(responseId);
+      trackEvent(GTM_EVENTS.MATCHMAKING_LOADING);
 
       try {
         await pollFormAndRequestMatch(responseId);

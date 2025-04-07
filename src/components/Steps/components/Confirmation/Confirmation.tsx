@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
 
 import { Link, Button } from '@/components/ui';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
@@ -20,6 +21,10 @@ export const Confirmation = () => {
       makeRequest: sendMandatoryForm,
     },
   } = useIntakeqService();
+
+  React.useEffect(() => {
+    trackEvent(GTM_EVENTS.BOOKING_CONFIRMATION);
+  }, []);
 
   React.useEffect(() => {
     void (async () => {
