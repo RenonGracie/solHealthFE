@@ -1,21 +1,34 @@
+import * as React from 'react';
+
 import { twMerge } from 'tailwind-merge';
 
 interface IProps {
-  children: React.ReactNode;
+  title?: string;
   className?: string;
   style?: React.CSSProperties;
+  error?: string | null;
 }
 
-export const Error = ({ children, className, style }: IProps) => {
+export const Error = ({
+  title = 'An error occurred',
+  className,
+  style,
+  error,
+}: IProps) => {
   return (
     <div
       style={style}
       className={twMerge(
-        'flex h-full w-full items-center justify-center',
+        'flex flex-col gap-1 h-full w-full items-center justify-center',
         className,
       )}
     >
-      <div className="text-2xl font-bold text-center">{children}</div>
+      <h2 className="text-2xl font-bold text-center">{title}</h2>
+      {error && (
+        <p className="text-xl text-center font-light text-gray-600">
+          Reason: {error}
+        </p>
+      )}
     </div>
   );
 };

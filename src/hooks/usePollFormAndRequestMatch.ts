@@ -1,13 +1,16 @@
 import * as React from 'react';
+import { AxiosError } from 'axios';
 
 import {
   useClientsSignupFormsService,
   useTherapistsService,
 } from '../api/services';
+import { TApiError } from '../api/types/errors';
+import { formatApiError } from '../lib/errorUtils';
 
 export const usePollFormAndRequestMatch = () => {
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<Error | string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
 
   const {
     form: { makeRequest: getForm },
@@ -48,11 +51,17 @@ export const usePollFormAndRequestMatch = () => {
           }
 
           return;
-        } catch (error) {
+        } catch (err) {
           if (attempts >= maxAttempts) {
-            setError(error as Error);
+            const error = err as AxiosError<TApiError>;
+
+            const errorMessage = error.response?.data
+              ? formatApiError(error.response.data)
+              : error.message;
+
+            setError(errorMessage);
             setLoading(false);
-            throw error;
+            throw err;
           }
 
           await new Promise((resolve) => setTimeout(resolve, delay));

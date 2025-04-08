@@ -92,9 +92,11 @@ function App() {
 
   if (error) {
     return (
-      <Error className="min-h-screen min-w-screen">
-        <span>An error occurred while fetching the therapists</span>
-      </Error>
+      <Error
+        className="min-h-screen min-w-screen"
+        title="An error occurred while fetching the therapists"
+        error={error}
+      />
     );
   }
 

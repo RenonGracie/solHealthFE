@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { AxiosError, AxiosRequestConfig, Method } from 'axios';
+
+import { formatApiError } from '@/lib/errorUtils';
 import axiosInstance from '../axios';
+import { TApiError } from '../types/errors';
 
 type RequestConfig<TParams, TData> = Omit<
   AxiosRequestConfig,
@@ -13,7 +16,8 @@ type RequestConfig<TParams, TData> = Omit<
 interface RequestStateBase<R> {
   data: R | null;
   loading: boolean;
-  error: string | Error | null;
+  error: string | null;
+  rawError: string | Error | null;
   reset: () => void;
 }
 
@@ -27,12 +31,14 @@ export const useRequest = <TParams, TData, R>(
 ) => {
   const [data, setData] = React.useState<R | null>(null);
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | Error | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const [rawError, setRawError] = React.useState<string | Error | null>(null);
 
   const reset = React.useCallback(() => {
     setData(null);
     setLoading(false);
     setError(null);
+    setRawError(null);
   }, []);
 
   const makeRequest = React.useCallback(
@@ -48,8 +54,13 @@ export const useRequest = <TParams, TData, R>(
         setData(response.data);
         return response.data;
       } catch (err) {
-        const error = err as AxiosError<{ message: string }>;
-        const errorMessage = error.response?.data?.message || error.message;
+        const error = err as AxiosError<TApiError>;
+
+        const errorMessage = error.response?.data
+          ? formatApiError(error.response.data)
+          : error.message;
+
+        setRawError(error);
         setError(errorMessage);
         throw error;
       } finally {
@@ -63,6 +74,7 @@ export const useRequest = <TParams, TData, R>(
     data,
     loading,
     error,
+    rawError,
     makeRequest,
     reset,
   } as RequestState<TParams, TData, R>;

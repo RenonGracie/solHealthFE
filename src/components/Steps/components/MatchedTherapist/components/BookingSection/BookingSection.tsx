@@ -124,9 +124,7 @@ export const BookingSection = () => {
 
   if (error) {
     return (
-      <Error>
-        <span>An error occurred while booking session</span>
-      </Error>
+      <Error title="An error occurred while booking session" error={error} />
     );
   }
 
