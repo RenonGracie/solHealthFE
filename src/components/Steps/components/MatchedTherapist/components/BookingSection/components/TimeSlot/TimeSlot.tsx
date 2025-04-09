@@ -7,7 +7,7 @@ export interface ITimeSlotProps {
 }
 
 export const TimeSlot = ({ slot, isSelected, onSelect }: ITimeSlotProps) => {
-  const id = slot.toISOString();
+  const id = `time-slot-${slot.getTime()}`;
 
   return (
     <label
