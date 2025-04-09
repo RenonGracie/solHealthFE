@@ -38,9 +38,13 @@ yarn test
 
 For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https://semver.org/).
 
-### Release Process
+## Release Process
 
-1. Create a new branch from `main` for version update:
+We follow a structured release workflow to ensure safe and predictable deployments.
+
+### Case 1: Standard Release
+
+1. **Create a release branch from `main`** (if it doesn’t exist yet):
 
    ```bash
    git checkout main
@@ -48,21 +52,38 @@ For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https:
    git checkout -b release/vX.X.X
    ```
 
-2. Update the version using one of the following commands:
+2. **Create feature/fix branches** from the release branch:
 
    ```bash
-   yarn version:patch  # for small fixes (0.0.X)
-   yarn version:minor  # for new features (0.X.0)
-   yarn version:major  # for major changes (X.0.0)
+   git checkout -b [jira-ticket-branch-name] release/vX.X.X
    ```
 
-3. Push the branch and create a pull request to `main`:
+3. **Open pull requests** from feature/fix branches to `release/vX.X.X`:
 
-   ```bash
-   git push origin release/vX.X.X
-   ```
+   - Wait for **all checks** to pass before merging
+   - Use **squash merge** if there are multiple commits
+   - Use **rebase merge** if there’s only one commit
 
-4. After the PR is approved and merged, checkout `main` and push the tag:
+4. **Prepare the release**:
+
+   - Create a PR from `release/vX.X.X` to `main`
+   - Before merging, bump the version:
+
+     ```bash
+     yarn version:patch   # for bug fixes (0.0.X)
+     yarn version:minor   # for new features (0.X.0)
+     yarn version:major   # for breaking changes (X.0.0)
+     ```
+
+   - Push the updated version:
+
+     ```bash
+     git push origin release/vX.X.X
+     ```
+
+   - Merge the PR into `main` using **rebase only**
+
+5. **Trigger production deployment**:
 
    ```bash
    git checkout main
@@ -70,9 +91,18 @@ For versioning guidelines, please refer to [Semantic Versioning (SemVer)](https:
    git push origin --tags
    ```
 
-## Contributing
+---
 
-5. Create a new branch for your feature
-6. Make your changes
-7. Submit a pull request to `main`
-8. After merge, follow the release process above if deploying to production
+### Case 2: Infrastructure-Only Changes
+
+If there are **no code updates** and only changes to infrastructure (e.g., environment variables, config values):
+
+- There’s **no need** to create a release branch or bump the version
+- Instead, manually **trigger the production deployment workflow**
+
+---
+
+### General Rules
+
+- Always **rebase merge** into `main`
+- Use **squash merge** into release branches if there are multiple commits
