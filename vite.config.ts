@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     build: {
+      assetsInlineLimit: 8192,
       sourcemap: true,
       rollupOptions: {
         output: {
