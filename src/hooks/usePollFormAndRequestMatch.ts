@@ -20,6 +20,14 @@ export const usePollFormAndRequestMatch = () => {
     match: { data: matchData, makeRequest: getMatch },
   } = useTherapistsService();
 
+  const handleError = (error: AxiosError<TApiError>) => {
+    const errorMessage = error.response?.data
+      ? formatApiError(error.response.data)
+      : error.message;
+
+    setError(errorMessage);
+  };
+
   const pollFormAndRequestMatch = React.useCallback(
     async (
       responseId: string,
@@ -27,47 +35,44 @@ export const usePollFormAndRequestMatch = () => {
       maxAttempts = 20,
     ): Promise<void> => {
       setLoading(true);
+
       let attempts = 0;
 
       const pollStatus = async (): Promise<void> => {
         attempts++;
 
-        if (attempts > maxAttempts) {
-          throw new Error();
-        }
+        let formResponse;
 
         try {
-          const response = await getForm({
+          formResponse = await getForm({
             params: {
               response_id: responseId,
             },
           });
-
-          if (response) {
-            await getMatch({
-              params: { limit: 10, response_id: responseId },
-            });
-            setLoading(false);
-          }
-
-          return;
-        } catch (err) {
+        } catch (error) {
           if (attempts >= maxAttempts) {
-            const error = err as AxiosError<TApiError>;
-
-            const errorMessage = error.response?.data
-              ? formatApiError(error.response.data)
-              : error.message;
-
-            setError(errorMessage);
-            setLoading(false);
-            throw err;
+            handleError(error as AxiosError<TApiError>);
+            throw error;
           }
 
           await new Promise((resolve) => setTimeout(resolve, delay));
 
           return pollStatus();
         }
+
+        if (formResponse) {
+          try {
+            await getMatch({
+              params: { limit: 10, response_id: responseId },
+            });
+          } catch (error) {
+            handleError(error as AxiosError<TApiError>);
+            throw error;
+          }
+        }
+
+        setLoading(false);
+        return;
       };
 
       return pollStatus();
