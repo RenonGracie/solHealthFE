@@ -6,18 +6,18 @@ import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 export const groupByDay = (timeZone: string, timeSlots?: string[]) => {
   if (!timeSlots) return {};
 
-  const now = new Date();
-  const twentyFourHoursFromNow = addHours(now, 24);
+  const nowUTC = new Date();
+  const twentyFourHoursFromNowUTC = addHours(nowUTC, 24);
 
   return timeSlots.reduce(
     (acc, slot) => {
-      const date = new Date(slot);
-      const localDate = toZonedTime(date, timeZone);
+      const slotDateUTC = new Date(slot);
 
-      if (isBefore(localDate, twentyFourHoursFromNow)) {
+      if (isBefore(slotDateUTC, twentyFourHoursFromNowUTC)) {
         return acc;
       }
 
+      const localDate = toZonedTime(slotDateUTC, timeZone);
       const dayKey = format(localDate, CALENDAR_GROUP_DATE_FORMAT);
 
       if (!acc[dayKey]) {
