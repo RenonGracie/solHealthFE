@@ -25,15 +25,15 @@ export const NoMatch = ({ onGoToQuestionnaire }: IProps) => {
   return (
     <>
       <div className="flex flex-col items-stretch lg:items-center  gap-[100px] lg:gap-[80px]">
-        <h4 className="text-center text-[24px] lg:text-[32px] leading-[22px] lg:leading-[28px] very-vogue-text">
-          Please try to expand your answers in the form
+        <h4 className="text-center text-[24px] lg:text-[32px] leading-[90%] very-vogue-text">
+          Try expanding or adjusting your answers to see more available options.
         </h4>
         <Button
           withArrow
-          className="lg:max-w-fit rounded-4xl"
+          className="lg:max-w-fit rounded-4xl text-[16px] tracking-[-0.02em]"
           onClick={handleGoToQuestionnaireClick}
         >
-          Go to Questionnaire
+          Update My Preferences
         </Button>
       </div>
       <Modal

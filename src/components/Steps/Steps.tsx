@@ -34,10 +34,10 @@ export const Steps: React.FC<IProps> = ({
       return (
         <Layout
           title={
-            <>
-              We are sorry, but there are no therapists
-              <br /> who match your preferences
-            </>
+            <span className="text-[32px] lg:text-[48px] leading-[90%]">
+              We couldn&apos;t find any therapists who match your current
+              preferences.
+            </span>
           }
           onGoBack={onGoBack}
         >
