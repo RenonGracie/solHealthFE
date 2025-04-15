@@ -3,8 +3,9 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
 import CalendarIcon from '@/assets/icons/calendar-icon.svg';
-import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
+import profileImagePlaceholderSrc from '@/assets/images/profile-image-placeholder.svg?url';
 import { useFormattedTimeZone } from '@/hooks';
+import { ImageWithPlaceholder } from '@/components/ui';
 
 interface IProps {
   therapistName?: string;
@@ -44,10 +45,11 @@ export const SessionInfo = ({
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between gap-1 lg:gap-2">
       <div className="flex gap-4 items-center">
-        <img
-          src={therapistImageLink || PLACEHOLDER_IMAGE_PATH}
+        <ImageWithPlaceholder
+          src={therapistImageLink}
           alt={`${therapistName} photo`}
-          className="w-[80px] h-[80px] rounded-full object-cover"
+          containerClassName="w-[80px] h-[80px] rounded-full shrink-0"
+          placeholderSrc={profileImagePlaceholderSrc}
         />
         <div>
           <h2 className="text-[32px] very-vogue-text leading-[90%]">

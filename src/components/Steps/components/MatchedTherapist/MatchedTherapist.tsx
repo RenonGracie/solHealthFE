@@ -1,14 +1,21 @@
 import * as React from 'react';
+
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
-import { Tag, VideoPlayer, ExpandableList, Button } from '@/components/ui';
+import {
+  Tag,
+  VideoPlayer,
+  ExpandableList,
+  Button,
+  ImageWithPlaceholder,
+} from '@/components/ui';
+import profileImagePlaceholderSrc from '@/assets/images/profile-image-placeholder.svg?url';
 import {
   TherapyStyleSection,
   TherapistInfoSection,
   BookingSection,
   PreviousTherapistCard,
 } from './components';
-import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
 
 export const MatchedTherapist: React.FC = () => {
   const {
@@ -90,13 +97,11 @@ export const MatchedTherapist: React.FC = () => {
             <div className="flex flex-col gap-4 pb-4 lg:pb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto]">
                 <div className="flex items-center gap-4 mb-5 order-1">
-                  <img
-                    src={
-                      therapistData?.therapist?.image_link ||
-                      PLACEHOLDER_IMAGE_PATH
-                    }
+                  <ImageWithPlaceholder
+                    src={therapistData?.therapist?.image_link}
                     alt={`${therapistData?.therapist?.intern_name} photo`}
-                    className="w-[80px] h-[80px] rounded-full object-cover"
+                    containerClassName="w-[80px] h-[80px] rounded-full shrink-0"
+                    placeholderSrc={profileImagePlaceholderSrc}
                   />
                   <div>
                     <h2 className="text-[32px] very-vogue-text">
