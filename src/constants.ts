@@ -8,5 +8,3 @@ export enum STEPS {
 export const CALENDAR_WEEK_DAYS = ['s', 'm', 't', 'w', 't', 'f', 's'];
 
 export const CALENDAR_GROUP_DATE_FORMAT = 'yyyy-MM-dd';
-
-export const PLACEHOLDER_IMAGE_PATH = '/images/placeholder.svg';

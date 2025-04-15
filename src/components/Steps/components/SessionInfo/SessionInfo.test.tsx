@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 
-import { PLACEHOLDER_IMAGE_PATH } from '@/constants';
+import profileImagePlaceholderSrc from '@/assets/images/profile-image-placeholder.svg?url';
 import { SessionInfo } from '../SessionInfo';
 import * as hooks from '@/hooks';
 
@@ -20,20 +20,29 @@ describe('SessionInfo', () => {
 
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Therapist-in-Training')).toBeInTheDocument();
-    expect(screen.getByAltText('John Doe photo')).toHaveAttribute(
-      'src',
-      'https://example.com/photo.jpg',
-    );
+
+    const mainImage = screen.getByTestId('image-main');
+    const placeholderImage = screen.getByTestId('image-placeholder');
+
+    act(() => {
+      mainImage.dispatchEvent(new Event('load'));
+    });
+
+    expect(mainImage).toHaveAttribute('src', MOCK_PROPS.therapistImageLink);
+    expect(mainImage).toHaveClass('opacity-100');
+    expect(placeholderImage).toHaveClass('opacity-0');
   });
 
   it('uses placeholder image when therapistImageLink is not provided', () => {
     const propsWithoutImage = { ...MOCK_PROPS, therapistImageLink: undefined };
     render(<SessionInfo {...propsWithoutImage} />);
 
-    expect(screen.getByAltText('John Doe photo')).toHaveAttribute(
-      'src',
-      PLACEHOLDER_IMAGE_PATH,
-    );
+    const mainImage = screen.getByTestId('image-main');
+    const placeholderImage = screen.getByTestId('image-placeholder');
+
+    expect(placeholderImage).toHaveAttribute('src', profileImagePlaceholderSrc);
+    expect(mainImage).toHaveClass('opacity-0');
+    expect(placeholderImage).toHaveClass('opacity-100');
   });
 
   it('formats session date correctly', () => {
