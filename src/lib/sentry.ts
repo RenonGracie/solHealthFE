@@ -15,9 +15,13 @@ if (import.meta.env.VITE_ENV) {
       Sentry.browserTracingIntegration(),
       Sentry.browserProfilingIntegration(),
       Sentry.replayIntegration(),
+      Sentry.thirdPartyErrorFilterIntegration({
+        filterKeys: [import.meta.env.VITE_SENTRY_PROJECT as string],
+        behaviour: 'drop-error-if-exclusively-contains-third-party-frames',
+      }),
     ],
     tracesSampleRate: getTracesSampleRate(),
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
+    replaysSessionSampleRate: 0.0,
+    replaysOnErrorSampleRate: 0.1,
   });
 }
