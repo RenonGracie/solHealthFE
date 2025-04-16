@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
 
-import { Loader, Error } from './components/ui';
+import { Error } from './components/ui';
+import { MatchingLoader } from './components/MatchingLoader';
 import { STEPS } from './constants';
 import { usePollFormAndRequestMatch } from './hooks';
 import { BookAppointmentResponse } from './api/services';
@@ -101,14 +102,7 @@ function App() {
   }
 
   if (loading) {
-    return (
-      <Loader className="min-h-screen min-w-screen">
-        <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
-          Now the fun part. We&apos;re running our matching algorithm and
-          finding your best therapist.
-        </p>
-      </Loader>
-    );
+    return <MatchingLoader />;
   }
 
   return (
@@ -123,12 +117,7 @@ function App() {
       setIsSearchingAnotherTherapist={setIsSearchingAnotherTherapist}
     >
       {isSearchingAnotherTherapist ? (
-        <Loader className="min-h-screen min-w-screen">
-          <p className="text-center text-xl font-light leading-5 tracking-[-0.02em]">
-            Now the fun part. We&apos;re running our matching algorithm and
-            finding your best therapist.
-          </p>
-        </Loader>
+        <MatchingLoader />
       ) : (
         <Steps
           step={step}
