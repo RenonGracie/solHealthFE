@@ -1,5 +1,12 @@
 @import 'tailwindcss';
 
+:root {
+  --brand-brown: #7b4720;
+  --brand-black: #363943;
+  --brand-background: #fffbf3;
+  --brand-coffee: #e6caaf;
+}
+
 @layer base {
   @font-face {
     font-family: 'Very Vogue Text';
@@ -61,8 +68,8 @@
   body {
     margin: 0;
     padding: 0;
-    color: #363943;
-    background-color: #fffbf3;
+    color: var(--brand-black);
+    background-color: var(--brand-background);
     background-image: url('/src/assets/images/grainy-background.svg');
     background-position: center;
     font-family: 'Inter', sans-serif;
@@ -71,7 +78,7 @@
 
 @layer components {
   .grainy-background {
-    background-color: #fffbf3;
+    background-color: var(--brand-background);
     background-image: url('/src/assets/images/grainy-background.svg');
     background-position: center;
   }
