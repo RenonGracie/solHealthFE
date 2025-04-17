@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
               org: env.VITE_SENTRY_ORG,
               project: env.VITE_SENTRY_PROJECT,
               authToken: env.VITE_SENTRY_AUTH_TOKEN,
+              applicationKey: env.VITE_SENTRY_PROJECT,
               release: {
                 name: commitHash,
                 deploy: {
