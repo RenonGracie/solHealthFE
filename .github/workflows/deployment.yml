@@ -36,8 +36,8 @@ jobs:
     outputs:
       deploy_env: ${{ steps.set-env.outputs.deploy_env }}
     steps:
-      - name: Check branch for prod deployment
-        if: inputs.environment == 'prod'
+      - name: Check branch for manual prod deployment
+        if: ${{ inputs.environment == 'prod' }}
         run: |
           if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
             echo "❌ Production deployment is only allowed from main branch"
@@ -74,10 +74,27 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: 'yarn.lock'
 
+      - name: Ensure tag points to main (only for prod)
+        if: ${{ needs.setup.outputs.deploy_env == 'prod' && startsWith(github.ref, 'refs/tags/') }}
+        id: check_tag
+        run: |
+          git fetch origin main --depth=1
+          COMMIT=$(git rev-parse HEAD)
+          MAIN_COMMIT=$(git rev-parse origin/main)
+
+          if [ "$COMMIT" = "$MAIN_COMMIT" ]; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "🛑 Tag does not point to main — skipping prod deployment."
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install Dependencies
+        if: ${{ needs.setup.outputs.deploy_env != 'prod' || steps.check_tag.outputs.should_deploy == 'true' }}
         run: yarn
 
       - name: Build Bundle
+        if: ${{ needs.setup.outputs.deploy_env != 'prod' || steps.check_tag.outputs.should_deploy == 'true' }}
         env:
           VITE_TYPEFORM_ID: ${{ vars.VITE_TYPEFORM_ID }}
           VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
@@ -90,6 +107,7 @@ jobs:
         run: yarn build
 
       - name: Configure AWS Credentials
+        if: ${{ needs.setup.outputs.deploy_env != 'prod' || steps.check_tag.outputs.should_deploy == 'true' }}
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-region: ${{ env.AWS_REGION }}
@@ -97,12 +115,14 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
 
       - name: Deliver Files
+        if: ${{ needs.setup.outputs.deploy_env != 'prod' || steps.check_tag.outputs.should_deploy == 'true' }}
         env:
           S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
         run: |
           aws s3 cp --recursive dist/ s3://$S3_BUCKET_NAME/
 
       - name: Invalidate CloudFront
+        if: ${{ needs.setup.outputs.deploy_env != 'prod' || steps.check_tag.outputs.should_deploy == 'true' }}
         env:
           CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
