@@ -66,18 +66,30 @@ We follow a structured release workflow to ensure safe and predictable deploymen
 
 4. **Prepare the release**:
 
-   - Use the predefined script to bump version, create a tag, and push everything:
+   - Create a PR from `release/vX.X.X` to `main`
+   - Before merging, bump the version:
+
+     ```bash
+     yarn version:patch   # for bug fixes (0.0.X)
+     yarn version:minor   # for new features (0.X.0)
+     yarn version:major   # for breaking changes (X.0.0)
+     ```
+
+   - Push the updated version:
+
+     ```bash
+     git push origin release/vX.X.X
+     ```
+
+   - Merge the PR into `main` using **rebase only**
+
+5. **Trigger production deployment**:
 
    ```bash
-      yarn release:patch   # or :minor / :major
+   git checkout main
+   git pull origin main
+   git push origin --tags
    ```
-
-   ⚠️ **Important**: Tag must be created before merging to `main`, and the merge must preserve commit history to ensure `GITHUB_SHA` and `Sentry release` match the correct commit.
-
-   - Create a PR from `release/vX.X.X` to `main`
-   - **Merge using “Create a merge commit”** (do **not** squash or rebase)
-
-5. **Verify the production deployment is triggered automatically via tag**.
 
 ---
 
@@ -92,6 +104,5 @@ If there are **no code updates** and only changes to infrastructure (e.g., envir
 
 ### General Rules
 
-- Always **use squash merge** into `release/*` branches if there are multiple commits
-- Always **use merge commit** into `main` to preserve SHA for release tracking
-- **Never use rebase or squash merge** into `main` if the release has already been tagged
+- Always **rebase merge** into `main`
+- Use **squash merge** into release branches if there are multiple commits
