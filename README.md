@@ -81,7 +81,7 @@ We follow a structured release workflow to ensure safe and predictable deploymen
      git push origin release/vX.X.X
      ```
 
-   - Merge the PR into `main` using **rebase only**
+   - **Merge using “Create a merge commit”** (do **not** squash or rebase)
 
 5. **Trigger production deployment**:
 
@@ -104,5 +104,6 @@ If there are **no code updates** and only changes to infrastructure (e.g., envir
 
 ### General Rules
 
-- Always **rebase merge** into `main`
-- Use **squash merge** into release branches if there are multiple commits
+- Always **use squash merge** into `release/*` branches if there are multiple commits
+- If there is only one commit in a PR to `release/*`, you may **use rebase merge**
+- Always **use merge commit** into `main` to preserve SHA for release tracking
