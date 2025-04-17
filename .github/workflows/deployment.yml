@@ -1,6 +1,6 @@
 name: Deployment
 concurrency:
-  group: deployment-${{ inputs.environment }}
+  group: deployment-${{ github.ref_type }}-${{ github.ref_name }}
   cancel-in-progress: true
 on:
   workflow_dispatch:
