@@ -17,12 +17,13 @@ export const Calendar = (props: DayPickerProps) => {
       classNames={{
         caption_label: 'font-["Very_Vogue_Text"] font-normal text-[20px]',
         [UI.NextMonthButton]:
-          '[&>svg]:!fill-[#7E7E7E] hover:cursor-pointer disabled:opacity-50 disabled:pointer-events-none [&.disabled_svg]:!fill-[#D8D8D8]',
+          '[&>svg]:!fill-[var(--gray-80)] hover:cursor-pointer disabled:opacity-50 disabled:pointer-events-none [&.disabled_svg]:!fill-[var(--gray-60)]',
         [UI.PreviousMonthButton]:
-          '[&>svg]:!fill-[#7E7E7E] hover:cursor-pointer disabled:opacity-50 disabled:pointer-events-none [&.disabled_svg]:!fill-[#D8D8D8]',
-        today: 'text-[#363943] rounded-sm outline outline-1 outline-[#7B4720]',
+          '[&>svg]:!fill-[var(--gray-80)] hover:cursor-pointer disabled:opacity-50 disabled:pointer-events-none [&.disabled_svg]:!fill-[var(--gray-60)]',
+        today:
+          'text-[var(--brand-black)] rounded-sm outline outline-1 outline-[var(--brand-brown)]',
         selected:
-          'text-[#363943] rounded-sm outline outline-1 outline-[#7B4720] bg-[#FDDB6D]',
+          'text-[var(--brand-black)] rounded-sm outline outline-1 outline-[var(--brand-brown)] bg-[var(--brand-yellow)]',
         disabled: 'opacity-30',
         [UI.Day]: 'font-normal text-sm tracking-[-0.02em]',
         [UI.DayButton]:

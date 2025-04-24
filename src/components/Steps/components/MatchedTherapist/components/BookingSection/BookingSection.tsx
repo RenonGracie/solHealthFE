@@ -124,7 +124,11 @@ export const BookingSection = () => {
 
   if (error) {
     return (
-      <Error title="An error occurred while booking session" error={error} />
+      <Error
+        className="lg:max-w-[344px]"
+        title="An error occurred while booking session"
+        error={error}
+      />
     );
   }
 
@@ -138,7 +142,7 @@ export const BookingSection = () => {
           Local Timezone ({formattedTimeZone || userTimeZone})
         </p>
       </div>
-      <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
+      <div className="flex flex-col gap-5 rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
         <div className="flex-col gap-2 hidden lg:flex">
           <h2 className="text-[32px] text-center very-vogue-text">
             Book Your First Session
@@ -154,7 +158,7 @@ export const BookingSection = () => {
           startMonth={today}
           endMonth={oneMonthFromTomorrow}
         />
-        <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
+        <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
           {timeSlots}
         </div>
         <BookButton
@@ -182,7 +186,7 @@ export const BookingSection = () => {
         confirmButtonWithArrow
         loading={loading}
       >
-        <div className="rounded-[8px] border border-[#7B4720] p-4">
+        <div className="rounded-[8px] border border-[var(--brand-brown)] p-4">
           <SessionInfo
             therapistName={currentTherapist?.therapist?.intern_name}
             therapistImageLink={currentTherapist?.therapist?.image_link}

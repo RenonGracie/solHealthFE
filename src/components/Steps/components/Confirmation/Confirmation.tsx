@@ -62,7 +62,7 @@ export const Confirmation = () => {
         {bookingData?.ClientName}!
       </h2>
       <div className="lg:row-span-4 mb-5 lg:mb-0">
-        <div className="flex flex-col rounded-[8px] border border-[#7B4720] px-4 lg:px-6 py-6 gap-2 lg:gap-4">
+        <div className="flex flex-col rounded-[8px] border border-[var(--brand-brown)] px-4 lg:px-6 py-6 gap-2 lg:gap-4">
           <SessionInfo
             therapistName={bookingData?.PractitionerName}
             startDate={bookingData?.StartDateIso}

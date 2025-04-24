@@ -26,8 +26,8 @@ export const Button: React.FC<IProps> = ({
         flex items-center justify-center gap-2
         rounded-[20px]
         border
-        border-[#7B4720]
-        bg-[#BCD1F7]
+        border-[var(--brand-brown)]
+        bg-[var(--brand-blue)]
         py-2
         px-2.5
         text-sm font-light leading-4 text-center

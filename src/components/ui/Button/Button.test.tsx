@@ -24,8 +24,8 @@ describe('Button', () => {
     expect(button).toHaveClass(
       'rounded-[20px]',
       'border',
-      'border-[#7B4720]',
-      'bg-[#BCD1F7]',
+      'border-[var(--brand-brown)]',
+      'bg-[var(--brand-blue)]',
       'py-2',
       'px-2.5',
       'text-center',

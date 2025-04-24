@@ -35,7 +35,7 @@ export const TherapyStyleSection: React.FC<IProps> = ({
         items={sortedItems}
         renderItem={(item) => (
           <Tag
-            className={`${matchedItems?.includes(item) ? 'bg-[#E6CAAF]' : ''}`}
+            className={`${matchedItems?.includes(item) ? 'bg-[var(--brand-coffee)]' : ''}`}
           >
             {item}
           </Tag>
