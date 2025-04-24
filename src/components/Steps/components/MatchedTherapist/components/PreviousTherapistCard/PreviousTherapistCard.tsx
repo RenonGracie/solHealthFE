@@ -18,7 +18,7 @@ export const PreviousTherapistCard = ({ photoSrc, name, onClick }: IProps) => {
       <h5 className="text-center text-[24px] very-vogue-text mt-3 lg:mt-4">
         {name}
       </h5>
-      <p className="text-center text-base font-light tracking-[-0.02em] mt-2">
+      <p className="text-center text-base font-light tracking-[-0.02em]">
         Therapist-in-Training
       </p>
     </button>

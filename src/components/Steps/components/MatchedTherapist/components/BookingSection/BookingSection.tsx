@@ -142,8 +142,8 @@ export const BookingSection = () => {
           Local Timezone ({formattedTimeZone || userTimeZone})
         </p>
       </div>
-      <div className="flex flex-col gap-5 rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
-        <div className="flex-col gap-2 hidden lg:flex">
+      <div className="flex flex-col rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
+        <div className="flex-col gap-2 hidden lg:flex mb-5">
           <h2 className="text-[32px] text-center very-vogue-text">
             Book Your First Session
           </h2>
@@ -158,9 +158,11 @@ export const BookingSection = () => {
           startMonth={today}
           endMonth={oneMonthFromTomorrow}
         />
-        <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
-          {timeSlots}
-        </div>
+        {Boolean(timeSlots?.length) && (
+          <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] mt-3 overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
+            {timeSlots}
+          </div>
+        )}
         <BookButton
           onClick={() => setIsModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
