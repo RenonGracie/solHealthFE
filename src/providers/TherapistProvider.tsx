@@ -115,6 +115,22 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
 
       if (!therapist) return;
 
+      const { currentTherapist } = therapistState;
+
+      if (currentTherapist) {
+        const isCurrentTherapistInList = previousTherapistsList?.some(
+          (therapistInfo) =>
+            therapistInfo.therapist.id === currentTherapist.therapist.id,
+        );
+
+        if (!isCurrentTherapistInList) {
+          setPreviousTherapistsList((prev) => [
+            ...(prev || []),
+            currentTherapist,
+          ]);
+        }
+      }
+
       setBookingState({
         showSection: false,
         selectedSlot: undefined,
@@ -123,7 +139,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
 
       setTherapistState((prev) => ({ ...prev, currentTherapist: therapist }));
     },
-    [previousTherapistsList],
+    [previousTherapistsList, therapistState],
   );
 
   const value = {
