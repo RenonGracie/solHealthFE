@@ -10,6 +10,7 @@ import {
   isEqual,
   startOfDay,
 } from 'date-fns';
+import { twMerge } from 'tailwind-merge';
 
 import { Calendar, Error, Modal } from '@/components/ui';
 import { useAppointmentsService } from '@/api/services';
@@ -142,7 +143,12 @@ export const BookingSection = () => {
           Local Timezone ({formattedTimeZone || userTimeZone})
         </p>
       </div>
-      <div className="flex flex-col rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
+      <div
+        className={twMerge(
+          'flex flex-col rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0',
+          Boolean(timeSlots?.length) && 'sm:max-w-full lg:max-w-fit',
+        )}
+      >
         <div className="flex-col gap-2 hidden lg:flex mb-5">
           <h2 className="text-[32px] text-center very-vogue-text">
             Book Your First Session
@@ -151,18 +157,20 @@ export const BookingSection = () => {
             Local Timezone ({formattedTimeZone || userTimeZone})
           </p>
         </div>
-        <Calendar
-          selected={selectedDay}
-          onSelect={handleChangeDay}
-          disabled={isDateDisabled}
-          startMonth={today}
-          endMonth={oneMonthFromTomorrow}
-        />
-        {Boolean(timeSlots?.length) && (
-          <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] mt-3 overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
-            {timeSlots}
-          </div>
-        )}
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-0 sm:gap-8 lg:gap-0">
+          <Calendar
+            selected={selectedDay}
+            onSelect={handleChangeDay}
+            disabled={isDateDisabled}
+            startMonth={today}
+            endMonth={oneMonthFromTomorrow}
+          />
+          {Boolean(timeSlots?.length) && (
+            <div className="grid grid-cols-2 auto-rows-min gap-2 pr-1 max-h-[142px] sm:max-h-[243px] lg:max-h-[142px] w-full mt-3 sm:mt-0 lg:mt-3 overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
+              {timeSlots}
+            </div>
+          )}
+        </div>
         <BookButton
           onClick={() => setIsModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
