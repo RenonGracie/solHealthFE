@@ -104,7 +104,7 @@ export const Modal = ({
                       </Button>
                       <Button
                         onClick={handleClose}
-                        className="bg-transparent h-[48px] rounded-4xl text-[16px] lg:w-full"
+                        className="bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100 h-[48px] rounded-4xl text-[16px] lg:w-full"
                         withArrow={cancelButtonWithArrow}
                       >
                         {cancelButtonTitle}

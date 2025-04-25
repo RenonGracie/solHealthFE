@@ -106,6 +106,7 @@ const ExpandableListComponent = <T,>({
         <Button
           style={{ width: MORE_BUTTON_WIDTH }}
           onClick={() => setIsExpanded(true)}
+          className="py-2 px-2.5"
         >
           +{remainingCount} more
         </Button>

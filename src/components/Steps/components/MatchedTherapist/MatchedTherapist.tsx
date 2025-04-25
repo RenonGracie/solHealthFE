@@ -186,7 +186,7 @@ export const MatchedTherapist: React.FC = () => {
             </h3>
             <Button
               withArrow
-              className="rounded-4xl bg-transparent mt-6"
+              className="rounded-4xl bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100 mt-6"
               onClick={handleFindAnotherTherapist}
             >
               Find Another Therapist
@@ -219,7 +219,7 @@ export const MatchedTherapist: React.FC = () => {
               </h3>
               <Button
                 withArrow
-                className="rounded-4xl bg-transparent"
+                className="rounded-4xl bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100"
                 onClick={handleFindAnotherTherapist}
               >
                 Find Another Therapist

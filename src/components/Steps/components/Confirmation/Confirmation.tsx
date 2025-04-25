@@ -95,7 +95,7 @@ export const Confirmation = () => {
           withArrow
           onClick={() => void handleFillOutFormClick()}
           loading={mandatoryFormLoading}
-          className="text-[14px] lg:text-[16px] font-normal tracking-[-0.02em] px-6 py-3 rounded-4xl h-12 w-full lg:w-[340px]"
+          className="text-[14px] lg:text-[16px] tracking-[-0.02em] px-6 py-3 rounded-4xl h-12 w-full lg:w-[340px]"
         >
           Fill out Mandatory New Client Form
         </Button>
