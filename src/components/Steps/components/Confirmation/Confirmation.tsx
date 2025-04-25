@@ -24,6 +24,7 @@ export const Confirmation = () => {
 
   React.useEffect(() => {
     trackEvent(GTM_EVENTS.BOOKING_CONFIRMATION);
+    window.scrollTo(0, 0);
   }, []);
 
   React.useEffect(() => {
