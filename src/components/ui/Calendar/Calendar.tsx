@@ -1,13 +1,35 @@
+import * as React from 'react';
 import { DayPicker, DayPickerProps, UI } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
 import { CALENDAR_WEEK_DAYS } from '@/constants';
+import NextIcon from '@/assets/icons/next-icon.svg';
+
+const NextMonthButton = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>,
+) => (
+  <button {...props}>
+    <NextIcon />
+  </button>
+);
+
+const PreviousMonthButton = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>,
+) => (
+  <button {...props}>
+    <NextIcon className="rotate-180" />
+  </button>
+);
 
 export const Calendar = (props: DayPickerProps) => {
   return (
     <DayPicker
       mode="single"
       weekStartsOn={1}
+      components={{
+        NextMonthButton,
+        PreviousMonthButton,
+      }}
       formatters={{
         formatWeekdayName: (weekday) => {
           const days = CALENDAR_WEEK_DAYS;
