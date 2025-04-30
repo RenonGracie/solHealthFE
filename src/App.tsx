@@ -118,8 +118,7 @@ function App() {
 
   return (
     <TherapistProvider
-      initialTherapist={matchData?.therapists?.[0]}
-      therapists={matchData?.therapists || []}
+      initialTherapistsList={matchData?.therapists || []}
       clientResponseId={clientResponseId}
       bookingData={bookingData}
       onBookSession={handleBookSession}

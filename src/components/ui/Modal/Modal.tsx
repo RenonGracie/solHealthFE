@@ -23,6 +23,7 @@ interface IProps {
   confirmButtonWithArrow?: boolean;
   cancelButtonWithArrow?: boolean;
   loading?: boolean;
+  hideCancelButton?: boolean;
 }
 
 export const Modal = ({
@@ -37,6 +38,7 @@ export const Modal = ({
   cancelButtonWithArrow = false,
   children,
   loading = false,
+  hideCancelButton = false,
 }: React.PropsWithChildren<IProps>) => {
   const handleClose = () => {
     if (loading) return;
@@ -102,13 +104,15 @@ export const Modal = ({
                       >
                         {confirmButtonTitle}
                       </Button>
-                      <Button
-                        onClick={handleClose}
-                        className="bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100 h-[48px] rounded-4xl text-[16px] lg:w-full"
-                        withArrow={cancelButtonWithArrow}
-                      >
-                        {cancelButtonTitle}
-                      </Button>
+                      {!hideCancelButton && (
+                        <Button
+                          onClick={handleClose}
+                          className="bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100 h-[48px] rounded-4xl text-[16px] lg:w-full"
+                          withArrow={cancelButtonWithArrow}
+                        >
+                          {cancelButtonTitle}
+                        </Button>
+                      )}
                     </>
                   )}
                 </div>

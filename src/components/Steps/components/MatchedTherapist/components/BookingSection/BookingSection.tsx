@@ -12,8 +12,9 @@ import {
 } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
+import WarningCircleIcon from '@/assets/icons/warning-circle-icon.svg';
 import { Calendar, Error, Modal } from '@/components/ui';
-import { useAppointmentsService } from '@/api/services';
+import { useAppointmentsService, useTherapistsService } from '@/api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 import { useFormattedTimeZone } from '@/hooks';
 import { TimeSlot, BookButton } from './components';
@@ -21,8 +22,11 @@ import { groupByDay } from './utils';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 import { SessionInfo } from '../../../SessionInfo';
 
+const TIME_SLOT_TAKEN_ERROR = 'This time slot is already taken.';
+
 export const BookingSection = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = React.useState(false);
 
   const {
     bookingState: { selectedDay, selectedSlot },
@@ -31,6 +35,7 @@ export const BookingSection = () => {
     onDaySelect,
     onSlotSelect,
     onBookSession,
+    onUpdateTherapistTimeSlots,
   } = useTherapistContext();
 
   const {
@@ -41,6 +46,10 @@ export const BookingSection = () => {
       makeRequest: bookAppointment,
     },
   } = useAppointmentsService();
+
+  const {
+    slots: { error: slotsError, loading: slotsLoading, makeRequest: getSlots },
+  } = useTherapistsService();
 
   const { userTimeZone, formattedTimeZone } = useFormattedTimeZone();
 
@@ -117,18 +126,51 @@ export const BookingSection = () => {
     });
   };
 
+  const handleGetSlots = async () => {
+    if (!therapistEmail) return;
+
+    try {
+      const { available_slots } = await getSlots({
+        params: {
+          email: therapistEmail,
+        },
+      });
+
+      onUpdateTherapistTimeSlots(therapistEmail, available_slots);
+    } finally {
+      setIsErrorModalOpen(false);
+    }
+  };
+
   React.useEffect(() => {
     if (bookingData) {
       onBookSession(bookingData);
     }
   }, [bookingData, onBookSession]);
 
-  if (error) {
+  React.useEffect(() => {
+    if (error && error === TIME_SLOT_TAKEN_ERROR) {
+      setIsConfirmModalOpen(false);
+      setIsErrorModalOpen(true);
+    }
+  }, [error]);
+
+  if (error && error !== TIME_SLOT_TAKEN_ERROR) {
     return (
       <Error
         className="lg:max-w-[344px]"
         title="An error occurred while booking session"
         error={error}
+      />
+    );
+  }
+
+  if (slotsError) {
+    return (
+      <Error
+        className="lg:max-w-[344px]"
+        title="An error occurred while fetching therapist's slots"
+        error={slotsError}
       />
     );
   }
@@ -172,13 +214,13 @@ export const BookingSection = () => {
           )}
         </div>
         <BookButton
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsConfirmModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
           className="hidden lg:flex"
         />
       </div>
       <BookButton
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsConfirmModalOpen(true)}
         disabled={isBookSessionButtonDisabled}
         className="lg:hidden"
       />
@@ -189,8 +231,8 @@ export const BookingSection = () => {
           </>
         }
         description="Do you want to book session with this therapist?"
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleBookSession}
         confirmButtonTitle="Book Session"
         confirmButtonWithArrow
@@ -205,6 +247,22 @@ export const BookingSection = () => {
           />
         </div>
       </Modal>
+      <Modal
+        title={
+          <div className="flex flex-col items-center gap-2">
+            <WarningCircleIcon />
+            This Time Slot Is Already Taken
+          </div>
+        }
+        description="Unfortunately, another user has already booked this time slot. Please select a different time."
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        confirmButtonTitle="Choose Different Time"
+        onConfirm={() => void handleGetSlots()}
+        loading={slotsLoading}
+        confirmButtonWithArrow
+        hideCancelButton
+      />
     </section>
   );
 };

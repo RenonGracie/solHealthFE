@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BookAppointmentResponse } from '@/api/services';
+import { BookAppointmentResponse, SlotsResponse } from '@/api/services';
 import { TMatchedTherapistData, IBookingState } from '@/types/therapist.types';
 
 interface ITherapistContext {
@@ -16,6 +16,10 @@ interface ITherapistContext {
   onDaySelect: (day: Date | undefined) => void;
   onViewPreviousTherapist: (therapistId: string) => void;
   setIsSearchingAnotherTherapist: (isFinding: boolean) => void;
+  onUpdateTherapistTimeSlots: (
+    therapistEmail: string,
+    availableSlots: SlotsResponse['available_slots'],
+  ) => void;
 }
 
 export const TherapistContext = React.createContext<

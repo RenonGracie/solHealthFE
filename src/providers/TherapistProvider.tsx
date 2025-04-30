@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { BookAppointmentResponse } from '@/api/services';
+
+import { BookAppointmentResponse, SlotsResponse } from '@/api/services';
 import { TherapistContext } from '@/contexts/TherapistContext';
 import {
   IBookingState,
@@ -8,9 +9,8 @@ import {
 } from '@/types/therapist.types';
 
 interface IProps {
-  therapists: TMatchedTherapistData[];
+  initialTherapistsList: TMatchedTherapistData[];
   onBookSession: (data: BookAppointmentResponse) => void;
-  initialTherapist?: TMatchedTherapistData;
   clientResponseId: string | null;
   onShowBooking: () => void;
   onHideBooking: () => void;
@@ -26,8 +26,7 @@ const DEFAULT_BOOKING_STATE: IBookingState = {
 
 export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   children,
-  initialTherapist,
-  therapists,
+  initialTherapistsList,
   onBookSession,
   clientResponseId,
   onShowBooking: onShowBookingProp,
@@ -38,8 +37,12 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   const [therapistState, setTherapistState] =
     React.useState<ICurrentTherapistState>({
       currentIndex: 0,
-      currentTherapist: initialTherapist,
+      currentTherapist: initialTherapistsList[0],
     });
+
+  const [therapistsList, setTherapistsList] = React.useState<
+    TMatchedTherapistData[]
+  >(initialTherapistsList);
 
   const [bookingState, setBookingState] = React.useState<IBookingState>(
     DEFAULT_BOOKING_STATE,
@@ -50,16 +53,17 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   >(null);
 
   const handleFindAnotherTherapist = React.useCallback(() => {
-    if (!therapists.length) return;
+    if (!therapistsList.length) return;
 
     const nextIndex = therapistState.currentIndex + 1;
 
-    const updatedCurrentIndex = nextIndex >= therapists.length ? 0 : nextIndex;
-    const updatedCurrentTherapist = therapists[updatedCurrentIndex];
+    const updatedCurrentIndex =
+      nextIndex >= therapistsList.length ? 0 : nextIndex;
+    const updatedCurrentTherapist = therapistsList[updatedCurrentIndex];
 
     const originalIndex = therapistState.currentIndex;
 
-    const originalTherapist = therapists[originalIndex];
+    const originalTherapist = therapistsList[originalIndex];
 
     const isPreviouslyViewed = !!previousTherapistsList?.find(
       (therapistData) =>
@@ -83,7 +87,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
       selectedSlot: undefined,
       selectedDay: undefined,
     });
-  }, [therapistState.currentIndex, therapists, previousTherapistsList]);
+  }, [therapistState.currentIndex, therapistsList, previousTherapistsList]);
 
   const handleShowBooking = React.useCallback(() => {
     onShowBookingProp();
@@ -142,6 +146,50 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     [previousTherapistsList, therapistState],
   );
 
+  const handleUpdateTherapistTimeSlots = React.useCallback(
+    (
+      therapistEmail: string,
+      availableSlots: SlotsResponse['available_slots'],
+    ) => {
+      const updatedTherapistsList = therapistsList.map((therapistInfo) => {
+        if (therapistInfo.therapist.email === therapistEmail) {
+          return {
+            ...therapistInfo,
+            therapist: {
+              ...therapistInfo.therapist,
+              available_slots: availableSlots,
+            },
+          };
+        }
+        return therapistInfo;
+      });
+
+      setTherapistsList(updatedTherapistsList);
+
+      setTherapistState((prev) => {
+        if (!prev.currentTherapist) return prev;
+
+        return {
+          ...prev,
+          currentTherapist: {
+            ...prev.currentTherapist,
+            therapist: {
+              ...prev.currentTherapist.therapist,
+              available_slots: availableSlots,
+            },
+          },
+        };
+      });
+
+      setBookingState((prev) => ({
+        ...prev,
+        selectedSlot: undefined,
+        selectedDay: undefined,
+      }));
+    },
+    [therapistsList],
+  );
+
   const value = {
     bookingData,
     bookingState,
@@ -156,6 +204,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     onHideBooking: handleHideBooking,
     onFindAnotherTherapist: handleFindAnotherTherapist,
     onViewPreviousTherapist: handleViewPreviousTherapist,
+    onUpdateTherapistTimeSlots: handleUpdateTherapistTimeSlots,
   };
 
   return (
