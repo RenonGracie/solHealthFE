@@ -8,9 +8,12 @@ import {
 import { TApiError } from '../api/types/errors';
 import { formatApiError } from '../lib/errorUtils';
 
+const I_DO_NOT_SEE_MY_STATE = "I don't see my state";
+
 export const usePollFormAndRequestMatch = () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [navigateToWaitList, setNavigateToWaitList] = React.useState(false);
 
   const {
     form: { makeRequest: getForm },
@@ -61,6 +64,12 @@ export const usePollFormAndRequestMatch = () => {
         }
 
         if (formResponse) {
+          if (formResponse.state === I_DO_NOT_SEE_MY_STATE) {
+            setNavigateToWaitList(true);
+            setLoading(false);
+            return;
+          }
+
           try {
             await getMatch({
               params: { limit: 10, response_id: responseId },
@@ -84,6 +93,7 @@ export const usePollFormAndRequestMatch = () => {
     matchData,
     error,
     loading,
+    navigateToWaitList,
     pollFormAndRequestMatch,
   };
 };

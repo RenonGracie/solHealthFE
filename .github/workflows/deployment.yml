@@ -80,6 +80,7 @@ jobs:
       - name: Build Bundle
         env:
           VITE_TYPEFORM_ID: ${{ vars.VITE_TYPEFORM_ID }}
+          VITE_WAIT_LIST_TYPEFORM_ID: ${{ vars.VITE_WAIT_LIST_TYPEFORM_ID }}
           VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
           VITE_SENTRY_ORG: ${{ vars.VITE_SENTRY_ORG }}
           VITE_SENTRY_PROJECT: ${{ vars.VITE_SENTRY_PROJECT }}
