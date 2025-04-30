@@ -7,6 +7,7 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
+import { twMerge } from 'tailwind-merge';
 
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import { Button } from '../Button';
@@ -24,6 +25,7 @@ interface IProps {
   cancelButtonWithArrow?: boolean;
   loading?: boolean;
   hideCancelButton?: boolean;
+  dialogPanelClassName?: string;
 }
 
 export const Modal = ({
@@ -39,6 +41,7 @@ export const Modal = ({
   children,
   loading = false,
   hideCancelButton = false,
+  dialogPanelClassName,
 }: React.PropsWithChildren<IProps>) => {
   const handleClose = () => {
     if (loading) return;
@@ -72,7 +75,12 @@ export const Modal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel className="relative w-full max-w-[600px] transform overflow-hidden rounded-lg py-10 px-5 lg:px-8 shadow-xl transition-all grainy-background">
+              <DialogPanel
+                className={twMerge(
+                  'relative w-full max-w-[600px] transform overflow-hidden rounded-lg py-10 px-5 lg:px-8 shadow-xl transition-all grainy-background',
+                  dialogPanelClassName,
+                )}
+              >
                 {!loading && (
                   <button
                     onClick={handleClose}
