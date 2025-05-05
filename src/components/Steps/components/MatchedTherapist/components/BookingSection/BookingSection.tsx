@@ -251,13 +251,13 @@ export const BookingSection = () => {
         title={
           <div className="flex flex-col items-center gap-2">
             <WarningCircleIcon />
-            This Time Slot Is Already Taken
+            Time Slot Unavailable
           </div>
         }
-        description="Unfortunately, another user has already booked this time slot. Please select a different time."
+        description="Looks like someone just grabbed that spot. Please pick another available time."
         isOpen={isErrorModalOpen}
         onClose={() => setIsErrorModalOpen(false)}
-        confirmButtonTitle="Choose Different Time"
+        confirmButtonTitle="Choose Another Time"
         onConfirm={() => void handleGetSlots()}
         loading={slotsLoading}
         confirmButtonWithArrow
