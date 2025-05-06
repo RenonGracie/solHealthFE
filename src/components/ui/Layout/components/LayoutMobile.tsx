@@ -2,15 +2,11 @@ import * as React from 'react';
 
 import headerMobile1ImageUrl from '@/assets/images/header-mobile-1.jpg';
 import headerMobile2ImageUrl from '@/assets/images/header-mobile-2.jpg';
-import headerMobile3ImageUrl from '@/assets/images/header-mobile-3.jpg';
+import { ImageWithPlaceholder } from '../../ImageWithPlaceholder';
 import { ARROW_LEFT_ICON_SIZE, BackButton } from './BackButton';
 import { AppLogo } from './AppLogo';
 
-const HEADER_MOBILE_IMAGES = [
-  headerMobile1ImageUrl,
-  headerMobile2ImageUrl,
-  headerMobile3ImageUrl,
-];
+const HEADER_MOBILE_IMAGES = [headerMobile1ImageUrl, headerMobile2ImageUrl];
 
 interface IProps {
   children: React.ReactNode;
@@ -38,10 +34,12 @@ export const LayoutMobile = ({
       <header className={`relative w-full ${hideHeaderImage ? '' : 'mb-8'}`}>
         {!hideHeaderImage && (
           <div className="relative w-full h-25">
-            <img
+            <ImageWithPlaceholder
               src={HEADER_MOBILE_IMAGES[headerImageIndex]}
               alt="Header"
-              className="w-full h-full object-cover object-center"
+              imageClassName="object-center transition-opacity duration-500"
+              containerClassName="w-full h-full"
+              hidePlaceholder
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <h3 className="text-center very-vogue-text text-[16px] leading-[80%]">

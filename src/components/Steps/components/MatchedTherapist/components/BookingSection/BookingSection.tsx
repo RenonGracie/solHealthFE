@@ -143,6 +143,17 @@ export const BookingSection = () => {
   };
 
   React.useEffect(() => {
+    if (selectedDay || !availableSlotsByDay) return;
+
+    const availableDays = Object.keys(availableSlotsByDay);
+
+    if (availableDays.length > 0) {
+      const firstAvailableDate = new Date(availableDays[0]);
+      onDaySelect(firstAvailableDate);
+    }
+  }, [availableSlotsByDay, selectedDay, onDaySelect]);
+
+  React.useEffect(() => {
     if (bookingData) {
       onBookSession(bookingData);
     }
