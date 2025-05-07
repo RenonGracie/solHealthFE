@@ -12,7 +12,7 @@ export const PreviousTherapistPhoto = ({
     <ImageWithPlaceholder
       src={photoSrc}
       placeholderSrc={profileImagePlaceholderSrc}
-      containerClassName="w-[130px] h-[130px]"
+      containerClassName="w-[130px] h-[130px] rounded-[8px]"
     />
   );
 };

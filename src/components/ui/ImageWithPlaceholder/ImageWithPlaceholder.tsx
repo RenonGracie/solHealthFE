@@ -1,13 +1,24 @@
 import * as React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface IProps {
+type TBaseProps = {
   src: string | undefined;
-  placeholderSrc: string;
   alt?: string;
   containerClassName?: string;
   imageClassName?: string;
-}
+};
+
+type TWithPlaceholder = TBaseProps & {
+  hidePlaceholder?: never;
+  placeholderSrc: string;
+};
+
+type TWithoutPlaceholder = TBaseProps & {
+  hidePlaceholder: true;
+  placeholderSrc?: never;
+};
+
+type TProps = TWithPlaceholder | TWithoutPlaceholder;
 
 export const ImageWithPlaceholder = ({
   src,
@@ -15,7 +26,8 @@ export const ImageWithPlaceholder = ({
   alt = 'image',
   containerClassName,
   imageClassName,
-}: IProps) => {
+  hidePlaceholder,
+}: TProps) => {
   const [loaded, setLoaded] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -40,15 +52,17 @@ export const ImageWithPlaceholder = ({
         )}
         data-testid="image-main"
       />
-      <img
-        src={placeholderSrc}
-        alt={alt}
-        className={twMerge(
-          commonImageClassName,
-          shouldShowPlaceholder ? 'opacity-100' : 'opacity-0',
-        )}
-        data-testid="image-placeholder"
-      />
+      {!hidePlaceholder && (
+        <img
+          src={placeholderSrc}
+          alt={alt}
+          className={twMerge(
+            commonImageClassName,
+            shouldShowPlaceholder ? 'opacity-100' : 'opacity-0',
+          )}
+          data-testid="image-placeholder"
+        />
+      )}
     </div>
   );
 };

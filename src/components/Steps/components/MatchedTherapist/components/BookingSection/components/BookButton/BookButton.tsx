@@ -14,7 +14,7 @@ export const BookButton = ({ onClick, disabled, className }: IProps) => {
       withArrow
       onClick={onClick}
       disabled={disabled}
-      className={twMerge('w-full h-12 mt-6 rounded-4xl', className)}
+      className={twMerge('w-full h-12 mt-6 lg:mt-5 rounded-4xl', className)}
     >
       Book 45-Minute Session
     </Button>

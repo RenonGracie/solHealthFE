@@ -22,14 +22,20 @@ describe('Button', () => {
     const button = screen.getByRole('button');
 
     expect(button).toHaveClass(
-      'rounded-[20px]',
-      'border',
-      'border-[#7B4720]',
-      'bg-[#BCD1F7]',
-      'py-2',
-      'px-2.5',
-      'text-center',
-      'hover:cursor-pointer',
+      `
+        group
+        flex items-center justify-center
+        rounded-[20px]
+        border
+        border-[var(--brand-brown)]
+        bg-[var(--brand-blue)]
+        py-3
+        px-6
+        text-sm font-normal leading-4 text-center
+        hover:cursor-pointer
+        hover:opacity-80
+        disabled:opacity-70 disabled:cursor-not-allowed
+      `,
     );
   });
 

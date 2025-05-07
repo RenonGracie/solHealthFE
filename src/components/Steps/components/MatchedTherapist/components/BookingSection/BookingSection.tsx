@@ -10,9 +10,11 @@ import {
   isEqual,
   startOfDay,
 } from 'date-fns';
+import { twMerge } from 'tailwind-merge';
 
+import WarningCircleIcon from '@/assets/icons/warning-circle-icon.svg';
 import { Calendar, Error, Modal } from '@/components/ui';
-import { useAppointmentsService } from '@/api/services';
+import { useAppointmentsService, useTherapistsService } from '@/api/services';
 import { CALENDAR_GROUP_DATE_FORMAT } from '@/constants';
 import { useFormattedTimeZone } from '@/hooks';
 import { TimeSlot, BookButton } from './components';
@@ -20,8 +22,11 @@ import { groupByDay } from './utils';
 import { useTherapistContext } from '@/hooks/useTherapistContext';
 import { SessionInfo } from '../../../SessionInfo';
 
+const TIME_SLOT_TAKEN_ERROR = 'This time slot is already taken.';
+
 export const BookingSection = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = React.useState(false);
 
   const {
     bookingState: { selectedDay, selectedSlot },
@@ -30,6 +35,7 @@ export const BookingSection = () => {
     onDaySelect,
     onSlotSelect,
     onBookSession,
+    onUpdateTherapistTimeSlots,
   } = useTherapistContext();
 
   const {
@@ -40,6 +46,10 @@ export const BookingSection = () => {
       makeRequest: bookAppointment,
     },
   } = useAppointmentsService();
+
+  const {
+    slots: { error: slotsError, loading: slotsLoading, makeRequest: getSlots },
+  } = useTherapistsService();
 
   const { userTimeZone, formattedTimeZone } = useFormattedTimeZone();
 
@@ -116,15 +126,63 @@ export const BookingSection = () => {
     });
   };
 
+  const handleGetSlots = async () => {
+    if (!therapistEmail) return;
+
+    try {
+      const { available_slots } = await getSlots({
+        params: {
+          email: therapistEmail,
+        },
+      });
+
+      onUpdateTherapistTimeSlots(therapistEmail, available_slots);
+    } finally {
+      setIsErrorModalOpen(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (selectedDay || !availableSlotsByDay) return;
+
+    const availableDays = Object.keys(availableSlotsByDay);
+
+    if (availableDays.length > 0) {
+      const firstAvailableDate = new Date(availableDays[0]);
+      onDaySelect(firstAvailableDate);
+    }
+  }, [availableSlotsByDay, selectedDay, onDaySelect]);
+
   React.useEffect(() => {
     if (bookingData) {
       onBookSession(bookingData);
     }
   }, [bookingData, onBookSession]);
 
-  if (error) {
+  React.useEffect(() => {
+    if (error && error === TIME_SLOT_TAKEN_ERROR) {
+      setIsConfirmModalOpen(false);
+      setIsErrorModalOpen(true);
+    }
+  }, [error]);
+
+  if (error && error !== TIME_SLOT_TAKEN_ERROR) {
     return (
-      <Error title="An error occurred while booking session" error={error} />
+      <Error
+        className="lg:max-w-[344px]"
+        title="An error occurred while booking session"
+        error={error}
+      />
+    );
+  }
+
+  if (slotsError) {
+    return (
+      <Error
+        className="lg:max-w-[344px]"
+        title="An error occurred while fetching therapist's slots"
+        error={slotsError}
+      />
     );
   }
 
@@ -138,8 +196,13 @@ export const BookingSection = () => {
           Local Timezone ({formattedTimeZone || userTimeZone})
         </p>
       </div>
-      <div className="flex flex-col gap-5 rounded-[8px] border border-[#7B4720] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0">
-        <div className="flex-col gap-2 hidden lg:flex">
+      <div
+        className={twMerge(
+          'flex flex-col rounded-[8px] border border-[var(--brand-brown)] w-full max-w-fit p-3 lg:px-6 lg:py-8 bg-transparent mx-auto lg:mx-0',
+          Boolean(timeSlots?.length) && 'sm:max-w-full lg:max-w-fit',
+        )}
+      >
+        <div className="flex-col gap-2 hidden lg:flex mb-5">
           <h2 className="text-[32px] text-center very-vogue-text">
             Book Your First Session
           </h2>
@@ -147,24 +210,28 @@ export const BookingSection = () => {
             Local Timezone ({formattedTimeZone || userTimeZone})
           </p>
         </div>
-        <Calendar
-          selected={selectedDay}
-          onSelect={handleChangeDay}
-          disabled={isDateDisabled}
-          startMonth={today}
-          endMonth={oneMonthFromTomorrow}
-        />
-        <div className="grid grid-cols-2 gap-2 pr-1 max-h-[142px] overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
-          {timeSlots}
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-0 sm:gap-8 lg:gap-0">
+          <Calendar
+            selected={selectedDay}
+            onSelect={handleChangeDay}
+            disabled={isDateDisabled}
+            startMonth={today}
+            endMonth={oneMonthFromTomorrow}
+          />
+          {Boolean(timeSlots?.length) && (
+            <div className="grid grid-cols-2 auto-rows-min gap-2 pr-1 max-h-[142px] sm:max-h-[243px] lg:max-h-[142px] w-full mt-3 sm:mt-0 lg:mt-3 overflow-y-auto [&::-webkit-scrollbar]:w-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
+              {timeSlots}
+            </div>
+          )}
         </div>
         <BookButton
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsConfirmModalOpen(true)}
           disabled={isBookSessionButtonDisabled}
           className="hidden lg:flex"
         />
       </div>
       <BookButton
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsConfirmModalOpen(true)}
         disabled={isBookSessionButtonDisabled}
         className="lg:hidden"
       />
@@ -175,14 +242,14 @@ export const BookingSection = () => {
           </>
         }
         description="Do you want to book session with this therapist?"
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleBookSession}
         confirmButtonTitle="Book Session"
         confirmButtonWithArrow
         loading={loading}
       >
-        <div className="rounded-[8px] border border-[#7B4720] p-4">
+        <div className="rounded-[8px] border border-[var(--brand-brown)] p-4">
           <SessionInfo
             therapistName={currentTherapist?.therapist?.intern_name}
             therapistImageLink={currentTherapist?.therapist?.image_link}
@@ -191,6 +258,22 @@ export const BookingSection = () => {
           />
         </div>
       </Modal>
+      <Modal
+        title={
+          <div className="flex flex-col items-center gap-2">
+            <WarningCircleIcon />
+            Time Slot Unavailable
+          </div>
+        }
+        description="Looks like someone just grabbed that spot. Please pick another available time."
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        confirmButtonTitle="Choose Another Time"
+        onConfirm={() => void handleGetSlots()}
+        loading={slotsLoading}
+        confirmButtonWithArrow
+        hideCancelButton
+      />
     </section>
   );
 };

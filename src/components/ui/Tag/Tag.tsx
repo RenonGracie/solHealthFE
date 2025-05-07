@@ -9,7 +9,7 @@ export const Tag = ({ children, className = '' }: IProps) => {
       className={`
         px-[10px] py-[8px]
         rounded-[20px]
-        border border-[#7B4720]
+        border border-[var(--brand-brown)]
         text-sm font-light leading-4 text-center
         tracking-[-0.02em]
         w-fit

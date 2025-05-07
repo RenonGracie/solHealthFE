@@ -35,8 +35,8 @@ describe('TherapyStyleSection', () => {
     const cbtTag = screen.getByText('CBT');
     const dbtTag = screen.getByText('DBT');
 
-    expect(cbtTag.className).includes('bg-[#E6CAAF]');
-    expect(dbtTag.className).not.includes('bg-[#E6CAAF]');
+    expect(cbtTag.className).includes('bg-[var(--brand-coffee)]');
+    expect(dbtTag.className).not.includes('bg-[var(--brand-coffee)]');
   });
 
   it('returns null when items array is empty', () => {

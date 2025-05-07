@@ -2,15 +2,11 @@ import * as React from 'react';
 
 import headerDesktop1ImageUrl from '@/assets/images/header-desktop-1.jpg';
 import headerDesktop2ImageUrl from '@/assets/images/header-desktop-2.jpg';
-import headerDesktop3ImageUrl from '@/assets/images/header-desktop-3.jpg';
+import { ImageWithPlaceholder } from '../../ImageWithPlaceholder';
 import { ARROW_LEFT_ICON_SIZE, BackButton } from './BackButton';
 import { AppLogo } from './AppLogo';
 
-const HEADER_DESKTOP_IMAGES = [
-  headerDesktop1ImageUrl,
-  headerDesktop2ImageUrl,
-  headerDesktop3ImageUrl,
-];
+const HEADER_DESKTOP_IMAGES = [headerDesktop1ImageUrl, headerDesktop2ImageUrl];
 
 interface IProps {
   children: React.ReactNode;
@@ -38,10 +34,12 @@ export const LayoutDesktop = ({
       <header className={`relative w-full ${hideHeaderImage ? '' : 'mb-13'}`}>
         {!hideHeaderImage && (
           <div className="relative w-full h-45">
-            <img
+            <ImageWithPlaceholder
               src={HEADER_DESKTOP_IMAGES[headerImageIndex]}
               alt="Header"
-              className="w-full h-full object-cover object-center"
+              imageClassName="object-center transition-opacity duration-500"
+              containerClassName="w-full h-full"
+              hidePlaceholder
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <h3 className="text-center very-vogue-text text-[28px] leading-[80%]">

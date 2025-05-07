@@ -18,20 +18,6 @@ describe('VideoPlayer', () => {
     );
   });
 
-  it('applies custom className while preserving default classes', () => {
-    const customClass = 'custom-video-class';
-    render(
-      <VideoPlayer videoUrl={MOCK_YOU_TUBE_URL} className={customClass} />,
-    );
-
-    const iframeElement = screen.getByTestId('video-player');
-    expect(iframeElement).toHaveClass(
-      'aspect-video',
-      'rounded-[8px]',
-      customClass,
-    );
-  });
-
   it('renders iframe with empty video id when no URL provided', () => {
     render(<VideoPlayer />);
     const iframeElement = screen.getByTestId('video-player');

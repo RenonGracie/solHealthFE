@@ -93,7 +93,7 @@ export const MatchedTherapist: React.FC = () => {
     <div>
       <div className="lg:flex lg:flex-col max-w-7xl w-full h-full mx-auto pb-[100px]">
         <div className="lg:flex lg:gap-6">
-          <div className="rounded-[8px] border border-[#7B4720] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
+          <div className="rounded-[8px] border border-[var(--brand-brown)] px-4 py-8 lg:px-6 bg-transparent lg:w-full lg:h-fit">
             <div className="flex flex-col gap-4 pb-4 lg:pb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto_auto]">
                 <div className="flex items-center gap-4 mb-5 order-1">
@@ -152,7 +152,7 @@ export const MatchedTherapist: React.FC = () => {
                 {therapistData?.therapist?.biography}
               </p>
             </div>
-            <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[#7B4720]">
+            <div className="relative pt-8 before:absolute before:top-0 before:-left-4 before:-right-4 lg:before:-left-6 lg:before:-right-6 before:h-[1px] before:bg-[var(--brand-brown)]">
               <h2 className="text-[32px] very-vogue-text mb-6">
                 Skills and Experience
               </h2>
@@ -186,7 +186,7 @@ export const MatchedTherapist: React.FC = () => {
             </h3>
             <Button
               withArrow
-              className="rounded-4xl bg-transparent mt-6"
+              className="rounded-4xl bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100 mt-6"
               onClick={handleFindAnotherTherapist}
             >
               Find Another Therapist
@@ -196,7 +196,7 @@ export const MatchedTherapist: React.FC = () => {
                 <h3 className="text-center very-vogue-text text-[32px] leading-7 mt-8">
                   Previously Viewed Therapists
                 </h3>
-                <div className="flex gap-4 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
+                <div className="flex gap-4 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
                   {previousTherapistsList?.map((therapistInfo) => (
                     <PreviousTherapistCard
                       key={therapistInfo.therapist.id}
@@ -219,7 +219,7 @@ export const MatchedTherapist: React.FC = () => {
               </h3>
               <Button
                 withArrow
-                className="rounded-4xl bg-transparent"
+                className="rounded-4xl bg-transparent hover:bg-[var(--brand-coffee)] hover:opacity-100"
                 onClick={handleFindAnotherTherapist}
               >
                 Find Another Therapist
@@ -232,7 +232,7 @@ export const MatchedTherapist: React.FC = () => {
             <h3 className="very-vogue-text text-[32px] leading-7">
               Previously Viewed Therapists
             </h3>
-            <div className="flex gap-6 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#7B4720]">
+            <div className="flex gap-6 w-full pb-2 overflow-x-auto mt-5 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--brand-brown)]">
               {previousTherapistsList?.map((therapistInfo) => (
                 <PreviousTherapistCard
                   key={therapistInfo.therapist.id}

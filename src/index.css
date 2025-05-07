@@ -5,6 +5,10 @@
   --brand-black: #363943;
   --brand-background: #fffbf3;
   --brand-coffee: #e6caaf;
+  --brand-yellow: #ffe279;
+  --brand-blue: #bcd1f7;
+  --gray-60: #d8d8d8;
+  --gray-80: #7e7e7e;
 }
 
 @layer base {
