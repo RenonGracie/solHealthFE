@@ -9,6 +9,7 @@ import {
   isAfter,
   isEqual,
   startOfDay,
+  parse,
 } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
@@ -84,8 +85,11 @@ export const BookingSection = () => {
     if (!selectedDay) return null;
 
     const formattedDay = format(selectedDay, CALENDAR_GROUP_DATE_FORMAT);
+    const slotsForDay = availableSlotsByDay?.[formattedDay];
 
-    return availableSlotsByDay[formattedDay].map((slot) => (
+    if (!slotsForDay) return null;
+
+    return slotsForDay.map((slot) => (
       <TimeSlot
         slot={slot}
         key={slot.toISOString()}
@@ -148,7 +152,14 @@ export const BookingSection = () => {
     const availableDays = Object.keys(availableSlotsByDay);
 
     if (availableDays.length > 0) {
-      const firstAvailableDate = new Date(availableDays[0]);
+      const firstAvailableKey = availableDays[0];
+
+      const firstAvailableDate = parse(
+        firstAvailableKey,
+        CALENDAR_GROUP_DATE_FORMAT,
+        new Date(),
+      );
+
       onDaySelect(firstAvailableDate);
     }
   }, [availableSlotsByDay, selectedDay, onDaySelect]);
