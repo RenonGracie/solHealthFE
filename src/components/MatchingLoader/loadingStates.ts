@@ -2,7 +2,6 @@ import person1Image from './assets/person-1.webp';
 import person2Image from './assets/person-2.webp';
 import person3Image from './assets/person-3.webp';
 import person4Image from './assets/person-4.webp';
-import person5Image from './assets/person-5.webp';
 import eyeImage from './assets/eye.webp';
 import friendsImage from './assets/friends.webp';
 import handsImage from './assets/hands.webp';
@@ -27,28 +26,22 @@ export const loadingStates: ILoadingState[] = [
     lines: [
       [
         {
-          text: 'Analyzing',
+          text: 'Good',
           image: { src: person1Image, position: 'after' },
         },
-        { text: 'Your' },
+        { text: 'Things' },
       ],
       [
         {
-          text: 'Sign Up',
+          text: 'Take',
+          className: 'italic',
           image: {
             src: person2Image,
             position: 'before',
             className: 'ml-[20px] lg:ml-[32px] mr-[8px]',
           },
         },
-      ],
-      [
-        {
-          text: 'Preferences',
-          className: 'italic ml-[32px]',
-          image: { src: person3Image, position: 'after' },
-          withDots: true,
-        },
+        { text: 'Time', className: 'italic', withDots: true },
       ],
     ],
   },
@@ -56,22 +49,22 @@ export const loadingStates: ILoadingState[] = [
     lines: [
       [
         {
-          text: 'Running',
-          image: { src: person4Image, position: 'after' },
+          text: "You're",
+          image: { src: person3Image, position: 'after' },
         },
-        { text: 'Our' },
+        { text: 'Exactly' },
       ],
       [
         {
-          text: 'Matching',
-          className: 'italic',
+          text: 'Where You',
           image: { src: handsImage, position: 'after' },
         },
       ],
       [
         {
-          text: 'Algorithm',
+          text: 'Need to Be',
           image: { src: friendsImage, position: 'before' },
+          className: 'italic',
           withDots: true,
         },
       ],
@@ -82,9 +75,9 @@ export const loadingStates: ILoadingState[] = [
       [
         {
           text: 'Finding',
-          image: { src: person5Image, position: 'after' },
+          image: { src: person4Image, position: 'after' },
         },
-        { text: 'Your' },
+        { text: 'Your', className: 'mr-3' },
       ],
       [
         {
