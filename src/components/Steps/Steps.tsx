@@ -5,7 +5,6 @@ import {
   Confirmation,
   TypeformEmbed,
   NoMatch,
-  TypeformWaitListEmbed,
 } from './components';
 import { Layout } from '../ui';
 
@@ -31,8 +30,6 @@ export const Steps: React.FC<IProps> = ({
           }}
         />
       );
-    case STEPS.TYPEFORM_WAIT_LIST:
-      return <TypeformWaitListEmbed />;
     case STEPS.NO_MATCH:
       return (
         <Layout
