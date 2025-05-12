@@ -21,13 +21,8 @@ function App() {
   const [isSearchingAnotherTherapist, setIsSearchingAnotherTherapist] =
     React.useState(false);
 
-  const {
-    matchData,
-    loading,
-    error,
-    navigateToWaitList,
-    pollFormAndRequestMatch,
-  } = usePollFormAndRequestMatch();
+  const { matchData, loading, error, pollFormAndRequestMatch } =
+    usePollFormAndRequestMatch();
 
   const handleConfirmGoBack = () => {
     setStep(STEPS.TYPEFORM);
@@ -62,12 +57,6 @@ function App() {
     },
     [],
   );
-
-  React.useEffect(() => {
-    if (navigateToWaitList) {
-      setStep(STEPS.TYPEFORM_WAIT_LIST);
-    }
-  }, [navigateToWaitList]);
 
   React.useEffect(() => {
     if (matchData?.therapists) {
