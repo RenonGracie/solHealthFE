@@ -6,6 +6,8 @@ import { getClientIdFromGaCookie } from '@/lib/ga';
 import { getUtmParams } from '@/lib/utm';
 import { TYPEFORM_HIDDEN_FIELDS } from '@/constants';
 
+const gtmId = import.meta.env.VITE_GTM_ID as unknown;
+
 interface IProps {
   onSubmit: (responseId: string) => void;
 }
@@ -15,7 +17,15 @@ export const TypeformEmbed: React.FC<IProps> = ({ onSubmit }) => {
 
   const utmParams = React.useMemo(() => getUtmParams(), []);
 
+  const hiddenFields = React.useMemo(() => {
+    if (!gtmId) return;
+
+    return { [TYPEFORM_HIDDEN_FIELDS.CLIENT_ID]: clientId, ...utmParams };
+  }, [clientId, utmParams]);
+
   React.useEffect(() => {
+    if (!gtmId) return;
+
     trackEvent(GTM_EVENTS.FORM_STARTED);
 
     let id = getClientIdFromGaCookie();
@@ -48,10 +58,7 @@ export const TypeformEmbed: React.FC<IProps> = ({ onSubmit }) => {
         trackEvent(GTM_EVENTS.FORM_SUBMITTED);
         onSubmit(responseId);
       }}
-      hidden={{
-        [TYPEFORM_HIDDEN_FIELDS.CLIENT_ID]: clientId,
-        ...utmParams,
-      }}
+      hidden={hiddenFields}
     />
   );
 };
