@@ -107,24 +107,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/appointments/all": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Delete all appointments by therapist email from db */
-        delete: operations["appointmentsall_delete"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/therapists": {
+    "/therapists/list": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,7 +115,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get therapists table */
-        get: operations["therapists_get"];
+        get: operations["therapists_list_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -158,6 +141,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/therapists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Match client with therapists */
+        get: operations["therapists_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/therapists/calendar_events": {
         parameters: {
             query?: never;
@@ -167,40 +167,6 @@ export interface paths {
         };
         /** Get calendar events */
         get: operations["therapists_calendar_events_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/therapists/media": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the media link */
-        get: operations["therapists_media_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/therapists/with_calendar": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get therapists who shared their calendar */
-        get: operations["therapistswith_calendar_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -226,23 +192,21 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/therapist_videos": {
+    "/therapists/availability": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all therapist's videos */
-        get: operations["therapist_videos_get"];
+        get?: never;
         put?: never;
-        /** Set therapist's videos */
-        post: operations["therapist_videos_post"];
+        /** Get therapist's available slots by calendar email */
+        post: operations["therapistsavailability_post"];
         delete?: never;
         options?: never;
         head?: never;
-        /** Update therapist's video */
-        patch: operations["therapist_videos_patch"];
+        patch?: never;
         trace?: never;
     };
     "/intakeq_forms/mandatory_form": {
@@ -307,6 +271,23 @@ export interface paths {
         put?: never;
         /** Webhook for IntakeQ Appointments */
         post: operations["intakeq_hook_intakeq_hook_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/intakeq_invoice_hook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Webhook for IntakeQ Invoices */
+        post: operations["intakeq_invoice_hook_intakeq_invoice_hook_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -428,8 +409,10 @@ export interface components {
             age?: string;
             /** State */
             state?: string;
-            /** I Would Like Therapist */
-            i_would_like_therapist?: string[];
+            /** Therapist Specializes In */
+            therapist_specializes_in?: string[];
+            /** Therapist Identifies As */
+            therapist_identifies_as?: string;
             /** Alcohol */
             alcohol?: string;
             /** Drugs */
@@ -472,12 +455,12 @@ export interface components {
             what_brings_you?: string;
             /** Lived Experiences */
             lived_experiences?: string[];
-            /** Best Time For First Session */
-            best_time_for_first_session?: string;
             /** Promo Code */
             promo_code?: string;
             /** Referred By */
             referred_by?: string;
+            /** Therapist Name */
+            therapist_name?: string;
         };
         /** Error */
         Error: {
@@ -615,8 +598,8 @@ export interface components {
             has_children?: boolean;
             /** Cohort */
             cohort?: string;
-            /** Diagnoses */
-            diagnoses?: string[];
+            /** Diagnoses Specialities */
+            diagnoses_specialities?: string[];
             /** Ethnicity */
             ethnicity?: string[];
             /** Gender */
@@ -651,8 +634,6 @@ export interface components {
             working_with_lgbtq_clients?: string;
             /** Negative Affect By Social Media */
             negative_affect_by_social_media?: boolean;
-            /** Specialities */
-            specialities?: string[];
             /** States */
             states?: string[];
             /** Therapeutic Orientation */
@@ -671,8 +652,11 @@ export interface components {
         /** MatchedTherapists */
         MatchedTherapists: {
             client?: components["schemas"]["ClientShort"];
-            /** Therapists */
-            therapists?: components["schemas"]["ClientMatch"][];
+            /**
+             * Therapists
+             * @default []
+             */
+            therapists: components["schemas"]["ClientMatch"][];
         };
         /** ClientShort */
         ClientShort: {
@@ -695,10 +679,8 @@ export interface components {
             therapist: components["schemas"]["Therapist"];
             /** Score */
             score: number;
-            /** Matched Diagnoses */
-            matched_diagnoses: string[];
-            /** Matched Specialities */
-            matched_specialities: string[];
+            /** Matched Diagnoses Specialities */
+            matched_diagnoses_specialities: string[];
         };
         /** CalendarEvents */
         CalendarEvents: {
@@ -727,47 +709,15 @@ export interface components {
             /** Events */
             events: components["schemas"]["CalendarEvent"][];
         };
-        /**
-         * S3MediaType
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        S3MediaType: "image" | "welcome_video" | "intro_video";
-        /** MediaLink */
-        MediaLink: {
-            /** Url */
-            url: string;
-        };
-        /** TherapistEmails */
-        TherapistEmails: {
-            /** Emails */
-            emails: string[];
-        };
         /** AvailableSlots */
         AvailableSlots: {
             /** Available Slots */
             available_slots?: string[];
         };
-        /** TherapistVideos */
-        TherapistVideos: {
-            /** Videos */
-            videos: components["schemas"]["TherapistVideo"][];
-        };
-        /**
-         * VideoType
-         * @description An enumeration.
-         * @enum {unknown}
-         */
-        VideoType: "welcome" | "greeting";
-        /** TherapistVideo */
-        TherapistVideo: {
-            /** Name */
-            name?: string;
+        /** Email */
+        Email: {
             /** Email */
-            email?: string;
-            /** Video Url */
-            video_url: string;
-            type: components["schemas"]["VideoType"];
+            email: string;
         };
         /** IntakeQMandatoryFormQuery */
         IntakeQMandatoryFormQuery: {
@@ -1100,6 +1050,24 @@ export interface operations {
                     "application/json": components["schemas"]["Error"];
                 };
             };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Gone */
+            410: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
             /** @description Unprocessable Entity */
             422: {
                 headers: {
@@ -1142,37 +1110,7 @@ export interface operations {
             };
         };
     };
-    appointmentsall_delete: {
-        parameters: {
-            query: {
-                email: string;
-                admin_password: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    therapists_get: {
+    therapists_list_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -1193,6 +1131,40 @@ export interface operations {
         };
     };
     therapists_match_get: {
+        parameters: {
+            query: {
+                limit?: number;
+                last_index?: number;
+                /** @example Client response id */
+                response_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MatchedTherapists"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorModel"][];
+                };
+            };
+        };
+    };
+    therapists_get: {
         parameters: {
             query: {
                 limit?: number;
@@ -1269,58 +1241,6 @@ export interface operations {
             };
         };
     };
-    therapists_media_get: {
-        parameters: {
-            query: {
-                email: string;
-                type: components["schemas"]["S3MediaType"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MediaLink"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    therapistswith_calendar_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistEmails"];
-                };
-            };
-        };
-    };
     therapistsslots_get: {
         parameters: {
             query: {
@@ -1352,38 +1272,16 @@ export interface operations {
             };
         };
     };
-    therapist_videos_get: {
+    therapistsavailability_post: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistVideos"];
-                };
-            };
-        };
-    };
-    therapist_videos_post: {
-        parameters: {
-            query: {
-                admin_password: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TherapistVideos"];
+                "application/json": components["schemas"]["Email"];
             };
         };
         responses: {
@@ -1393,42 +1291,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TherapistVideos"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    therapist_videos_patch: {
-        parameters: {
-            query: {
-                admin_password: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TherapistVideo"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TherapistVideo"];
+                    "application/json": components["schemas"]["AvailableSlots"];
                 };
             };
             /** @description Unprocessable Entity */
@@ -1543,6 +1406,16 @@ export interface operations {
         };
     };
     intakeq_hook_intakeq_hook_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: never;
+    };
+    intakeq_invoice_hook_intakeq_invoice_hook_post: {
         parameters: {
             query?: never;
             header?: never;
