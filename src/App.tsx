@@ -11,7 +11,7 @@ import { Steps } from './components/Steps';
 import { setSentryUser } from './lib/sentryUtils';
 
 function App() {
-  const [step, setStep] = React.useState<STEPS>(STEPS.TYPEFORM);
+  const [step, setStep] = React.useState<STEPS | null>(null);
   const [hideTitle, setHideTitle] = React.useState(false);
   const [clientResponseId, setClientResponseId] = React.useState<string | null>(
     null,
@@ -38,6 +38,7 @@ function App() {
 
   const handleTypeformSubmit = React.useCallback(
     async (responseId: string) => {
+      setStep(null);
       setClientResponseId(responseId);
       trackEvent(GTM_EVENTS.MATCHMAKING_LOADING);
 
@@ -76,10 +77,6 @@ function App() {
     }
   }, [clientResponseId]);
 
-  // TEMPORARY SOLUTION:
-  // This effect is added to simplify application testing by allowing direct access
-  // through URL parameters. It should be removed before deploying to production
-  // as it bypasses the normal Typeform flow and could pose security risks.
   React.useEffect(() => {
     const responseIdFromUrl = window.location.pathname
       .split('/')
@@ -88,6 +85,8 @@ function App() {
 
     if (responseIdFromUrl) {
       void handleTypeformSubmit(responseIdFromUrl);
+    } else {
+      setStep(STEPS.TYPEFORM);
     }
   }, [handleTypeformSubmit]);
 
@@ -118,12 +117,14 @@ function App() {
       {isSearchingAnotherTherapist ? (
         <MatchingLoader />
       ) : (
-        <Steps
-          step={step}
-          hideTitle={hideTitle}
-          onTypeformSubmit={handleTypeformSubmit}
-          onGoBack={handleConfirmGoBack}
-        />
+        step && (
+          <Steps
+            step={step}
+            hideTitle={hideTitle}
+            onTypeformSubmit={handleTypeformSubmit}
+            onGoBack={handleConfirmGoBack}
+          />
+        )
       )}
     </TherapistProvider>
   );
