@@ -8,8 +8,10 @@ import {
   ExpandableList,
   Button,
   ImageWithPlaceholder,
+  Modal,
 } from '@/components/ui';
 import profileImagePlaceholderSrc from '@/assets/images/profile-image-placeholder.svg?url';
+import WarningCircleIcon from '@/assets/icons/warning-circle-icon.svg';
 import {
   TherapyStyleSection,
   TherapistInfoSection,
@@ -17,7 +19,17 @@ import {
   PreviousTherapistCard,
 } from './components';
 
-export const MatchedTherapist: React.FC = () => {
+interface IProps {
+  showTimeoutModal: boolean;
+  onConfirmTimeoutModal: () => void;
+  onCancelTimeoutModal: () => void;
+}
+
+export const MatchedTherapist: React.FC<IProps> = ({
+  showTimeoutModal,
+  onConfirmTimeoutModal,
+  onCancelTimeoutModal,
+}) => {
   const {
     bookingState,
     onShowBooking,
@@ -244,6 +256,22 @@ export const MatchedTherapist: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        title={
+          <div className="flex flex-col items-center gap-2">
+            <WarningCircleIcon />
+            Page Session Expired
+          </div>
+        }
+        description="You've been on this page for a while, and the therapist availability may have changed. To make sure you're seeing the most accurate matches, we'll need to refresh the results."
+        confirmButtonTitle="Refresh Page"
+        confirmButtonWithArrow
+        isOpen={showTimeoutModal}
+        onClose={onCancelTimeoutModal}
+        onConfirm={onConfirmTimeoutModal}
+        hideCancelButton
+      />
     </div>
   );
 };

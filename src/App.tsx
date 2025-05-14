@@ -20,6 +20,7 @@ function App() {
     React.useState<BookAppointmentResponse | null>(null);
   const [isSearchingAnotherTherapist, setIsSearchingAnotherTherapist] =
     React.useState(false);
+  const [showTimeoutModal, setShowTimeoutModal] = React.useState(false);
 
   const { matchData, loading, error, pollFormAndRequestMatch } =
     usePollFormAndRequestMatch();
@@ -59,6 +60,17 @@ function App() {
     [],
   );
 
+  const handleConfirmTimeoutModal = React.useCallback(() => {
+    if (!clientResponseId) return;
+
+    setShowTimeoutModal(false);
+    void pollFormAndRequestMatch(clientResponseId);
+  }, [clientResponseId, pollFormAndRequestMatch]);
+
+  const handleCancelTimeoutModal = React.useCallback(() => {
+    setShowTimeoutModal(false);
+  }, []);
+
   React.useEffect(() => {
     if (matchData?.therapists) {
       if (matchData.therapists.length > 0) {
@@ -89,6 +101,20 @@ function App() {
       setStep(STEPS.TYPEFORM);
     }
   }, [handleTypeformSubmit]);
+
+  React.useEffect(() => {
+    if (step !== STEPS.MATCHED_THERAPIST || !matchData?.therapists.length)
+      return;
+
+    const timer = setTimeout(
+      () => {
+        setShowTimeoutModal(true);
+      },
+      30 * 60 * 1000,
+    );
+
+    return () => clearTimeout(timer);
+  }, [step, matchData?.therapists]);
 
   if (error) {
     return (
@@ -123,6 +149,9 @@ function App() {
             hideTitle={hideTitle}
             onTypeformSubmit={handleTypeformSubmit}
             onGoBack={handleConfirmGoBack}
+            showTimeoutModal={showTimeoutModal}
+            onConfirmTimeoutModal={handleConfirmTimeoutModal}
+            onCancelTimeoutModal={handleCancelTimeoutModal}
           />
         )
       )}
