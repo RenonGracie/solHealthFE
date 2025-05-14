@@ -26,6 +26,7 @@ interface IProps {
   loading?: boolean;
   hideCancelButton?: boolean;
   dialogPanelClassName?: string;
+  descriptionClassName?: string;
 }
 
 export const Modal = ({
@@ -42,6 +43,7 @@ export const Modal = ({
   loading = false,
   hideCancelButton = false,
   dialogPanelClassName,
+  descriptionClassName,
 }: React.PropsWithChildren<IProps>) => {
   const handleClose = () => {
     if (loading) return;
@@ -96,7 +98,12 @@ export const Modal = ({
                 >
                   {title}
                 </DialogTitle>
-                <Description className="text-center text-[20px] leading-[20px] font-[300] mb-5">
+                <Description
+                  className={twMerge(
+                    'text-center text-[20px] leading-[20px] font-[300] mb-5',
+                    descriptionClassName,
+                  )}
+                >
                   {description}
                 </Description>
                 {children}

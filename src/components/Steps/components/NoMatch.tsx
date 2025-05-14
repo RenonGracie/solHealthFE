@@ -37,11 +37,15 @@ export const NoMatch = ({ onGoToQuestionnaire }: IProps) => {
         </Button>
       </div>
       <Modal
-        title="Are you sure?"
-        description="Are you sure you want to restart the onboarding process? All your data will be lost."
+        title="Restart Sign Up?"
+        description="Restarting the sign up process will erase all your current data and preferences. Do you want to continue?"
+        confirmButtonTitle="Yes, Restart"
         isOpen={isGoBackModalOpen}
         onClose={handleCloseGoBackModal}
         onConfirm={handleConfirmGoBack}
+        confirmButtonWithArrow
+        dialogPanelClassName="max-w-[700px]"
+        descriptionClassName="leading-[1.2]"
       />
     </>
   );
