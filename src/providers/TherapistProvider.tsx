@@ -16,6 +16,7 @@ interface IProps {
   onHideBooking: () => void;
   bookingData: BookAppointmentResponse | null;
   setIsSearchingAnotherTherapist: (isFinding: boolean) => void;
+  utmUserId: number | undefined;
 }
 
 const DEFAULT_BOOKING_STATE: IBookingState = {
@@ -33,6 +34,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
   onHideBooking: onHideBookingProp,
   bookingData,
   setIsSearchingAnotherTherapist,
+  utmUserId,
 }) => {
   const [therapistState, setTherapistState] =
     React.useState<ICurrentTherapistState>({
@@ -196,6 +198,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     clientResponseId,
     previousTherapistsList,
     currentTherapist: therapistState.currentTherapist,
+    utmUserId,
     onBookSession,
     onDaySelect: handleDaySelect,
     setIsSearchingAnotherTherapist,

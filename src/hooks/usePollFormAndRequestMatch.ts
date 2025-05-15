@@ -14,6 +14,7 @@ const LANDING_PAGE_URL = 'https://solhealth.co/';
 export const usePollFormAndRequestMatch = () => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [utmUserId, setUtmUserId] = React.useState<number | undefined>();
 
   const {
     form: { makeRequest: getForm },
@@ -69,6 +70,12 @@ export const usePollFormAndRequestMatch = () => {
             return;
           }
 
+          const userId: number | undefined = formResponse.utm?.user_id;
+
+          if (userId) {
+            setUtmUserId(userId);
+          }
+
           try {
             await getMatch({
               params: { limit: 10, response_id: responseId },
@@ -92,6 +99,7 @@ export const usePollFormAndRequestMatch = () => {
     matchData,
     error,
     loading,
+    utmUserId,
     pollFormAndRequestMatch,
   };
 };

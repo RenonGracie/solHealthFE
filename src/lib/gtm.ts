@@ -10,9 +10,14 @@ export const GTM_EVENTS = {
   BOOKING_CONFIRMATION: 'BookingConfirmationScreen',
 } as const;
 
+export enum GTM_EVENT_DATA {
+  USER_ID = 'user_id',
+  CUSTOM_USER_ID = 'custom_user_id',
+}
+
 export const trackEvent = (
   eventName: string,
-  eventData?: Record<string, unknown>,
+  eventData?: Record<GTM_EVENT_DATA | string, unknown>,
 ) => {
   if (typeof window !== 'undefined') {
     const utmParams = getUtmParams();
