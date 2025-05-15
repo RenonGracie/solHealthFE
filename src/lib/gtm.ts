@@ -17,10 +17,17 @@ export const trackEvent = (
   if (typeof window !== 'undefined') {
     const utmParams = getUtmParams();
 
+    const utmParamsWithoutPrefix = Object.fromEntries(
+      Object.entries(utmParams).map(([key, value]) => [
+        key.replace(/^utm_/, ''),
+        value,
+      ]),
+    );
+
     TagManager.dataLayer({
       dataLayer: {
         event: eventName,
-        ...utmParams,
+        ...utmParamsWithoutPrefix,
         ...eventData,
       },
     });

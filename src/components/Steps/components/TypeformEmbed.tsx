@@ -51,9 +51,6 @@ export const TypeformEmbed: React.FC<IProps> = ({ onSubmit }) => {
     <Widget
       id={import.meta.env.VITE_TYPEFORM_ID as string}
       className="h-screen"
-      onReady={() => {
-        trackEvent(GTM_EVENTS.FORM_STARTED);
-      }}
       onSubmit={({ responseId }) => {
         trackEvent(GTM_EVENTS.FORM_SUBMITTED);
         onSubmit(responseId);
