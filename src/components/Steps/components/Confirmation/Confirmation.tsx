@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
+import { GTM_EVENTS, trackEvent, GTM_EVENT_DATA } from '@/lib/gtm';
 
 import { Link, Button, Modal } from '@/components/ui';
 import InstagramIcon from '@/assets/icons/instagram-icon.svg';
@@ -16,7 +16,7 @@ export const Confirmation = () => {
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const { currentTherapist, bookingData } = useTherapistContext();
+  const { currentTherapist, bookingData, utmUserId } = useTherapistContext();
 
   const {
     sendMandatoryForm: {
@@ -62,9 +62,20 @@ export const Confirmation = () => {
   }, [mandatoryFormError]);
 
   React.useEffect(() => {
-    trackEvent(GTM_EVENTS.BOOKING_CONFIRMATION);
     window.scrollTo(0, 0);
   }, []);
+
+  React.useEffect(() => {
+    trackEvent(
+      GTM_EVENTS.BOOKING_CONFIRMATION,
+      utmUserId
+        ? {
+            [GTM_EVENT_DATA.USER_ID]: utmUserId,
+            [GTM_EVENT_DATA.CUSTOM_USER_ID]: utmUserId,
+          }
+        : {},
+    );
+  }, [utmUserId]);
 
   React.useEffect(() => {
     void handleSendMandatoryForm();

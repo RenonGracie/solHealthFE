@@ -22,7 +22,7 @@ function App() {
     React.useState(false);
   const [showTimeoutModal, setShowTimeoutModal] = React.useState(false);
 
-  const { matchData, loading, error, pollFormAndRequestMatch } =
+  const { matchData, loading, error, utmUserId, pollFormAndRequestMatch } =
     usePollFormAndRequestMatch();
 
   const handleConfirmGoBack = () => {
@@ -139,6 +139,7 @@ function App() {
       onShowBooking={handleShowBookingSection}
       onHideBooking={handleHideBookingSection}
       setIsSearchingAnotherTherapist={setIsSearchingAnotherTherapist}
+      utmUserId={utmUserId}
     >
       {isSearchingAnotherTherapist ? (
         <MatchingLoader />

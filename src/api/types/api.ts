@@ -4,40 +4,6 @@
  */
 
 export interface paths {
-    "/clients/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Search clients */
-        get: operations["clientssearch_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/clients/{client_id}/diagnoses": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get client's diagnoses */
-        get: operations["clients__int_client_id__diagnoses_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/clients_signup": {
         parameters: {
             query?: never;
@@ -226,23 +192,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get analytic events */
-        get: operations["events_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/hook": {
         parameters: {
             query?: never;
@@ -298,94 +247,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** Clients */
-        Clients: {
-            /** Clients */
-            clients?: components["schemas"]["Client"][];
-        };
-        /** CustomField */
-        CustomField: {
-            /** Fieldid */
-            FieldId?: string;
-            /** Value */
-            Value?: string;
-            /** Text */
-            Text?: string;
-        };
-        /** Client */
-        Client: {
-            /** Clientid */
-            ClientId?: string;
-            /** Firstname */
-            FirstName?: string;
-            /** Lastname */
-            LastName?: string;
-            /** Middlename */
-            MiddleName?: string;
-            /** Name */
-            Name?: string;
-            /** Email */
-            Email?: string;
-            /** Phone */
-            Phone?: string;
-            /** Gender */
-            Gender?: string;
-            /** Stateshort */
-            StateShort?: string;
-            /** Dateofbirth */
-            DateOfBirth?: number;
-            /**
-             * Country
-             * @default US
-             */
-            Country: string;
-            /** Additionalinformation */
-            AdditionalInformation?: string;
-            /** Customfields */
-            CustomFields?: components["schemas"]["CustomField"][];
-            /** Guid */
-            Guid?: string;
-            /** Mobilephone */
-            MobilePhone?: number;
-            /** Archived */
-            Archived?: boolean;
-            /** Tags */
-            Tags?: string[];
-            /** Practitionerid */
-            PractitionerId?: string;
-            /** Linkedclients */
-            LinkedClients?: string[];
-            /** Datecreated */
-            DateCreated?: number;
-            /** Billingtype */
-            BillingType?: number;
-            /** Lastactivityname */
-            LastActivityName?: string;
-            /** Creditbalance */
-            CreditBalance?: number;
-            /** Lastactivitydate */
-            LastActivityDate?: number;
-            /** Lastupdatedate */
-            LastUpdateDate?: number;
-        };
-        /** ClientDiagnoses */
-        ClientDiagnoses: {
-            /** Diagnoses */
-            diagnoses?: components["schemas"]["ClientDiagnose"][];
-        };
-        /** ClientDiagnose */
-        ClientDiagnose: {
-            /** Code */
-            Code?: string;
-            /** Description */
-            Description?: string;
-            /** Date */
-            Date?: string;
-            /** Enddate */
-            EndDate?: string;
-            /** Noteid */
-            NoteId?: string;
-        };
         /** ClientSignup */
         ClientSignup: {
             /**
@@ -461,6 +322,8 @@ export interface components {
             referred_by?: string;
             /** Therapist Name */
             therapist_name?: string;
+            /** Utm */
+            utm?: Record<string, never>;
         };
         /** Error */
         Error: {
@@ -486,6 +349,15 @@ export interface components {
             ClientPhone?: string;
             /** Intakeid */
             IntakeId?: string;
+        };
+        /** CustomField */
+        CustomField: {
+            /** Fieldid */
+            FieldId?: string;
+            /** Value */
+            Value?: string;
+            /** Text */
+            Text?: string;
         };
         /** Appointment */
         Appointment: {
@@ -731,60 +603,6 @@ export interface components {
             /** Url */
             url: string;
         };
-        /** AnalyticsEvents */
-        AnalyticsEvents: {
-            /** Events */
-            events: components["schemas"]["AnalyticsEvent"][];
-        };
-        /** AnalyticsEvent */
-        AnalyticsEvent: {
-            /** Client Id */
-            client_id?: string;
-            /** Email */
-            email?: string;
-            /** User Id */
-            user_id?: string;
-            /** Session Id */
-            session_id?: string;
-            /** Event Type */
-            event_type?: string;
-            /** Value */
-            value?: string;
-            /** Name */
-            name?: string;
-            /** Var 1 */
-            var_1?: string;
-            /** Var 2 */
-            var_2?: string;
-            /** Utm Source */
-            utm_source?: string;
-            /** Utm Medium */
-            utm_medium?: string;
-            /** Utm Campaign */
-            utm_campaign?: string;
-            /** Utm Adid */
-            utm_adid?: string;
-            /** Utm Adgroup */
-            utm_adgroup?: string;
-            /** Utm Content */
-            utm_content?: string;
-            /** Utm Term */
-            utm_term?: string;
-            /** Clid */
-            clid?: string;
-            /**
-             * Id
-             * Format: uuid4
-             */
-            id: string;
-            /**
-             * Created At
-             * Format: date-time
-             */
-            created_at?: string;
-            /** Params */
-            params?: Record<string, never>;
-        };
         /** SuccessResponse */
         SuccessResponse: {
             /** Success */
@@ -822,76 +640,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    clientssearch_get: {
-        parameters: {
-            query?: {
-                search?: string;
-                page?: string;
-                dateCreatedStar?: string;
-                dateCreatedEnd?: string;
-                dateUpdatedStart?: string;
-                dateUpdatedEnd?: string;
-                externalClientId?: string;
-                deletedOnly?: boolean;
-                IncludeProfile?: boolean;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Clients"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    clients__int_client_id__diagnoses_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                client_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ClientDiagnoses"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
     clients_signup_get: {
         parameters: {
             query: {
@@ -1325,53 +1073,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Url"];
-                };
-            };
-            /** @description Unprocessable Entity */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorModel"][];
-                };
-            };
-        };
-    };
-    events_get: {
-        parameters: {
-            query?: {
-                client_id?: string;
-                email?: string;
-                user_id?: string;
-                session_id?: string;
-                event_type?: string;
-                value?: string;
-                name?: string;
-                var_1?: string;
-                var_2?: string;
-                utm_source?: string;
-                utm_medium?: string;
-                utm_campaign?: string;
-                utm_adid?: string;
-                utm_adgroup?: string;
-                utm_content?: string;
-                utm_term?: string;
-                clid?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AnalyticsEvents"];
                 };
             };
             /** @description Unprocessable Entity */

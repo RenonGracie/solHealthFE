@@ -26,6 +26,7 @@ export const mockTherapistContext = (
     },
     bookingData: null,
     previousTherapistsList: [],
+    utmUserId: 1,
     onFindAnotherTherapist: vi.fn(),
     onShowBooking: vi.fn(),
     onDaySelect: mockOnDaySelect,

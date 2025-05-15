@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useTherapistContext } from '@/hooks/useTherapistContext';
-import { GTM_EVENTS, trackEvent } from '@/lib/gtm';
+import { GTM_EVENTS, trackEvent, GTM_EVENT_DATA } from '@/lib/gtm';
 import {
   Tag,
   VideoPlayer,
@@ -38,6 +38,7 @@ export const MatchedTherapist: React.FC<IProps> = ({
     previousTherapistsList,
     onViewPreviousTherapist,
     setIsSearchingAnotherTherapist,
+    utmUserId,
   } = useTherapistContext();
 
   const therapistIdentification = React.useMemo(
@@ -82,8 +83,16 @@ export const MatchedTherapist: React.FC<IProps> = ({
   };
 
   React.useEffect(() => {
-    trackEvent(GTM_EVENTS.RECOMMENDED_THERAPIST);
-  }, []);
+    trackEvent(
+      GTM_EVENTS.RECOMMENDED_THERAPIST,
+      utmUserId
+        ? {
+            [GTM_EVENT_DATA.USER_ID]: utmUserId,
+            [GTM_EVENT_DATA.CUSTOM_USER_ID]: utmUserId,
+          }
+        : {},
+    );
+  }, [utmUserId]);
 
   if (bookingState.showSection) {
     return <BookingSection />;
