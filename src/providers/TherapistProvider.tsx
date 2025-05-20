@@ -199,6 +199,7 @@ export const TherapistProvider: React.FC<React.PropsWithChildren<IProps>> = ({
     previousTherapistsList,
     currentTherapist: therapistState.currentTherapist,
     utmUserId,
+    therapistsList,
     onBookSession,
     onDaySelect: handleDaySelect,
     setIsSearchingAnotherTherapist,

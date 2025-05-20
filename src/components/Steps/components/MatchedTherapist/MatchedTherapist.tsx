@@ -23,12 +23,14 @@ interface IProps {
   showTimeoutModal: boolean;
   onConfirmTimeoutModal: () => void;
   onCancelTimeoutModal: () => void;
+  onGoBack: () => void;
 }
 
 export const MatchedTherapist: React.FC<IProps> = ({
   showTimeoutModal,
   onConfirmTimeoutModal,
   onCancelTimeoutModal,
+  onGoBack,
 }) => {
   const {
     bookingState,
@@ -39,7 +41,10 @@ export const MatchedTherapist: React.FC<IProps> = ({
     onViewPreviousTherapist,
     setIsSearchingAnotherTherapist,
     utmUserId,
+    therapistsList,
   } = useTherapistContext();
+
+  const [showSignUpModal, setShowSignUpModal] = React.useState(false);
 
   const therapistIdentification = React.useMemo(
     () => (
@@ -73,6 +78,11 @@ export const MatchedTherapist: React.FC<IProps> = ({
   };
 
   const handleFindAnotherTherapist = () => {
+    if (therapistsList?.length === 1) {
+      setShowSignUpModal(true);
+      return;
+    }
+
     onFindAnotherTherapist();
     triggerLoading();
   };
@@ -80,6 +90,11 @@ export const MatchedTherapist: React.FC<IProps> = ({
   const handleViewPreviousTherapist = (therapistId: string) => {
     onViewPreviousTherapist(therapistId);
     triggerLoading();
+  };
+
+  const handleConfirmSignUp = () => {
+    setShowSignUpModal(false);
+    onGoBack();
   };
 
   React.useEffect(() => {
@@ -280,6 +295,17 @@ export const MatchedTherapist: React.FC<IProps> = ({
         onClose={onCancelTimeoutModal}
         onConfirm={onConfirmTimeoutModal}
         hideCancelButton
+      />
+
+      <Modal
+        title="Restart Sign Up?"
+        description="To get matched with another therapist, please submit the sign-up form again so we can better understand your preferences."
+        isOpen={showSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
+        onConfirm={handleConfirmSignUp}
+        confirmButtonTitle="Yes, Restart"
+        confirmButtonWithArrow
+        dialogPanelClassName="max-w-[700px]"
       />
     </div>
   );

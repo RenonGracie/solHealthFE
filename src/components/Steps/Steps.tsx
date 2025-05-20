@@ -57,6 +57,7 @@ export const Steps: React.FC<IProps> = ({
             showTimeoutModal={showTimeoutModal}
             onConfirmTimeoutModal={onConfirmTimeoutModal}
             onCancelTimeoutModal={onCancelTimeoutModal}
+            onGoBack={onGoBack}
           />
         </Layout>
       );

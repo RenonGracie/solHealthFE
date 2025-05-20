@@ -9,6 +9,7 @@ interface ITherapistContext {
   clientResponseId: string | null;
   previousTherapistsList: TMatchedTherapistData[] | null;
   utmUserId: number | undefined;
+  therapistsList?: TMatchedTherapistData[];
   onFindAnotherTherapist: () => void;
   onShowBooking: () => void;
   onHideBooking: () => void;
